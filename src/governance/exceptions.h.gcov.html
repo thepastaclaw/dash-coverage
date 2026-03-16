@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/governance/exceptions.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/governance</a> - exceptions.h<span style="font-size: 80%;"> (source / <a href="exceptions.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryLo">55.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-03-16 01:34:06</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryLo">62.5 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2014-2023 The Dash Core developers</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Distributed under the MIT/X11 software license, see the accompanying</a>
+<a name="3"><span class="lineNum">       3 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #ifndef BITCOIN_GOVERNANCE_EXCEPTIONS_H</a>
+<a name="6"><span class="lineNum">       6 </span>            : #define BITCOIN_GOVERNANCE_EXCEPTIONS_H</a>
+<a name="7"><span class="lineNum">       7 </span>            : </a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;exception&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;iosfwd&gt; // for ostream</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;string&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : enum governance_exception_type_enum_t {</a>
+<a name="13"><span class="lineNum">      13 </span>            :     /// Default value, normally indicates no exception condition occurred</a>
+<a name="14"><span class="lineNum">      14 </span>            :     GOVERNANCE_EXCEPTION_NONE = 0,</a>
+<a name="15"><span class="lineNum">      15 </span>            :     /// Unusual condition requiring no caller action</a>
+<a name="16"><span class="lineNum">      16 </span>            :     GOVERNANCE_EXCEPTION_WARNING = 1,</a>
+<a name="17"><span class="lineNum">      17 </span>            :     /// Requested operation cannot be performed</a>
+<a name="18"><span class="lineNum">      18 </span>            :     GOVERNANCE_EXCEPTION_PERMANENT_ERROR = 2,</a>
+<a name="19"><span class="lineNum">      19 </span>            :     /// Requested operation not currently possible, may resubmit later</a>
+<a name="20"><span class="lineNum">      20 </span>            :     GOVERNANCE_EXCEPTION_TEMPORARY_ERROR = 3,</a>
+<a name="21"><span class="lineNum">      21 </span>            :     /// Unexpected error (ie. should not happen unless there is a bug in the code)</a>
+<a name="22"><span class="lineNum">      22 </span>            :     GOVERNANCE_EXCEPTION_INTERNAL_ERROR = 4</a>
+<a name="23"><span class="lineNum">      23 </span>            : };</a>
+<a name="24"><span class="lineNum">      24 </span>            : </a>
+<a name="25"><span class="lineNum">      25 </span>            : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, governance_exception_type_enum_t eType);</a>
+<a name="26"><span class="lineNum">      26 </span>            : </a>
+<a name="27"><span class="lineNum">      27 </span>            : /**</a>
+<a name="28"><span class="lineNum">      28 </span>            :  * A class which encapsulates information about a governance exception condition</a>
+<a name="29"><span class="lineNum">      29 </span>            :  *</a>
+<a name="30"><span class="lineNum">      30 </span>            :  * Derives from std::exception so is suitable for throwing</a>
+<a name="31"><span class="lineNum">      31 </span>            :  * (ie. will be caught by a std::exception handler) but may also be used as a</a>
+<a name="32"><span class="lineNum">      32 </span>            :  * normal object.</a>
+<a name="33"><span class="lineNum">      33 </span>            :  */</a>
+<a name="34"><span class="lineNum">      34 </span>            : class CGovernanceException : public std::exception</a>
+<a name="35"><span class="lineNum">      35 </span>            : {</a>
+<a name="36"><span class="lineNum">      36 </span>            : private:</a>
+<a name="37"><span class="lineNum">      37 </span>            :     std::string strMessage;</a>
+<a name="38"><span class="lineNum">      38 </span>            : </a>
+<a name="39"><span class="lineNum">      39 </span>            :     governance_exception_type_enum_t eType;</a>
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<a name="41"><span class="lineNum">      41 </span>            :     int nNodePenalty;</a>
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<a name="43"><span class="lineNum">      43 </span>            : public:</a>
+<a name="44"><span class="lineNum">      44 </span>            :     explicit CGovernanceException(const std::string&amp; strMessageIn = &quot;&quot;,</a>
+<a name="45"><span class="lineNum">      45 </span>            :         governance_exception_type_enum_t eTypeIn = GOVERNANCE_EXCEPTION_NONE,</a>
+<a name="46"><span class="lineNum">      46 </span>            :         int nNodePenaltyIn = 0);</a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">       1700 :     ~CGovernanceException() noexcept override = default;</span></a>
+<a name="49"><span class="lineNum">      49 </span>            : </a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineNoCov">          0 :     const char* what() const noexcept override</span></a>
+<a name="51"><span class="lineNum">      51 </span>            :     {</a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 :         return strMessage.c_str();</span></a>
+<a name="53"><span class="lineNum">      53 </span>            :     }</a>
+<a name="54"><span class="lineNum">      54 </span>            : </a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">         10 :     const std::string&amp; GetMessage() const</span></a>
+<a name="56"><span class="lineNum">      56 </span>            :     {</a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">         10 :         return strMessage;</span></a>
+<a name="58"><span class="lineNum">      58 </span>            :     }</a>
+<a name="59"><span class="lineNum">      59 </span>            : </a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">         10 :     governance_exception_type_enum_t GetType() const</span></a>
+<a name="61"><span class="lineNum">      61 </span>            :     {</a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">         10 :         return eType;</span></a>
+<a name="63"><span class="lineNum">      63 </span>            :     }</a>
+<a name="64"><span class="lineNum">      64 </span>            : </a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 :     int GetNodePenalty() const</span></a>
+<a name="66"><span class="lineNum">      66 </span>            :     {</a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineNoCov">          0 :         return nNodePenalty;</span></a>
+<a name="68"><span class="lineNum">      68 </span>            :     }</a>
+<a name="69"><span class="lineNum">      69 </span>            : };</a>
+<a name="70"><span class="lineNum">      70 </span>            : </a>
+<a name="71"><span class="lineNum">      71 </span>            : #endif // BITCOIN_GOVERNANCE_EXCEPTIONS_H</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
