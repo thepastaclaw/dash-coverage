@@ -1,0 +1,1215 @@
+Temporary test directory at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 3.827s
+
+OK
+1/313 - wallet_hd.py --descriptors passed, Duration: 44 s
+2/313 - wallet_hd.py --legacy-wallet passed, Duration: 68 s
+3/313 - wallet_backup.py --legacy-wallet passed, Duration: 94 s
+4/313 - wallet_backup.py --descriptors passed, Duration: 52 s
+5/313 - mining_getblocktemplate_longpoll.py passed, Duration: 76 s
+6/313 - feature_maxuploadtarget.py passed, Duration: 67 s
+7/313 - wallet_fundrawtransaction.py --legacy-wallet passed, Duration: 55 s
+8/313 - wallet_fundrawtransaction.py --legacy-wallet --nohd passed, Duration: 62 s
+9/313 - wallet_fundrawtransaction.py --descriptors passed, Duration: 39 s
+10/313 - feature_llmq_data_recovery.py passed, Duration: 298 s
+11/313 - p2p_quorum_data.py passed, Duration: 109 s
+12/313 - p2p_instantsend.py passed, Duration: 96 s
+13/313 - wallet_labels.py --legacy-wallet passed, Duration: 22 s
+14/313 - feature_block.py passed, Duration: 266 s
+15/313 - wallet_labels.py --descriptors passed, Duration: 9 s
+16/313 - p2p_timeouts.py --v1transport passed, Duration: 4 s
+17/313 - p2p_timeouts.py --v2transport passed, Duration: 4 s
+18/313 - wallet_basic.py --legacy-wallet passed, Duration: 85 s
+19/313 - wallet_basic.py --descriptors passed, Duration: 67 s
+20/313 - feature_bip68_sequence.py passed, Duration: 47 s
+21/313 - wallet_dump.py --legacy-wallet passed, Duration: 15 s
+22/313 - mempool_updatefromblock.py passed, Duration: 58 s
+23/313 - p2p_tx_download.py passed, Duration: 72 s
+24/313 - feature_multikeysporks.py passed, Duration: 63 s
+25/313 - feature_llmq_is_retroactive.py passed, Duration: 176 s
+26/313 - feature_llmq_connections.py passed, Duration: 205 s
+27/313 - feature_dip3_v19.py passed, Duration: 277 s
+28/313 - feature_asset_locks.py passed, Duration: 327 s
+29/313 - feature_llmq_chainlocks.py passed, Duration: 112 s
+30/313 - feature_llmq_simplepose.py --disable-spork23 passed, Duration: 152 s
+32/313 - feature_dip3_deterministicmns.py --descriptors passed, Duration: 110 s
+33/313 - feature_dip3_deterministicmns.py --legacy-wallet passed, Duration: 134 s
+34/313 - feature_llmq_signing.py passed, Duration: 76 s
+35/313 - feature_llmq_signing.py --spork21 passed, Duration: 84 s
+36/313 - feature_llmq_is_cl_conflicts.py passed, Duration: 57 s
+37/313 - feature_llmq_evo.py passed, Duration: 99 s
+38/313 - feature_llmq_rotation.py passed, Duration: 125 s
+39/313 - feature_llmq_dkgerrors.py passed, Duration: 78 s
+40/313 - feature_masternode_params.py passed, Duration: 7 s
+41/313 - feature_llmq_singlenode.py passed, Duration: 62 s
+42/313 - feature_mnehf.py passed, Duration: 122 s
+44/313 - feature_governance.py --descriptors passed, Duration: 110 s
+45/313 - feature_governance_cl.py --legacy-wallet passed, Duration: 44 s
+46/313 - feature_governance_cl.py --descriptors passed, Duration: 40 s
+47/313 - rpc_signer.py passed, Duration: 3 s
+48/313 - wallet_signer.py --descriptors passed, Duration: 7 s
+50/313 - rpc_verifyislock.py passed, Duration: 62 s
+51/313 - feature_notifications.py passed, Duration: 60 s
+52/313 - p2p_sendheaders.py passed, Duration: 44 s
+53/313 - mempool_limit.py passed, Duration: 9 s
+54/313 - wallet_importmulti.py --legacy-wallet passed, Duration: 20 s
+55/313 - p2p_platform_ban.py passed, Duration: 62 s
+56/313 - p2p_sendheaders_compressed.py passed, Duration: 42 s
+57/313 - rpc_txoutproof.py passed, Duration: 8 s
+58/313 - wallet_listreceivedby.py --descriptors passed, Duration: 14 s
+59/313 - wallet_listreceivedby.py --legacy-wallet passed, Duration: 18 s
+60/313 - wallet_abandonconflict.py --legacy-wallet passed, Duration: 16 s
+61/313 - wallet_abandonconflict.py --descriptors passed, Duration: 9 s
+62/313 - rpc_packages.py passed, Duration: 7 s
+63/313 - feature_abortnode.py passed, Duration: 3 s
+64/313 - feature_reindex.py passed, Duration: 15 s
+65/313 - p2p_dns_seeds.py passed, Duration: 37 s
+66/313 - rpc_quorum.py passed, Duration: 24 s
+67/313 - wallet_keypool_topup.py --descriptors passed, Duration: 13 s
+68/313 - wallet_keypool_topup.py --legacy-wallet passed, Duration: 21 s
+69/313 - feature_csv_activation.py passed, Duration: 44 s
+70/313 - interface_zmq_dash.py --legacy-wallet skipped (python3-zmq module not available.)
+71/313 - wallet_fast_rescan.py --descriptors passed, Duration: 7 s
+72/313 - interface_zmq.py skipped (python3-zmq module not available.)
+73/313 - rpc_invalid_address_message.py passed, Duration: 2 s
+74/313 - feature_bind_extra.py skipped (This test can only be run on Linux.)
+75/313 - mempool_resurrect.py passed, Duration: 2 s
+76/313 - wallet_txn_doublespend.py --mineblock passed, Duration: 6 s
+77/313 - interface_bitcoin_cli.py --descriptors passed, Duration: 16 s
+78/313 - interface_bitcoin_cli.py --legacy-wallet passed, Duration: 18 s
+79/313 - wallet_txn_clone.py passed, Duration: 6 s
+80/313 - rpc_getchaintips.py passed, Duration: 4 s
+81/313 - tool_wallet.py --legacy-wallet passed, Duration: 17 s
+82/313 - tool_wallet.py --descriptors passed, Duration: 13 s
+83/313 - mempool_spend_coinbase.py passed, Duration: 2 s
+84/313 - interface_rest.py passed, Duration: 7 s
+85/313 - rpc_misc.py passed, Duration: 10 s
+86/313 - mempool_reorg.py passed, Duration: 5 s
+87/313 - mempool_persist.py --descriptors passed, Duration: 18 s
+88/313 - wallet_avoidreuse.py --descriptors passed, Duration: 30 s
+89/313 - p2p_block_sync.py --v1transport passed, Duration: 4 s
+90/313 - feature_fee_estimation.py passed, Duration: 76 s
+91/313 - p2p_block_sync.py --v2transport passed, Duration: 4 s
+92/313 - wallet_avoidreuse.py --legacy-wallet passed, Duration: 51 s
+93/313 - wallet_createwallet.py --legacy-wallet passed, Duration: 8 s
+94/313 - wallet_createwallet.py --usecli passed, Duration: 11 s
+95/313 - wallet_multiwallet.py --descriptors passed, Duration: 35 s
+96/313 - wallet_multiwallet.py --legacy-wallet passed, Duration: 42 s
+97/313 - wallet_createwallet.py --descriptors passed, Duration: 6 s
+98/313 - wallet_multiwallet.py --usecli passed, Duration: 47 s
+99/313 - wallet_reorgsrestore.py passed, Duration: 13 s
+100/313 - wallet_listtransactions.py --legacy-wallet passed, Duration: 16 s
+101/313 - wallet_listtransactions.py --descriptors passed, Duration: 13 s
+102/313 - wallet_watchonly.py --legacy-wallet passed, Duration: 8 s
+103/313 - wallet_watchonly.py --usecli --legacy-wallet passed, Duration: 9 s
+104/313 - wallet_dust_protection.py --legacy-wallet passed, Duration: 48 s
+105/313 - wallet_conflicts.py --legacy-wallet passed, Duration: 10 s
+106/313 - wallet_conflicts.py --descriptors passed, Duration: 9 s
+107/313 - interface_http.py passed, Duration: 2 s
+108/313 - interface_usdt_coinselection.py skipped (not on a Linux system)
+109/313 - interface_usdt_net.py skipped (not on a Linux system)
+110/313 - interface_usdt_utxocache.py skipped (not on a Linux system)
+111/313 - interface_rpc.py passed, Duration: 3 s
+112/313 - interface_usdt_validation.py skipped (not on a Linux system)
+113/313 - wallet_dust_protection.py --descriptors passed, Duration: 58 s
+114/313 - rpc_whitelist.py passed, Duration: 1 s
+115/313 - rpc_users.py passed, Duration: 12 s
+116/313 - wallet_signrawtransactionwithwallet.py --legacy-wallet passed, Duration: 6 s
+117/313 - wallet_signrawtransactionwithwallet.py --descriptors passed, Duration: 3 s
+118/313 - feature_proxy.py passed, Duration: 12 s
+119/313 - rpc_signrawtransactionwithkey.py passed, Duration: 2 s
+120/313 - rpc_psbt.py --legacy-wallet passed, Duration: 32 s
+121/313 - rpc_psbt.py --descriptors passed, Duration: 32 s
+122/313 - p2p_addrv2_relay.py passed, Duration: 4 s
+123/313 - wallet_transactiontime_rescan.py --descriptors passed, Duration: 14 s
+124/313 - rpc_rawtransaction.py --legacy-wallet passed, Duration: 18 s
+125/313 - wallet_transactiontime_rescan.py --legacy-wallet passed, Duration: 24 s
+126/313 - wallet_groups.py --legacy-wallet passed, Duration: 31 s
+127/313 - wallet_groups.py --descriptors passed, Duration: 28 s
+128/313 - p2p_disconnect_ban.py --v1transport passed, Duration: 6 s
+129/313 - p2p_compactblocks_hb.py --v1transport passed, Duration: 32 s
+130/313 - p2p_disconnect_ban.py --v2transport passed, Duration: 7 s
+131/313 - feature_posix_fs_permissions.py passed, Duration: 2 s
+133/313 - rpc_decodescript.py passed, Duration: 3 s
+134/313 - p2p_compactblocks_hb.py --v2transport passed, Duration: 35 s
+135/313 - feature_spentindex.py passed, Duration: 19 s
+136/313 - rpc_deprecated.py passed, Duration: 5 s
+137/313 - wallet_disable.py passed, Duration: 2 s
+138/313 - feature_addressindex.py passed, Duration: 43 s
+139/313 - rpc_blockchain.py --v1transport passed, Duration: 32 s
+140/313 - wallet_change_address.py --legacy-wallet passed, Duration: 15 s
+141/313 - rpc_blockchain.py --v2transport passed, Duration: 31 s
+142/313 - wallet_change_address.py --descriptors passed, Duration: 5 s
+143/313 - p2p_getdata.py passed, Duration: 2 s
+144/313 - p2p_addrfetch.py passed, Duration: 3 s
+145/313 - p2p_getaddr_caching.py passed, Duration: 14 s
+146/313 - p2p_addr_relay.py passed, Duration: 47 s
+147/313 - rpc_net.py --v1transport passed, Duration: 44 s
+148/313 - wallet_keypool.py --legacy-wallet passed, Duration: 4 s
+149/313 - rpc_netinfo.py passed, Duration: 38 s
+150/313 - rpc_net.py --v2transport passed, Duration: 45 s
+151/313 - wallet_keypool_hd.py --legacy-wallet passed, Duration: 6 s
+152/313 - wallet_keypool_hd.py --descriptors passed, Duration: 5 s
+153/313 - wallet_descriptor.py --descriptors passed, Duration: 5 s
+154/313 - p2p_nobloomfilter_messages.py passed, Duration: 6 s
+155/313 - p2p_dstx.py passed, Duration: 4 s
+156/313 - p2p_blocksonly.py passed, Duration: 10 s
+157/313 - p2p_filter.py passed, Duration: 11 s
+158/313 - mining_prioritisetransaction.py passed, Duration: 6 s
+159/313 - rpc_setban.py --v1transport passed, Duration: 10 s
+160/313 - rpc_setban.py --v2transport passed, Duration: 10 s
+161/313 - p2p_invalid_locator.py passed, Duration: 4 s
+162/313 - p2p_invalid_block.py --v1transport passed, Duration: 4 s
+163/313 - p2p_invalid_block.py --v2transport passed, Duration: 4 s
+164/313 - feature_maxtipage.py passed, Duration: 35 s
+165/313 - p2p_invalid_messages.py passed, Duration: 18 s
+166/313 - p2p_invalid_tx.py --v1transport passed, Duration: 17 s
+167/313 - p2p_invalid_tx.py --v2transport passed, Duration: 18 s
+168/313 - p2p_v2_transport.py passed, Duration: 14 s
+169/313 - feature_assumevalid.py passed, Duration: 8 s
+170/313 - p2p_v2_encrypted.py passed, Duration: 12 s
+171/313 - example_test.py passed, Duration: 6 s
+172/313 - p2p_v2_misbehaving.py passed, Duration: 10 s
+173/313 - wallet_backwards_compatibility.py --legacy-wallet skipped (previous releases not available or disabled)
+174/313 - wallet_backwards_compatibility.py --descriptors skipped (previous releases not available or disabled)
+175/313 - wallet_txn_doublespend.py --legacy-wallet passed, Duration: 5 s
+176/313 - wallet_txn_doublespend.py --descriptors passed, Duration: 5 s
+177/313 - wallet_multisig_descriptor_psbt.py --descriptors passed, Duration: 6 s
+178/313 - wallet_txn_clone.py --mineblock passed, Duration: 7 s
+179/313 - rpc_getblockfilter.py passed, Duration: 5 s
+180/313 - rpc_getblockfrompeer.py passed, Duration: 6 s
+181/313 - feature_utxo_set_hash.py passed, Duration: 4 s
+184/313 - feature_txindex.py passed, Duration: 13 s
+185/313 - rpc_invalidateblock.py passed, Duration: 24 s
+186/313 - mempool_package_limits.py passed, Duration: 18 s
+187/313 - rpc_preciousblock.py passed, Duration: 5 s
+188/313 - rpc_createmultisig.py passed, Duration: 25 s
+189/313 - p2p_leak_tx.py --v1transport passed, Duration: 6 s
+190/313 - wallet_importprunedfunds.py --descriptors passed, Duration: 12 s
+191/313 - wallet_importprunedfunds.py --legacy-wallet passed, Duration: 13 s
+192/313 - feature_versionbits_warning.py passed, Duration: 28 s
+193/313 - p2p_leak_tx.py --v2transport passed, Duration: 5 s
+194/313 - p2p_net_deadlock.py --v1transport passed, Duration: 4 s
+195/313 - p2p_eviction.py passed, Duration: 12 s
+196/313 - p2p_net_deadlock.py --v2transport passed, Duration: 5 s
+197/313 - wallet_signmessagewithaddress.py passed, Duration: 3 s
+198/313 - rpc_signmessagewithprivkey.py passed, Duration: 2 s
+199/313 - rpc_generate.py passed, Duration: 2 s
+200/313 - wallet_balance.py --descriptors passed, Duration: 17 s
+201/313 - wallet_balance.py --legacy-wallet passed, Duration: 22 s
+202/313 - p2p_ibd_stalling.py --v1transport passed, Duration: 40 s
+203/313 - p2p_initial_headers_sync.py passed, Duration: 4 s
+204/313 - feature_nulldummy.py passed, Duration: 2 s
+205/313 - p2p_ibd_stalling.py --v2transport passed, Duration: 38 s
+206/313 - wallet_import_with_label.py --legacy-wallet passed, Duration: 4 s
+207/313 - wallet_upgradewallet.py --legacy-wallet skipped (previous releases not available or disabled)
+208/313 - mempool_accept.py passed, Duration: 7 s
+209/313 - mempool_expiry.py passed, Duration: 7 s
+210/313 - wallet_mnemonicbits.py --legacy-wallet passed, Duration: 10 s
+211/313 - wallet_importdescriptors.py --descriptors passed, Duration: 11 s
+212/313 - rpc_bind.py --ipv4 skipped (This test can only be run on linux.)
+213/313 - wallet_mnemonicbits.py --descriptors passed, Duration: 10 s
+214/313 - rpc_bind.py --nonloopback skipped (This test can only be run on linux.)
+215/313 - rpc_bind.py --ipv6 skipped (This test can only be run on linux.)
+216/313 - rpc_named_arguments.py passed, Duration: 2 s
+217/313 - wallet_crosschain.py passed, Duration: 5 s
+218/313 - feature_startupnotify.py passed, Duration: 3 s
+219/313 - wallet_simulaterawtx.py --legacy-wallet passed, Duration: 6 s
+220/313 - feature_stats.py passed, Duration: 10 s
+221/313 - wallet_simulaterawtx.py --descriptors passed, Duration: 4 s
+222/313 - mining_basic.py passed, Duration: 21 s
+223/313 - wallet_listdescriptors.py --descriptors passed, Duration: 2 s
+224/313 - p2p_leak.py passed, Duration: 8 s
+225/313 - wallet_listsinceblock.py --legacy-wallet passed, Duration: 20 s
+226/313 - wallet_listsinceblock.py --descriptors passed, Duration: 20 s
+227/313 - p2p_connect_to_devnet.py passed, Duration: 4 s
+228/313 - p2p_compactblocks_blocksonly.py passed, Duration: 7 s
+229/313 - feature_sporks.py passed, Duration: 9 s
+230/313 - rpc_getblockstats.py passed, Duration: 8 s
+231/313 - feature_bind_port_externalip.py skipped (To run this test make sure that 1.1.1.1 (a routable address) is assigned to one of the interfaces on this machine and rerun with --ihave1111)
+232/313 - wallet_encryption.py --legacy-wallet passed, Duration: 9 s
+233/313 - wallet_encryption.py --descriptors passed, Duration: 9 s
+234/313 - p2p_compactblocks.py passed, Duration: 33 s
+235/313 - feature_dersig.py passed, Duration: 7 s
+236/313 - feature_cltv.py passed, Duration: 6 s
+237/313 - feature_new_quorum_type_activation.py passed, Duration: 4 s
+238/313 - wallet_upgradetohd.py --descriptors passed, Duration: 39 s
+239/313 - wallet_upgradetohd.py --legacy-wallet passed, Duration: 44 s
+240/313 - p2p_governance_invs.py passed, Duration: 4 s
+241/313 - feature_governance_objects.py passed, Duration: 24 s
+242/313 - rpc_uptime.py passed, Duration: 2 s
+243/313 - wallet_resendwallettransactions.py --legacy-wallet passed, Duration: 3 s
+244/313 - wallet_resendwallettransactions.py --descriptors passed, Duration: 5 s
+245/313 - wallet_import_rescan.py --legacy-wallet passed, Duration: 136 s
+246/313 - feature_discover.py passed, Duration: 11 s
+247/313 - wallet_fallbackfee.py --descriptors passed, Duration: 9 s
+248/313 - wallet_fallbackfee.py --legacy-wallet passed, Duration: 11 s
+249/313 - rpc_dumptxoutset.py passed, Duration: 7 s
+250/313 - rpc_estimatefee.py passed, Duration: 2 s
+251/313 - feature_shutdown.py passed, Duration: 3 s
+252/313 - rpc_coinjoin.py passed, Duration: 2 s
+253/313 - p2p_ibd_txrelay.py passed, Duration: 5 s
+254/313 - feature_minchainwork.py passed, Duration: 16 s
+255/313 - p2p_unrequested_blocks.py passed, Duration: 21 s
+256/313 - rpc_mnauth.py passed, Duration: 20 s
+257/313 - rpc_masternode.py passed, Duration: 24 s
+258/313 - wallet_send.py --descriptors passed, Duration: 27 s
+259/313 - rpc_verifychainlock.py passed, Duration: 53 s
+260/313 - wallet_send.py --legacy-wallet passed, Duration: 45 s
+261/313 - wallet_create_tx.py --legacy-wallet passed, Duration: 54 s
+262/313 - p2p_fingerprint.py passed, Duration: 4 s
+263/313 - wallet_create_tx.py --descriptors passed, Duration: 13 s
+264/313 - rpc_external_queue.py passed, Duration: 7 s
+265/313 - wallet_sendall.py --descriptors passed, Duration: 32 s
+266/313 - rpc_wipewallettxes.py passed, Duration: 10 s
+267/313 - feature_uacomment.py passed, Duration: 12 s
+268/313 - wallet_coinbase_category.py --legacy-wallet passed, Duration: 14 s
+269/313 - wallet_coinbase_category.py --descriptors passed, Duration: 13 s
+270/313 - feature_filelock.py passed, Duration: 6 s
+271/313 - p2p_dos_header_tree.py passed, Duration: 10 s
+272/313 - feature_loadblock.py passed, Duration: 16 s
+273/313 - feature_bind_port_discover.py skipped (To run this test make sure that 1.1.1.1 and 2.2.2.2 (routable addresses) are assigned to the interfaces on this machine and rerun with --ihave1111and2222)
+274/313 - p2p_add_connections.py passed, Duration: 21 s
+275/313 - p2p_message_capture.py passed, Duration: 3 s
+276/313 - feature_init.py passed, Duration: 63 s
+277/313 - feature_addrman.py passed, Duration: 22 s
+278/313 - feature_asmap.py passed, Duration: 24 s
+279/313 - wallet_sendall.py --legacy-wallet passed, Duration: 126 s
+280/313 - feature_fastprune.py passed, Duration: 8 s
+281/313 - mempool_compatibility.py skipped (previous releases not available or disabled)
+282/313 - rpc_deriveaddresses.py passed, Duration: 3 s
+283/313 - feature_includeconf.py passed, Duration: 8 s
+284/313 - rpc_deriveaddresses.py --usecli passed, Duration: 2 s
+285/313 - mempool_unbroadcast.py passed, Duration: 11 s
+286/313 - p2p_ping.py passed, Duration: 4 s
+287/313 - feature_unsupported_utxo_db.py skipped (previous releases not available or disabled)
+288/313 - rpc_scantxoutset.py passed, Duration: 6 s
+289/313 - feature_logging.py passed, Duration: 14 s
+290/313 - p2p_sendtxrcncl.py passed, Duration: 22 s
+291/313 - feature_anchors.py passed, Duration: 12 s
+292/313 - mempool_datacarrier.py passed, Duration: 4 s
+293/313 - wallet_timelock.py passed, Duration: 3 s
+294/313 - feature_coinstatsindex.py passed, Duration: 25 s
+295/313 - p2p_node_network_limited.py --v1transport passed, Duration: 19 s
+296/313 - wallet_orphanedreward.py passed, Duration: 31 s
+297/313 - feature_blocksdir.py passed, Duration: 4 s
+298/313 - p2p_node_network_limited.py --v2transport passed, Duration: 16 s
+299/313 - p2p_i2p_ports.py passed, Duration: 4 s
+300/313 - wallet_startup.py passed, Duration: 12 s
+301/313 - p2p_i2p_sessions.py passed, Duration: 3 s
+302/313 - p2p_permissions.py passed, Duration: 30 s
+303/313 - rpc_getdescriptorinfo.py passed, Duration: 2 s
+304/313 - feature_settings.py passed, Duration: 9 s
+305/313 - rpc_getpeerinfo_deprecation.py passed, Duration: 4 s
+306/313 - rpc_mempool_entry_fee_fields_deprecation.py passed, Duration: 4 s
+307/313 - rpc_mempool_info.py passed, Duration: 3 s
+308/313 - rpc_help.py passed, Duration: 6 s
+309/313 - feature_dirsymlinks.py passed, Duration: 4 s
+310/313 - feature_help.py passed, Duration: 1 s
+311/313 - p2p_blockfilters.py passed, Duration: 178 s
+312/313 - wallet_migration.py passed, Duration: 37 s
+313/313 - feature_config_args.py passed, Duration: 66 s
+WARNING! There is already a dashd process running on this system. Tests may fail unexpectedly due to resource contention!
+Running Unit Tests for Test Framework Modules
+31/313 - feature_llmq_simplepose.py failed, Duration: 189 s
+
+stdout:
+2026-06-25T11:51:55.570000Z TestFramework (INFO): PRNG seed is: 8215069469538988652
+2026-06-25T11:51:55.576000Z TestFramework (INFO): Initializing test directory /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_llmq_simplepose_283
+2026-06-25T11:51:55.607000Z TestFramework (INFO): Creating and starting controller node
+2026-06-25T11:51:55.607000Z TestFramework (INFO): Creating and starting 1 simple nodes
+2026-06-25T11:51:56.935000Z TestFramework (INFO): Generating 5100 coins
+2026-06-25T11:52:03.467000Z TestFramework (INFO): Preparing 5 masternodes
+2026-06-25T11:52:04.358000Z TestFramework (INFO): Prepared MN 0: collateral_txid=52d25c69bcc85092a84846a9f67db1f2f1f6c22749a33aa6984d3aa5fc5ca0f8, collateral_vout=0, protxHash=216e9ac746940290a50b3acef78ad36a2f73dfedf8caabdc68cb9ffd3787137a
+2026-06-25T11:52:05.674000Z TestFramework (INFO): Prepared MN 1: collateral_txid=0a79fd89a49b08fe2d0298f26b96d79be4ea83d669b34a897d3afc8bf040fdfe, collateral_vout=1, protxHash=6c9bdd95bf9398f9da8c9ef381bb9e1dd88b1022c75c8d959b0c37423022a3d0
+2026-06-25T11:52:06.594000Z TestFramework (INFO): Prepared MN 2: collateral_txid=711aedde567d1ad85c59334dd0067208939d7f522f4f65b59e4ff2d520f13f37, collateral_vout=0, protxHash=ff008bf4977ea5c5531e301af596658e44770baa03fd78d8a04a47bbb86011f2
+2026-06-25T11:52:07.275000Z TestFramework (INFO): Prepared MN 3: collateral_txid=4e28b5bb648d2dcf8d557c1383e62f7fbf38d1ddc7bc3efcfb907379f403d33f, collateral_vout=1, protxHash=a89406d529ed643ec1517873027fa247cbb69199166960d786c45bfbd4a9600e
+2026-06-25T11:52:08.194000Z TestFramework (INFO): Prepared MN 4: collateral_txid=939fca4f135de4e51323639e3743b557cf7a8a5e413f4b5bffbd1e80e0c865fe, collateral_vout=0, protxHash=bc6623faba67c95b34a8c8afeeb3e6f0ae8890a0b3e8962759502638fe1c3051
+2026-06-25T11:52:09.755000Z TestFramework (INFO): Starting 5 masternodes
+2026-06-25T11:52:16.096000Z TestFramework (INFO): Testing PoSe banning due to isolate_mn 1/2
+2026-06-25T11:52:16.590000Z TestFramework (INFO): Expecting instant PoSe banning
+2026-06-25T11:52:18.752000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=4, expected_connections=2, expected_contributions=4, expected_complaints=4, expected_justifications=0, expected_commitments=4
+2026-06-25T11:52:20.791000Z TestFramework (INFO): Expected quorum_hash:689c89be88119f6bb0a38fb9a76c88f991372fe5a4a41c1b1b210a90cddf9f6a
+2026-06-25T11:52:20.791000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:52:22.100000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:52:23.237000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:52:25.082000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:52:25.693000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:52:27.714000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:52:28.383000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:52:28.412000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:52:28.568000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:52:28.569000Z TestFramework (INFO): quorums: {'llmq_test': ['689c89be88119f6bb0a38fb9a76c88f991372fe5a4a41c1b1b210a90cddf9f6a'], 'llmq_test_dip0024': [], 'llmq_test_platform': []}
+2026-06-25T11:52:29.950000Z TestFramework (INFO): New quorum: height=144, quorumHash=689c89be88119f6bb0a38fb9a76c88f991372fe5a4a41c1b1b210a90cddf9f6a, is_mature=True quorumIndex=0, minedBlock=1eea7ddf8d4e29253bac856e964a410087f1e0b5a97da34268a9c000b3b0f0d3
+2026-06-25T11:52:30.021000Z TestFramework (INFO): Instant ban still requires 2 missing DKG round. If it is not banned yet, mine 2nd one
+2026-06-25T11:52:32.332000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=4, expected_connections=2, expected_contributions=4, expected_complaints=4, expected_justifications=0, expected_commitments=4
+2026-06-25T11:52:32.595000Z TestFramework (INFO): Expected quorum_hash:6e91d17400d1d7c0621f7b40d34c37c96a682214fb805772d4250debf851c58a
+2026-06-25T11:52:32.595000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:52:33.383000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:52:35.053000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:52:36.965000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:52:37.770000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:52:39.757000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:52:40.383000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:52:40.413000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:52:41.787000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:52:41.802000Z TestFramework (INFO): quorums: {'llmq_test': ['6e91d17400d1d7c0621f7b40d34c37c96a682214fb805772d4250debf851c58a', '689c89be88119f6bb0a38fb9a76c88f991372fe5a4a41c1b1b210a90cddf9f6a'], 'llmq_test_dip0024': [], 'llmq_test_platform': []}
+2026-06-25T11:52:43.783000Z TestFramework (INFO): New quorum: height=168, quorumHash=6e91d17400d1d7c0621f7b40d34c37c96a682214fb805772d4250debf851c58a, is_mature=True quorumIndex=0, minedBlock=594a29438f6ca370a2102521b982552532c54e979ef9c44ebf7a45e442a8d7e7
+2026-06-25T11:52:43.792000Z TestFramework (INFO): Testing PoSe banning due to isolate_mn 2/2
+2026-06-25T11:52:43.899000Z TestFramework (INFO): Expecting instant PoSe banning
+2026-06-25T11:52:46.100000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=3, expected_justifications=0, expected_commitments=3
+2026-06-25T11:52:46.504000Z TestFramework (INFO): Expected quorum_hash:6b8468d31113c5da7265cfbff08aef071cf00b2891ea8f7c82c8f14ac6efa724
+2026-06-25T11:52:46.509000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:52:47.228000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:52:48.355000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:52:49.731000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:52:50.353000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:52:51.082000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:52:51.703000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:52:51.722000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:52:51.976000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:52:51.977000Z TestFramework (INFO): quorums: {'llmq_test': ['6b8468d31113c5da7265cfbff08aef071cf00b2891ea8f7c82c8f14ac6efa724', '6e91d17400d1d7c0621f7b40d34c37c96a682214fb805772d4250debf851c58a'], 'llmq_test_dip0024': [], 'llmq_test_platform': []}
+2026-06-25T11:52:53.795000Z TestFramework (INFO): New quorum: height=192, quorumHash=6b8468d31113c5da7265cfbff08aef071cf00b2891ea8f7c82c8f14ac6efa724, is_mature=True quorumIndex=0, minedBlock=1ae0d43c59d134ce90d0a9dd346482e8fa333e2008fa3d4bd49a3c3332ad5e20
+2026-06-25T11:52:53.801000Z TestFramework (INFO): Instant ban still requires 2 missing DKG round. If it is not banned yet, mine 2nd one
+2026-06-25T11:52:55.833000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=3, expected_justifications=0, expected_commitments=3
+2026-06-25T11:52:56.227000Z TestFramework (INFO): Expected quorum_hash:29578415736b41628592cfed26939ebac2fc45d9e60e913eb01d1e84ea7c65df
+2026-06-25T11:52:56.240000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:52:56.979000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:52:58.474000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:52:59.830000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:53:00.434000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:53:01.104000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:53:01.719000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:53:01.732000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:53:02.863000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:53:02.863000Z TestFramework (INFO): quorums: {'llmq_test': ['29578415736b41628592cfed26939ebac2fc45d9e60e913eb01d1e84ea7c65df', '6b8468d31113c5da7265cfbff08aef071cf00b2891ea8f7c82c8f14ac6efa724'], 'llmq_test_dip0024': [], 'llmq_test_platform': []}
+2026-06-25T11:53:04.271000Z TestFramework (INFO): New quorum: height=216, quorumHash=29578415736b41628592cfed26939ebac2fc45d9e60e913eb01d1e84ea7c65df, is_mature=True quorumIndex=0, minedBlock=5b56c868f433662238494dedd1d3ab0013250d7bc31294b1b1f7bbb4b126039c
+2026-06-25T11:53:04.278000Z TestFramework (INFO): Repairing all banned and punished masternodes
+2026-06-25T11:53:13.505000Z TestFramework (INFO): Testing PoSe banning due to close_mn_port 1/2
+2026-06-25T11:53:17.366000Z TestFramework (INFO): Accumulating PoSe penalty 1/6
+2026-06-25T11:53:19.519000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:53:20.745000Z TestFramework (INFO): Expected quorum_hash: 2f4e162a2dff322630f4b4f688e10afcf6952d5cd5fd5759e6ef45dcd1616930
+2026-06-25T11:53:20.746000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:53:20.817000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:53:22.381000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:53:23.291000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:53:24.168000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:53:26.751000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:53:26.791000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:53:26.821000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:53:27.083000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:53:27.084000Z TestFramework (INFO): quorums: {'llmq_test': ['2f4e162a2dff322630f4b4f688e10afcf6952d5cd5fd5759e6ef45dcd1616930', '29578415736b41628592cfed26939ebac2fc45d9e60e913eb01d1e84ea7c65df'], 'llmq_test_dip0024': [], 'llmq_test_platform': []}
+2026-06-25T11:53:28.489000Z TestFramework (INFO): New quorum: height=240, quorumHash=2f4e162a2dff322630f4b4f688e10afcf6952d5cd5fd5759e6ef45dcd1616930, quorumIndex=0, minedBlock=4b863f9c06326a440fdd11f3bc8a98f68e0a6c25ee7a2bc82dc2e61c7c8a7d36
+2026-06-25T11:53:28.490000Z TestFramework (INFO): Accumulating PoSe penalty 2/6
+2026-06-25T11:53:30.635000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:53:30.712000Z TestFramework (INFO): Expected quorum_hash: 40313624168152e32c78f1e4d41b7213a8d7551b53c339be75fa5f68fb010f6f
+2026-06-25T11:53:30.712000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:53:31.474000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:53:32.809000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:53:33.624000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:53:34.288000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:53:36.211000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:53:36.266000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:53:36.323000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:53:37.707000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:53:37.708000Z TestFramework (INFO): quorums: {'llmq_test': ['40313624168152e32c78f1e4d41b7213a8d7551b53c339be75fa5f68fb010f6f', '2f4e162a2dff322630f4b4f688e10afcf6952d5cd5fd5759e6ef45dcd1616930'], 'llmq_test_dip0024': ['2f4e162a2dff322630f4b4f688e10afcf6952d5cd5fd5759e6ef45dcd1616930', '615c389e2b0b21d1effa9e496d2401cdc1df6b782a5f00232298f83710043e46'], 'llmq_test_platform': []}
+2026-06-25T11:53:39.249000Z TestFramework (INFO): New quorum: height=264, quorumHash=40313624168152e32c78f1e4d41b7213a8d7551b53c339be75fa5f68fb010f6f, quorumIndex=0, minedBlock=5f736cc38910b24fd6b925ddb90a27e3d662daed95221d368bb9dee1f9cab794
+2026-06-25T11:53:39.250000Z TestFramework (INFO): Accumulating PoSe penalty 3/6
+2026-06-25T11:53:41.327000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:53:43.090000Z TestFramework (INFO): Expected quorum_hash: 3d6eaa2895cdd4a5f3d96ed320b617feafe7633bc85261a00d368766d48b332d
+2026-06-25T11:53:43.090000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:53:43.499000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:53:44.253000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:53:44.933000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:53:45.635000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:53:47.978000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:53:48.020000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:53:48.060000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:53:49.347000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:53:49.348000Z TestFramework (INFO): quorums: {'llmq_test': ['3d6eaa2895cdd4a5f3d96ed320b617feafe7633bc85261a00d368766d48b332d', '40313624168152e32c78f1e4d41b7213a8d7551b53c339be75fa5f68fb010f6f'], 'llmq_test_dip0024': ['40313624168152e32c78f1e4d41b7213a8d7551b53c339be75fa5f68fb010f6f', '615c389e2b0b21d1effa9e496d2401cdc1df6b782a5f00232298f83710043e46'], 'llmq_test_platform': []}
+2026-06-25T11:53:50.680000Z TestFramework (INFO): New quorum: height=288, quorumHash=3d6eaa2895cdd4a5f3d96ed320b617feafe7633bc85261a00d368766d48b332d, quorumIndex=0, minedBlock=7068b25f7e4d66120aee09531ab00973bdb710cc6667105958f5f329633d5806
+2026-06-25T11:53:50.689000Z TestFramework (INFO): Accumulating PoSe penalty 4/6
+2026-06-25T11:53:52.832000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:53:53.188000Z TestFramework (INFO): Expected quorum_hash: 26d54b83f50ef7b564c8624fb4bd3a6c5f92f673b29985670b41b28146f98535
+2026-06-25T11:53:53.188000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:53:53.855000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:53:54.528000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:53:55.327000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:53:55.945000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:53:58.424000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:53:58.430000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:53:58.436000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:53:58.493000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:53:58.494000Z TestFramework (INFO): quorums: {'llmq_test': ['26d54b83f50ef7b564c8624fb4bd3a6c5f92f673b29985670b41b28146f98535', '3d6eaa2895cdd4a5f3d96ed320b617feafe7633bc85261a00d368766d48b332d'], 'llmq_test_dip0024': ['3d6eaa2895cdd4a5f3d96ed320b617feafe7633bc85261a00d368766d48b332d', '615c389e2b0b21d1effa9e496d2401cdc1df6b782a5f00232298f83710043e46'], 'llmq_test_platform': []}
+2026-06-25T11:53:59.855000Z TestFramework (INFO): New quorum: height=312, quorumHash=26d54b83f50ef7b564c8624fb4bd3a6c5f92f673b29985670b41b28146f98535, quorumIndex=0, minedBlock=321b6413f3abe32b87e61a454935b597c38a09d182b02d06853a906604821100
+2026-06-25T11:53:59.856000Z TestFramework (INFO): Accumulating PoSe penalty 5/6
+2026-06-25T11:54:01.945000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:54:03.196000Z TestFramework (INFO): Expected quorum_hash: 6dfe5e6c0583d9d98404e0e1e5d324ca339bc982085f25bd432a703d7be5cd2f
+2026-06-25T11:54:03.196000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:54:03.241000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:54:04.507000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:54:05.119000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:54:05.791000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:54:07.086000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:54:07.652000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:54:07.658000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:54:08.830000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:54:08.831000Z TestFramework (INFO): quorums: {'llmq_test': ['6dfe5e6c0583d9d98404e0e1e5d324ca339bc982085f25bd432a703d7be5cd2f', '26d54b83f50ef7b564c8624fb4bd3a6c5f92f673b29985670b41b28146f98535'], 'llmq_test_dip0024': ['26d54b83f50ef7b564c8624fb4bd3a6c5f92f673b29985670b41b28146f98535', '6c0cdd8575c03df3de9e40366b273d7b31389401002b00ba2a03dd7a24e49dfa'], 'llmq_test_platform': []}
+2026-06-25T11:54:10.345000Z TestFramework (INFO): New quorum: height=336, quorumHash=6dfe5e6c0583d9d98404e0e1e5d324ca339bc982085f25bd432a703d7be5cd2f, quorumIndex=0, minedBlock=7045696a02668f2f134a2efe513703c08a49417bdc0cbffb30fdad6826c5a81c
+2026-06-25T11:54:10.346000Z TestFramework (INFO): Accumulating PoSe penalty 6/6
+2026-06-25T11:54:12.457000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:54:12.579000Z TestFramework (INFO): Expected quorum_hash: 201faa19fc21326379bc16e553455c68cbab24184d6f9cf116eb31647ccbe59d
+2026-06-25T11:54:12.579000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:54:13.315000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:54:13.981000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:54:14.641000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:54:15.434000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:54:16.730000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:54:17.390000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:54:17.403000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:54:18.574000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:54:18.577000Z TestFramework (INFO): quorums: {'llmq_test': ['201faa19fc21326379bc16e553455c68cbab24184d6f9cf116eb31647ccbe59d', '6dfe5e6c0583d9d98404e0e1e5d324ca339bc982085f25bd432a703d7be5cd2f'], 'llmq_test_dip0024': ['26d54b83f50ef7b564c8624fb4bd3a6c5f92f673b29985670b41b28146f98535', '6c0cdd8575c03df3de9e40366b273d7b31389401002b00ba2a03dd7a24e49dfa'], 'llmq_test_platform': []}
+2026-06-25T11:54:19.888000Z TestFramework (INFO): New quorum: height=360, quorumHash=201faa19fc21326379bc16e553455c68cbab24184d6f9cf116eb31647ccbe59d, quorumIndex=0, minedBlock=29a1ded460556f62a8842b7a8b5a5292bf8835c48a544554a17ece5091c434e7
+2026-06-25T11:54:19.890000Z TestFramework (INFO): Testing PoSe banning due to close_mn_port 2/2
+2026-06-25T11:54:23.324000Z TestFramework (INFO): Accumulating PoSe penalty 1/6
+2026-06-25T11:54:25.428000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:54:26.677000Z TestFramework (INFO): Expected quorum_hash: 1a195c2c566e7cbc3adf2cb0d0b9fe5dcd8bd0a26f474b6a4f5c2cef5c8ac7a2
+2026-06-25T11:54:26.677000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:54:26.728000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:54:27.442000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:54:28.032000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:54:28.744000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:54:29.430000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:54:29.971000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:54:29.982000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:54:30.036000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:54:30.036000Z TestFramework (INFO): quorums: {'llmq_test': ['1a195c2c566e7cbc3adf2cb0d0b9fe5dcd8bd0a26f474b6a4f5c2cef5c8ac7a2', '201faa19fc21326379bc16e553455c68cbab24184d6f9cf116eb31647ccbe59d'], 'llmq_test_dip0024': ['201faa19fc21326379bc16e553455c68cbab24184d6f9cf116eb31647ccbe59d', '6c0cdd8575c03df3de9e40366b273d7b31389401002b00ba2a03dd7a24e49dfa'], 'llmq_test_platform': []}
+2026-06-25T11:54:31.313000Z TestFramework (INFO): New quorum: height=384, quorumHash=1a195c2c566e7cbc3adf2cb0d0b9fe5dcd8bd0a26f474b6a4f5c2cef5c8ac7a2, quorumIndex=0, minedBlock=1a7519ea4c3dff53c7526e268cb4988c641b577db59d3c134c5415c79d9df3c7
+2026-06-25T11:54:31.314000Z TestFramework (INFO): Accumulating PoSe penalty 2/6
+2026-06-25T11:54:33.350000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:54:34.517000Z TestFramework (INFO): Expected quorum_hash: 4cd40e6eb747cc6ad6edc4c514e7b3dc19d4cc33ae0d33ab4a480591c928c5e4
+2026-06-25T11:54:34.517000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:54:34.597000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:54:35.323000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:54:36.048000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:54:36.812000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:54:38.675000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:54:38.689000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:54:38.696000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:54:38.749000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:54:38.750000Z TestFramework (INFO): quorums: {'llmq_test': ['4cd40e6eb747cc6ad6edc4c514e7b3dc19d4cc33ae0d33ab4a480591c928c5e4', '1a195c2c566e7cbc3adf2cb0d0b9fe5dcd8bd0a26f474b6a4f5c2cef5c8ac7a2'], 'llmq_test_dip0024': ['1a195c2c566e7cbc3adf2cb0d0b9fe5dcd8bd0a26f474b6a4f5c2cef5c8ac7a2', '6c0cdd8575c03df3de9e40366b273d7b31389401002b00ba2a03dd7a24e49dfa'], 'llmq_test_platform': []}
+2026-06-25T11:54:39.982000Z TestFramework (INFO): New quorum: height=408, quorumHash=4cd40e6eb747cc6ad6edc4c514e7b3dc19d4cc33ae0d33ab4a480591c928c5e4, quorumIndex=0, minedBlock=799bcec50d3642029bdb59754d1759f6e71ec67b0280966af7efe7da22452ccf
+2026-06-25T11:54:39.984000Z TestFramework (INFO): Accumulating PoSe penalty 3/6
+2026-06-25T11:54:42.119000Z TestFramework (INFO): Mining a quorum with less checks
+2026-06-25T11:54:43.330000Z TestFramework (INFO): Expected quorum_hash: 76ae1b85d8059a2da6d04baad4081600d54277e2ff32a4bc506790deba6b4598
+2026-06-25T11:54:43.330000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:54:43.391000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:54:43.990000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:54:44.664000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:54:45.384000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:54:47.601000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:54:47.613000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:55:02.673000Z TestFramework.utils (ERROR): wait_until() failed. Predicate: ''''
+        def check_dkg_comitments():
+            for mn in mninfos:
+                s = mn.get_node(self).quorum("dkgstatus")
+                if "minableCommitments" not in s:
+                    return False
+                commits = s["minableCommitments"]
+                c_ok = False
+                for c in commits:
+                    if c["llmqType"] != llmq_type:
+                        continue
+                    if c["quorumHash"] != quorum_hash:
+                        continue
+                    if c["quorumPublicKey"] == '0' * 96:
+                        continue
+                    c_ok = True
+                    break
+                if not c_ok:
+                    return False
+            return True
+'''
+2026-06-25T11:55:02.674000Z TestFramework (ERROR): Assertion failed
+Traceback (most recent call last):
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 164, in main
+    self.run_test()
+    ~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_llmq_simplepose.py", line 60, in run_test
+    self.test_banning(self.close_mn_port)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_llmq_simplepose.py", line 202, in test_banning
+    self.mine_quorum_less_checks(expected_contributors - 1, mninfos_online)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_llmq_simplepose.py", line 144, in mine_quorum_less_checks
+    self.wait_for_quorum_commitment(q, mninfos_online)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 2117, in wait_for_quorum_commitment
+    self.wait_until(check_dkg_comitments, timeout=timeout)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 908, in wait_until
+    return wait_until_helper(test_function, timeout=timeout, lock=lock, timeout_factor=self.options.timeout_factor, sleep=sleep, do_assert=do_assert)
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/util.py", line 298, in wait_until_helper
+    raise AssertionError("Predicate {} not true after {} seconds".format(predicate_source, timeout))
+AssertionError: Predicate ''''
+        def check_dkg_comitments():
+            for mn in mninfos:
+                s = mn.get_node(self).quorum("dkgstatus")
+                if "minableCommitments" not in s:
+                    return False
+                commits = s["minableCommitments"]
+                c_ok = False
+                for c in commits:
+                    if c["llmqType"] != llmq_type:
+                        continue
+                    if c["quorumHash"] != quorum_hash:
+                        continue
+                    if c["quorumPublicKey"] == '0' * 96:
+                        continue
+                    c_ok = True
+                    break
+                if not c_ok:
+                    return False
+            return True
+''' not true after 15 seconds
+2026-06-25T11:55:02.875000Z TestFramework (INFO): Stopping nodes
+2026-06-25T11:55:03.680000Z TestFramework (WARNING): Not cleaning up dir /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_llmq_simplepose_283
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): Test failed. Test logging available at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_llmq_simplepose_283/test_framework.log
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): 
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): Hint: Call /Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/combine_logs.py '/var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_llmq_simplepose_283' to consolidate all logs
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): 
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): If this failure happened unexpectedly or intermittently, please file a bug and provide a link or upload of the combined log.
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): https://github.com/dashpay/dash/issues
+2026-06-25T11:55:03.680000Z TestFramework (ERROR): 
+
+
+stderr:
+
+
+43/313 - feature_dip4_coinbasemerkleroots.py failed, Duration: 149 s
+
+stdout:
+2026-06-25T11:57:25.824000Z TestFramework (INFO): PRNG seed is: 5803314494304653927
+2026-06-25T11:57:25.824000Z TestFramework (INFO): Initializing test directory /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_dip4_coinbasemerkleroots_272
+2026-06-25T11:57:25.825000Z TestFramework (INFO): Creating and starting controller node
+2026-06-25T11:57:25.825000Z TestFramework (INFO): Creating and starting 1 simple nodes
+2026-06-25T11:57:26.659000Z TestFramework (INFO): Generating 3100 coins
+2026-06-25T11:57:29.479000Z TestFramework (INFO): Preparing 3 masternodes
+2026-06-25T11:57:29.889000Z TestFramework (INFO): Prepared MN 0: collateral_txid=01cb298f9ed565a76f7835ee592042611d772e6d93209e9171be3bc329ad33cb, collateral_vout=0, protxHash=5f37cc864515638612fc5a8260f876aaf9a8a2fbcaa4c8060d7fdfe219e4629a
+2026-06-25T11:57:30.427000Z TestFramework (INFO): Prepared MN 1: collateral_txid=f753bfb75abff8256e8ab09f22d1ac80cb54ed959ea56525a10bd2f886a7b3f4, collateral_vout=1, protxHash=c81c883ca52cd263cdb44933f293e79a441c897510235af3a6e4331924ed181f
+2026-06-25T11:57:30.969000Z TestFramework (INFO): Prepared MN 2: collateral_txid=11a4b4bda9bb7c38bcb17d06f98a2e7e87f68b431f0eda86f297272898e91e63, collateral_vout=0, protxHash=81b5b63a246289734be79d8b9588ee24714d75c90cebad95e644726d4a61cb56
+2026-06-25T11:57:32.552000Z TestFramework (INFO): Starting 3 masternodes
+2026-06-25T11:57:40.129000Z TestFramework (INFO): Prepared MN 3: collateral_txid=916439008793ecd9b98bd2a5c35935d60413417328ce6ffdc4ef44463b308ffb, collateral_vout=1, protxHash=8981cb2f8f3a2aa8d273cc3bf839b56137bd27352985eeea9292775adc044480
+2026-06-25T11:57:40.725000Z TestFramework (INFO): Removed masternode 3
+2026-06-25T11:57:41.123000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=0, expected_justifications=0, expected_commitments=3
+2026-06-25T11:57:43.052000Z TestFramework (INFO): Expected quorum_hash:246fb7c312f23700db03754b479547316859a7eb3237afc3e4633ab922a2d0d6
+2026-06-25T11:57:43.059000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:57:43.165000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:57:43.939000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:57:44.708000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:57:45.367000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:57:47.103000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:57:47.211000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:57:47.298000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:57:47.498000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:57:47.503000Z TestFramework (INFO): quorums: {'llmq_test': ['246fb7c312f23700db03754b479547316859a7eb3237afc3e4633ab922a2d0d6'], 'llmq_test_instantsend': ['246fb7c312f23700db03754b479547316859a7eb3237afc3e4633ab922a2d0d6'], 'llmq_test_platform': []}
+2026-06-25T11:57:48.902000Z TestFramework (INFO): New quorum: height=144, quorumHash=246fb7c312f23700db03754b479547316859a7eb3237afc3e4633ab922a2d0d6, is_mature=True quorumIndex=0, minedBlock=3f14cd2ddf676d50d3a5be49beec608090acd642b62619ce545ed161aa5abfa5
+2026-06-25T11:57:50.022000Z TestFramework (INFO): Wait for dip0008 activation
+2026-06-25T11:58:16.797000Z TestFramework (INFO): Mine one more block with new rules of dip0008
+2026-06-25T11:58:17.955000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=0, expected_justifications=0, expected_commitments=3
+2026-06-25T11:58:18.691000Z TestFramework (INFO): Expected quorum_hash:440015feda44fbe792628aca7c3e3ada03473ddbc5140fd10fd0ceaa63843045
+2026-06-25T11:58:18.692000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:58:19.362000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:58:20.039000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:58:20.702000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:58:21.397000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:58:22.091000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:58:22.731000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:58:22.736000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:58:23.824000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:58:23.824000Z TestFramework (INFO): quorums: {'llmq_test': ['440015feda44fbe792628aca7c3e3ada03473ddbc5140fd10fd0ceaa63843045', '246fb7c312f23700db03754b479547316859a7eb3237afc3e4633ab922a2d0d6'], 'llmq_test_instantsend': ['440015feda44fbe792628aca7c3e3ada03473ddbc5140fd10fd0ceaa63843045', '246fb7c312f23700db03754b479547316859a7eb3237afc3e4633ab922a2d0d6'], 'llmq_test_platform': []}
+2026-06-25T11:58:25.121000Z TestFramework (INFO): New quorum: height=456, quorumHash=440015feda44fbe792628aca7c3e3ada03473ddbc5140fd10fd0ceaa63843045, is_mature=True quorumIndex=0, minedBlock=0e6d9250197cc61def004a954542f9f7e6982d178ccef89ee0babdcfd7672db4
+2026-06-25T11:58:42.292000Z TestFramework (INFO): Wait for dip0008 activation
+2026-06-25T11:59:25.689000Z TestFramework (INFO): Mine one more block with new rules of dip0008
+2026-06-25T11:59:28.066000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=0, expected_justifications=0, expected_commitments=3
+2026-06-25T11:59:29.662000Z TestFramework (INFO): Expected quorum_hash:2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51
+2026-06-25T11:59:29.662000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:59:30.778000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:59:31.914000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:59:33.106000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:59:34.256000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:59:35.395000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:59:35.411000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:59:35.424000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:59:36.564000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:59:36.565000Z TestFramework (INFO): quorums: {'llmq_test': ['2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51'], 'llmq_test_instantsend': ['2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51'], 'llmq_test_platform': []}
+2026-06-25T11:59:37.902000Z TestFramework (INFO): New quorum: height=456, quorumHash=2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51, is_mature=True quorumIndex=0, minedBlock=50c3f8331bef417c220217a7df1bd158e65cd51fb0312866b084c84622d07474
+2026-06-25T11:59:37.991000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=0, expected_justifications=0, expected_commitments=3
+2026-06-25T11:59:38.098000Z TestFramework (INFO): Expected quorum_hash:500f2c9cc296e97aefee0e087510e07523a7bd311cf258d926d48b5bf12b0331
+2026-06-25T11:59:38.098000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:59:38.719000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:59:39.459000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:59:40.088000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:59:40.845000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:59:42.415000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:59:42.433000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:59:42.462000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:59:43.796000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:59:43.806000Z TestFramework (INFO): quorums: {'llmq_test': ['500f2c9cc296e97aefee0e087510e07523a7bd311cf258d926d48b5bf12b0331', '2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51'], 'llmq_test_instantsend': ['500f2c9cc296e97aefee0e087510e07523a7bd311cf258d926d48b5bf12b0331', '2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51'], 'llmq_test_platform': []}
+2026-06-25T11:59:45.275000Z TestFramework (INFO): New quorum: height=480, quorumHash=500f2c9cc296e97aefee0e087510e07523a7bd311cf258d926d48b5bf12b0331, is_mature=True quorumIndex=0, minedBlock=5e3207461aadd30eb224853ed36335cdb979304975b6248d580587b20407386f
+2026-06-25T11:59:45.534000Z TestFramework (INFO): Mining quorum: llmq_type_name=llmq_test, llmq_type=100, expected_members=3, expected_connections=2, expected_contributions=3, expected_complaints=0, expected_justifications=0, expected_commitments=3
+2026-06-25T11:59:45.844000Z TestFramework (INFO): Expected quorum_hash:602c3c6ffe789dbd570057ccfa5b34bc6ca164d57b741dbaf09cedbdad713f65
+2026-06-25T11:59:45.848000Z TestFramework (INFO): Waiting for phase 1 (init)
+2026-06-25T11:59:46.594000Z TestFramework (INFO): Waiting for phase 2 (contribute)
+2026-06-25T11:59:47.244000Z TestFramework (INFO): Waiting for phase 3 (complain)
+2026-06-25T11:59:47.897000Z TestFramework (INFO): Waiting for phase 4 (justify)
+2026-06-25T11:59:48.616000Z TestFramework (INFO): Waiting for phase 5 (commit)
+2026-06-25T11:59:50.930000Z TestFramework (INFO): Waiting for phase 6 (mining)
+2026-06-25T11:59:50.934000Z TestFramework (INFO): Waiting final commitment
+2026-06-25T11:59:50.938000Z TestFramework (INFO): Mining final commitment
+2026-06-25T11:59:52.146000Z TestFramework (INFO): Waiting for quorum to appear in the list
+2026-06-25T11:59:52.146000Z TestFramework (INFO): quorums: {'llmq_test': ['602c3c6ffe789dbd570057ccfa5b34bc6ca164d57b741dbaf09cedbdad713f65', '500f2c9cc296e97aefee0e087510e07523a7bd311cf258d926d48b5bf12b0331'], 'llmq_test_instantsend': ['500f2c9cc296e97aefee0e087510e07523a7bd311cf258d926d48b5bf12b0331', '2c7bf3bae38005be900905b15448dcea686be9c13a1b23f878a527999dc95b51'], 'llmq_test_platform': []}
+2026-06-25T11:59:53.534000Z TestFramework (INFO): New quorum: height=504, quorumHash=602c3c6ffe789dbd570057ccfa5b34bc6ca164d57b741dbaf09cedbdad713f65, is_mature=True quorumIndex=0, minedBlock=109d3a7e7d0072c2845183dce1a8a04b80b073309d969296bf75893f8e0e99b5
+2026-06-25T11:59:53.733000Z TestFramework (ERROR): Assertion failed
+Traceback (most recent call last):
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 164, in main
+    self.run_test()
+    ~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_dip4_coinbasemerkleroots.py", line 143, in run_test
+    self.test_getmnlistdiff_quorums(block_before_third, self.nodes[0].getbestblockhash(), quorums_before_third, expectedDeleted, expectedNew)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_dip4_coinbasemerkleroots.py", line 213, in test_getmnlistdiff_quorums
+    assert_equal(set(d.deletedQuorums), set(expectedDeleted))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/util.py", line 74, in assert_equal
+    raise AssertionError("not(%s)" % " == ".join(str(arg) for arg in (thing1, thing2) + args))
+AssertionError: not({QuorumId(llmqType=100, quorumHash=20120769689502368143452401971681837485346571061147512422297026896824518662993)} == {QuorumId(llmqType=100, quorumHash=20120769689502368143452401971681837485346571061147512422297026896824518662993), QuorumId(llmqType=104, quorumHash=20120769689502368143452401971681837485346571061147512422297026896824518662993)})
+2026-06-25T11:59:53.934000Z TestFramework (INFO): Stopping nodes
+2026-06-25T11:59:54.537000Z TestFramework (WARNING): Not cleaning up dir /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_dip4_coinbasemerkleroots_272
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): Test failed. Test logging available at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_dip4_coinbasemerkleroots_272/test_framework.log
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): 
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): Hint: Call /Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/combine_logs.py '/var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_dip4_coinbasemerkleroots_272' to consolidate all logs
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): 
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): If this failure happened unexpectedly or intermittently, please file a bug and provide a link or upload of the combined log.
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): https://github.com/dashpay/dash/issues
+2026-06-25T11:59:54.537000Z TestFramework (ERROR): 
+
+
+stderr:
+
+
+49/313 - feature_governance.py --legacy-wallet failed, Duration: 174 s
+
+stdout:
+2026-06-25T11:57:55.154000Z TestFramework (INFO): PRNG seed is: 2478493044573674290
+2026-06-25T11:57:55.158000Z TestFramework (INFO): Initializing test directory /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_governance_269
+2026-06-25T11:57:55.159000Z TestFramework (INFO): Creating and starting controller node
+2026-06-25T11:57:55.160000Z TestFramework (INFO): Creating and starting 1 simple nodes
+2026-06-25T11:57:56.289000Z TestFramework (INFO): Generating 5100 coins
+2026-06-25T11:57:59.055000Z TestFramework (INFO): Preparing 5 masternodes
+2026-06-25T11:57:59.516000Z TestFramework (INFO): Prepared MN 0: collateral_txid=ccb9a505c8b5cf00611b9db04c440e12bc43a3a5da34d67ad653fa1b02729292, collateral_vout=0, protxHash=18c408dec5f653a4f59024553e8968de22666f1ecddfb70dd0e769dbd59e2f87
+2026-06-25T11:58:00.330000Z TestFramework (INFO): Prepared MN 1: collateral_txid=b224e98fe35a8a799a66027e580cee2621c54f11c8711d251efd8bf8ada24113, collateral_vout=1, protxHash=a28fb6f9c51dc1442886ac66db886a1994bf4d986fa602089b950d89656276f1
+2026-06-25T11:58:00.900000Z TestFramework (INFO): Prepared MN 2: collateral_txid=1334a17b8c58b03d321daa066efc2d75786ece8029b1e0066bbbf9902e53c3ad, collateral_vout=0, protxHash=3e9a7b320971dddca53809df5da0bdd8a6da929205fcd8e27af23bbc4bd01f4b
+2026-06-25T11:58:01.867000Z TestFramework (INFO): Prepared MN 3: collateral_txid=15e3f382141d285fffc85e92a54f14e81b7600014011423d91d6e9a5de4128bc, collateral_vout=1, protxHash=cb49b948166cf026327ab93e78352a32280919110db170ae76caa7c20c870f8d
+2026-06-25T11:58:02.530000Z TestFramework (INFO): Prepared MN 4: collateral_txid=34e5cd450fea8fcc97d9e9e5489297c8fd6aa4dc6f9309808ad9bfa77ebb0594, collateral_vout=0, protxHash=d07e8fb625db6210478ba954a9b192933bfed60a5544b53e49eacbcbd51bc081
+2026-06-25T11:58:04.014000Z TestFramework (INFO): Starting 5 masternodes
+2026-06-25T11:58:10.373000Z TestFramework (INFO): Start testing...
+2026-06-25T11:58:11.443000Z TestFramework (INFO): Check 1st superblock before v20
+2026-06-25T11:58:12.703000Z TestFramework (INFO): Check 2nd superblock before v20
+2026-06-25T11:58:13.865000Z TestFramework (INFO): Prepare proposals
+2026-06-25T11:58:14.383000Z TestFramework (INFO): Submit objects
+2026-06-25T11:58:15.666000Z TestFramework (INFO): Cast votes
+2026-06-25T11:58:18.924000Z TestFramework (INFO): Move until 1 block before the Superblock maturity window starts
+2026-06-25T11:58:18.925000Z TestFramework (INFO): v20 is expected to be activate since block 160
+2026-06-25T11:58:19.093000Z TestFramework (INFO): Detect payee node
+2026-06-25T11:58:19.099000Z TestFramework (INFO): Isolate payee node and create a trigger
+2026-06-25T11:58:19.652000Z TestFramework (INFO): Move 1 block inside the Superblock maturity window on the isolated node
+2026-06-25T11:58:19.761000Z TestFramework (INFO): The isolated 'winner' should submit new trigger and vote for it
+2026-06-25T11:58:24.908000Z TestFramework (INFO): Move 1 block enabling the Superblock maturity window on non-isolated nodes
+2026-06-25T11:58:24.957000Z TestFramework (INFO): The 'winner' should submit new trigger and vote for it, but it's isolated so no triggers should be found
+2026-06-25T11:58:30.002000Z TestFramework (INFO): Move 1 block inside the Superblock maturity window on non-isolated nodes
+2026-06-25T11:58:30.057000Z TestFramework (INFO): There is now new 'winner' who should submit new trigger and vote for it
+2026-06-25T11:58:36.451000Z TestFramework (INFO): Make sure amounts aren't trimmed
+2026-06-25T11:58:36.452000Z TestFramework (INFO): Move another block inside the Superblock maturity window on non-isolated nodes
+2026-06-25T11:58:36.508000Z TestFramework (INFO): Every non-isolated MN should vote for the same trigger now, no new triggers should be created
+2026-06-25T11:58:44.653000Z TestFramework (INFO): make sure isolated node is fully synced at this point
+2026-06-25T11:58:44.670000Z TestFramework (INFO): let all fulfilled requests expire for re-sync to work correctly
+2026-06-25T11:59:22.676000Z TestFramework (INFO): Should see two triggers now
+2026-06-25T11:59:27.793000Z TestFramework (INFO): Move another block inside the Superblock maturity window
+2026-06-25T11:59:27.851000Z TestFramework (INFO): Should see same YES and NO vote count for both triggers on all nodes now
+2026-06-25T11:59:30.374000Z TestFramework (INFO): Should have 25 votes on all nodes
+2026-06-25T11:59:30.376000Z TestFramework (INFO): Remember vote count
+2026-06-25T11:59:30.377000Z TestFramework (INFO): Bump mocktime to let MNs vote again
+2026-06-25T11:59:30.379000Z TestFramework (INFO): Move another block inside the Superblock maturity window
+2026-06-25T11:59:31.533000Z TestFramework (INFO): Vote count should not change even though MNs are allowed to vote again
+2026-06-25T11:59:31.534000Z TestFramework (INFO): Revert mocktime back to avoid issues in tests below
+2026-06-25T11:59:31.538000Z TestFramework (INFO): Move remaining n blocks until actual Superblock
+2026-06-25T11:59:35.293000Z TestFramework (INFO): Move a few block past the recent superblock height and make sure we have no new votes
+2026-06-25T11:59:39.874000Z TestFramework (INFO): Move remaining n blocks until the next maturity window
+2026-06-25T11:59:40.008000Z TestFramework (INFO): Move inside maturity window until the next Superblock
+2026-06-25T11:59:47.840000Z TestFramework (INFO): Wait for new trigger and votes
+2026-06-25T12:00:47.954000Z TestFramework.utils (ERROR): wait_until() failed. Predicate: ''''
+        self.wait_until(lambda: have_trigger_for_height(self.nodes, 180))
+'''
+2026-06-25T12:00:47.954000Z TestFramework (ERROR): Assertion failed
+Traceback (most recent call last):
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 164, in main
+    self.run_test()
+    ~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_governance.py", line 367, in run_test
+    self.wait_until(lambda: have_trigger_for_height(self.nodes, 180))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 908, in wait_until
+    return wait_until_helper(test_function, timeout=timeout, lock=lock, timeout_factor=self.options.timeout_factor, sleep=sleep, do_assert=do_assert)
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/util.py", line 298, in wait_until_helper
+    raise AssertionError("Predicate {} not true after {} seconds".format(predicate_source, timeout))
+AssertionError: Predicate ''''
+        self.wait_until(lambda: have_trigger_for_height(self.nodes, 180))
+''' not true after 60 seconds
+2026-06-25T12:00:48.082000Z TestFramework (INFO): Stopping nodes
+2026-06-25T12:00:48.957000Z TestFramework (WARNING): Not cleaning up dir /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_governance_269
+2026-06-25T12:00:48.957000Z TestFramework (ERROR): Test failed. Test logging available at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_governance_269/test_framework.log
+2026-06-25T12:00:48.957000Z TestFramework (ERROR): 
+2026-06-25T12:00:48.957000Z TestFramework (ERROR): Hint: Call /Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/combine_logs.py '/var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_governance_269' to consolidate all logs
+2026-06-25T12:00:48.958000Z TestFramework (ERROR): 
+2026-06-25T12:00:48.958000Z TestFramework (ERROR): If this failure happened unexpectedly or intermittently, please file a bug and provide a link or upload of the combined log.
+2026-06-25T12:00:48.958000Z TestFramework (ERROR): https://github.com/dashpay/dash/issues
+2026-06-25T12:00:48.958000Z TestFramework (ERROR): 
+
+
+stderr:
+
+
+132/313 - feature_timestampindex.py failed, Duration: 8 s
+
+stdout:
+2026-06-25T12:06:46.160000Z TestFramework (INFO): PRNG seed is: 1829180374422973449
+2026-06-25T12:06:46.165000Z TestFramework (INFO): Initializing test directory /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_timestampindex_179
+2026-06-25T12:06:47.957000Z TestFramework (INFO): Test that settings can be disabled without -reindex...
+2026-06-25T12:06:50.589000Z TestFramework (INFO): Test that settings can be enabled without -reindex...
+2026-06-25T12:06:52.869000Z TestFramework (INFO): Check timestamp index via getblockhashes rpc
+2026-06-25T12:06:53.084000Z TestFramework (INFO): Testing reorg handling...
+2026-06-25T12:06:53.096000Z TestFramework (ERROR): Assertion failed
+Traceback (most recent call last):
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 164, in main
+    self.run_test()
+    ~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/feature_timestampindex.py", line 61, in run_test
+    assert_equal(len(hashes_after_invalidate), 3)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/util.py", line 74, in assert_equal
+    raise AssertionError("not(%s)" % " == ".join(str(arg) for arg in (thing1, thing2) + args))
+AssertionError: not(4 == 3)
+2026-06-25T12:06:53.291000Z TestFramework (INFO): Stopping nodes
+2026-06-25T12:06:53.839000Z TestFramework (WARNING): Not cleaning up dir /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_timestampindex_179
+2026-06-25T12:06:53.839000Z TestFramework (ERROR): Test failed. Test logging available at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_timestampindex_179/test_framework.log
+2026-06-25T12:06:53.840000Z TestFramework (ERROR): 
+2026-06-25T12:06:53.840000Z TestFramework (ERROR): Hint: Call /Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/combine_logs.py '/var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/feature_timestampindex_179' to consolidate all logs
+2026-06-25T12:06:53.840000Z TestFramework (ERROR): 
+2026-06-25T12:06:53.840000Z TestFramework (ERROR): If this failure happened unexpectedly or intermittently, please file a bug and provide a link or upload of the combined log.
+2026-06-25T12:06:53.840000Z TestFramework (ERROR): https://github.com/dashpay/dash/issues
+2026-06-25T12:06:53.840000Z TestFramework (ERROR): 
+
+
+stderr:
+
+
+182/313 - mempool_packages.py failed, Duration: 2 s
+
+stdout:
+2026-06-25T12:09:33.477000Z TestFramework (INFO): PRNG seed is: 1915965697433233307
+2026-06-25T12:09:33.478000Z TestFramework (INFO): Initializing test directory /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_packages_129
+2026-06-25T12:09:34.768000Z TestFramework (ERROR): Assertion failed
+Traceback (most recent call last):
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 163, in main
+    self.setup()
+    ~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 341, in setup
+    self.setup_network()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 441, in setup_network
+    self.setup_nodes()
+    ~~~~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 470, in setup_nodes
+    assert_equal(n.getblockchaininfo()["blocks"], 199)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/util.py", line 74, in assert_equal
+    raise AssertionError("not(%s)" % " == ".join(str(arg) for arg in (thing1, thing2) + args))
+AssertionError: not(0 == 199)
+2026-06-25T12:09:34.970000Z TestFramework (INFO): Stopping nodes
+2026-06-25T12:09:35.742000Z TestFramework (WARNING): Not cleaning up dir /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_packages_129
+2026-06-25T12:09:35.742000Z TestFramework (ERROR): Test failed. Test logging available at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_packages_129/test_framework.log
+2026-06-25T12:09:35.742000Z TestFramework (ERROR): 
+2026-06-25T12:09:35.742000Z TestFramework (ERROR): Hint: Call /Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/combine_logs.py '/var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_packages_129' to consolidate all logs
+2026-06-25T12:09:35.742000Z TestFramework (ERROR): 
+2026-06-25T12:09:35.747000Z TestFramework (ERROR): If this failure happened unexpectedly or intermittently, please file a bug and provide a link or upload of the combined log.
+2026-06-25T12:09:35.747000Z TestFramework (ERROR): https://github.com/dashpay/dash/issues
+2026-06-25T12:09:35.747000Z TestFramework (ERROR): 
+
+
+stderr:
+
+
+183/313 - mempool_package_onemore.py failed, Duration: 2 s
+
+stdout:
+2026-06-25T12:09:35.938000Z TestFramework (INFO): PRNG seed is: 3418051265568511503
+2026-06-25T12:09:35.939000Z TestFramework (INFO): Initializing test directory /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_package_onemore_128
+2026-06-25T12:09:36.668000Z TestFramework (ERROR): Assertion failed
+Traceback (most recent call last):
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 163, in main
+    self.setup()
+    ~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 341, in setup
+    self.setup_network()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 441, in setup_network
+    self.setup_nodes()
+    ~~~~~~~~~~~~~~~~^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/test_framework.py", line 470, in setup_nodes
+    assert_equal(n.getblockchaininfo()["blocks"], 199)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/test_framework/util.py", line 74, in assert_equal
+    raise AssertionError("not(%s)" % " == ".join(str(arg) for arg in (thing1, thing2) + args))
+AssertionError: not(0 == 199)
+2026-06-25T12:09:36.723000Z TestFramework (INFO): Stopping nodes
+2026-06-25T12:09:37.540000Z TestFramework (WARNING): Not cleaning up dir /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_package_onemore_128
+2026-06-25T12:09:37.540000Z TestFramework (ERROR): Test failed. Test logging available at /var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_package_onemore_128/test_framework.log
+2026-06-25T12:09:37.540000Z TestFramework (ERROR): 
+2026-06-25T12:09:37.540000Z TestFramework (ERROR): Hint: Call /Users/claw/.openclaw/workspace/repos/dash/worktrees/coverage-report-20260625/test/functional/combine_logs.py '/var/folders/l6/t44rtggx2q1bf0c68hz9t7xc0000gt/T/test_runner_∋_🏃_20260625_064045/mempool_package_onemore_128' to consolidate all logs
+2026-06-25T12:09:37.540000Z TestFramework (ERROR): 
+2026-06-25T12:09:37.540000Z TestFramework (ERROR): If this failure happened unexpectedly or intermittently, please file a bug and provide a link or upload of the combined log.
+2026-06-25T12:09:37.540000Z TestFramework (ERROR): https://github.com/dashpay/dash/issues
+2026-06-25T12:09:37.544000Z TestFramework (ERROR): 
+
+
+stderr:
+
+
+Remaining jobs: [p2p_blockfilters.py, feature_config_args.py, feature_help.py, wallet_migration.py]
+Remaining jobs: [p2p_blockfilters.py, feature_config_args.py, wallet_migration.py]
+Remaining jobs: [feature_config_args.py, wallet_migration.py]
+Remaining jobs: [feature_config_args.py]
+
+TEST                                                   | STATUS    | DURATION
+
+example_test.py                                        | ✓ Passed  | 6 s
+feature_abortnode.py                                   | ✓ Passed  | 3 s
+feature_addressindex.py                                | ✓ Passed  | 43 s
+feature_addrman.py                                     | ✓ Passed  | 22 s
+feature_anchors.py                                     | ✓ Passed  | 12 s
+feature_asmap.py                                       | ✓ Passed  | 24 s
+feature_asset_locks.py                                 | ✓ Passed  | 327 s
+feature_assumevalid.py                                 | ✓ Passed  | 8 s
+feature_bip68_sequence.py                              | ✓ Passed  | 47 s
+feature_block.py                                       | ✓ Passed  | 266 s
+feature_blocksdir.py                                   | ✓ Passed  | 4 s
+feature_cltv.py                                        | ✓ Passed  | 6 s
+feature_coinstatsindex.py                              | ✓ Passed  | 25 s
+feature_config_args.py                                 | ✓ Passed  | 66 s
+feature_csv_activation.py                              | ✓ Passed  | 44 s
+feature_dersig.py                                      | ✓ Passed  | 7 s
+feature_dip3_deterministicmns.py --descriptors         | ✓ Passed  | 110 s
+feature_dip3_deterministicmns.py --legacy-wallet       | ✓ Passed  | 134 s
+feature_dip3_v19.py                                    | ✓ Passed  | 277 s
+feature_dirsymlinks.py                                 | ✓ Passed  | 4 s
+feature_discover.py                                    | ✓ Passed  | 11 s
+feature_fastprune.py                                   | ✓ Passed  | 8 s
+feature_fee_estimation.py                              | ✓ Passed  | 76 s
+feature_filelock.py                                    | ✓ Passed  | 6 s
+feature_governance.py --descriptors                    | ✓ Passed  | 110 s
+feature_governance_cl.py --descriptors                 | ✓ Passed  | 40 s
+feature_governance_cl.py --legacy-wallet               | ✓ Passed  | 44 s
+feature_governance_objects.py                          | ✓ Passed  | 24 s
+feature_help.py                                        | ✓ Passed  | 1 s
+feature_includeconf.py                                 | ✓ Passed  | 8 s
+feature_init.py                                        | ✓ Passed  | 63 s
+feature_llmq_chainlocks.py                             | ✓ Passed  | 112 s
+feature_llmq_connections.py                            | ✓ Passed  | 205 s
+feature_llmq_data_recovery.py                          | ✓ Passed  | 298 s
+feature_llmq_dkgerrors.py                              | ✓ Passed  | 78 s
+feature_llmq_evo.py                                    | ✓ Passed  | 99 s
+feature_llmq_is_cl_conflicts.py                        | ✓ Passed  | 57 s
+feature_llmq_is_retroactive.py                         | ✓ Passed  | 176 s
+feature_llmq_rotation.py                               | ✓ Passed  | 125 s
+feature_llmq_signing.py                                | ✓ Passed  | 76 s
+feature_llmq_signing.py --spork21                      | ✓ Passed  | 84 s
+feature_llmq_simplepose.py --disable-spork23           | ✓ Passed  | 152 s
+feature_llmq_singlenode.py                             | ✓ Passed  | 62 s
+feature_loadblock.py                                   | ✓ Passed  | 16 s
+feature_logging.py                                     | ✓ Passed  | 14 s
+feature_masternode_params.py                           | ✓ Passed  | 7 s
+feature_maxtipage.py                                   | ✓ Passed  | 35 s
+feature_maxuploadtarget.py                             | ✓ Passed  | 67 s
+feature_minchainwork.py                                | ✓ Passed  | 16 s
+feature_mnehf.py                                       | ✓ Passed  | 122 s
+feature_multikeysporks.py                              | ✓ Passed  | 63 s
+feature_new_quorum_type_activation.py                  | ✓ Passed  | 4 s
+feature_notifications.py                               | ✓ Passed  | 60 s
+feature_nulldummy.py                                   | ✓ Passed  | 2 s
+feature_posix_fs_permissions.py                        | ✓ Passed  | 2 s
+feature_proxy.py                                       | ✓ Passed  | 12 s
+feature_reindex.py                                     | ✓ Passed  | 15 s
+feature_settings.py                                    | ✓ Passed  | 9 s
+feature_shutdown.py                                    | ✓ Passed  | 3 s
+feature_spentindex.py                                  | ✓ Passed  | 19 s
+feature_sporks.py                                      | ✓ Passed  | 9 s
+feature_startupnotify.py                               | ✓ Passed  | 3 s
+feature_stats.py                                       | ✓ Passed  | 10 s
+feature_txindex.py                                     | ✓ Passed  | 13 s
+feature_uacomment.py                                   | ✓ Passed  | 12 s
+feature_utxo_set_hash.py                               | ✓ Passed  | 4 s
+feature_versionbits_warning.py                         | ✓ Passed  | 28 s
+interface_bitcoin_cli.py --descriptors                 | ✓ Passed  | 16 s
+interface_bitcoin_cli.py --legacy-wallet               | ✓ Passed  | 18 s
+interface_http.py                                      | ✓ Passed  | 2 s
+interface_rest.py                                      | ✓ Passed  | 7 s
+interface_rpc.py                                       | ✓ Passed  | 3 s
+mempool_accept.py                                      | ✓ Passed  | 7 s
+mempool_datacarrier.py                                 | ✓ Passed  | 4 s
+mempool_expiry.py                                      | ✓ Passed  | 7 s
+mempool_limit.py                                       | ✓ Passed  | 9 s
+mempool_package_limits.py                              | ✓ Passed  | 18 s
+mempool_persist.py --descriptors                       | ✓ Passed  | 18 s
+mempool_reorg.py                                       | ✓ Passed  | 5 s
+mempool_resurrect.py                                   | ✓ Passed  | 2 s
+mempool_spend_coinbase.py                              | ✓ Passed  | 2 s
+mempool_unbroadcast.py                                 | ✓ Passed  | 11 s
+mempool_updatefromblock.py                             | ✓ Passed  | 58 s
+mining_basic.py                                        | ✓ Passed  | 21 s
+mining_getblocktemplate_longpoll.py                    | ✓ Passed  | 76 s
+mining_prioritisetransaction.py                        | ✓ Passed  | 6 s
+p2p_add_connections.py                                 | ✓ Passed  | 21 s
+p2p_addr_relay.py                                      | ✓ Passed  | 47 s
+p2p_addrfetch.py                                       | ✓ Passed  | 3 s
+p2p_addrv2_relay.py                                    | ✓ Passed  | 4 s
+p2p_block_sync.py --v1transport                        | ✓ Passed  | 4 s
+p2p_block_sync.py --v2transport                        | ✓ Passed  | 4 s
+p2p_blockfilters.py                                    | ✓ Passed  | 178 s
+p2p_blocksonly.py                                      | ✓ Passed  | 10 s
+p2p_compactblocks.py                                   | ✓ Passed  | 33 s
+p2p_compactblocks_blocksonly.py                        | ✓ Passed  | 7 s
+p2p_compactblocks_hb.py --v1transport                  | ✓ Passed  | 32 s
+p2p_compactblocks_hb.py --v2transport                  | ✓ Passed  | 35 s
+p2p_connect_to_devnet.py                               | ✓ Passed  | 4 s
+p2p_disconnect_ban.py --v1transport                    | ✓ Passed  | 6 s
+p2p_disconnect_ban.py --v2transport                    | ✓ Passed  | 7 s
+p2p_dns_seeds.py                                       | ✓ Passed  | 37 s
+p2p_dos_header_tree.py                                 | ✓ Passed  | 10 s
+p2p_dstx.py                                            | ✓ Passed  | 4 s
+p2p_eviction.py                                        | ✓ Passed  | 12 s
+p2p_filter.py                                          | ✓ Passed  | 11 s
+p2p_fingerprint.py                                     | ✓ Passed  | 4 s
+p2p_getaddr_caching.py                                 | ✓ Passed  | 14 s
+p2p_getdata.py                                         | ✓ Passed  | 2 s
+p2p_governance_invs.py                                 | ✓ Passed  | 4 s
+p2p_i2p_ports.py                                       | ✓ Passed  | 4 s
+p2p_i2p_sessions.py                                    | ✓ Passed  | 3 s
+p2p_ibd_stalling.py --v1transport                      | ✓ Passed  | 40 s
+p2p_ibd_stalling.py --v2transport                      | ✓ Passed  | 38 s
+p2p_ibd_txrelay.py                                     | ✓ Passed  | 5 s
+p2p_initial_headers_sync.py                            | ✓ Passed  | 4 s
+p2p_instantsend.py                                     | ✓ Passed  | 96 s
+p2p_invalid_block.py --v1transport                     | ✓ Passed  | 4 s
+p2p_invalid_block.py --v2transport                     | ✓ Passed  | 4 s
+p2p_invalid_locator.py                                 | ✓ Passed  | 4 s
+p2p_invalid_messages.py                                | ✓ Passed  | 18 s
+p2p_invalid_tx.py --v1transport                        | ✓ Passed  | 17 s
+p2p_invalid_tx.py --v2transport                        | ✓ Passed  | 18 s
+p2p_leak.py                                            | ✓ Passed  | 8 s
+p2p_leak_tx.py --v1transport                           | ✓ Passed  | 6 s
+p2p_leak_tx.py --v2transport                           | ✓ Passed  | 5 s
+p2p_message_capture.py                                 | ✓ Passed  | 3 s
+p2p_net_deadlock.py --v1transport                      | ✓ Passed  | 4 s
+p2p_net_deadlock.py --v2transport                      | ✓ Passed  | 5 s
+p2p_nobloomfilter_messages.py                          | ✓ Passed  | 6 s
+p2p_node_network_limited.py --v1transport              | ✓ Passed  | 19 s
+p2p_node_network_limited.py --v2transport              | ✓ Passed  | 16 s
+p2p_permissions.py                                     | ✓ Passed  | 30 s
+p2p_ping.py                                            | ✓ Passed  | 4 s
+p2p_platform_ban.py                                    | ✓ Passed  | 62 s
+p2p_quorum_data.py                                     | ✓ Passed  | 109 s
+p2p_sendheaders.py                                     | ✓ Passed  | 44 s
+p2p_sendheaders_compressed.py                          | ✓ Passed  | 42 s
+p2p_sendtxrcncl.py                                     | ✓ Passed  | 22 s
+p2p_timeouts.py --v1transport                          | ✓ Passed  | 4 s
+p2p_timeouts.py --v2transport                          | ✓ Passed  | 4 s
+p2p_tx_download.py                                     | ✓ Passed  | 72 s
+p2p_unrequested_blocks.py                              | ✓ Passed  | 21 s
+p2p_v2_encrypted.py                                    | ✓ Passed  | 12 s
+p2p_v2_misbehaving.py                                  | ✓ Passed  | 10 s
+p2p_v2_transport.py                                    | ✓ Passed  | 14 s
+rpc_blockchain.py --v1transport                        | ✓ Passed  | 32 s
+rpc_blockchain.py --v2transport                        | ✓ Passed  | 31 s
+rpc_coinjoin.py                                        | ✓ Passed  | 2 s
+rpc_createmultisig.py                                  | ✓ Passed  | 25 s
+rpc_decodescript.py                                    | ✓ Passed  | 3 s
+rpc_deprecated.py                                      | ✓ Passed  | 5 s
+rpc_deriveaddresses.py                                 | ✓ Passed  | 3 s
+rpc_deriveaddresses.py --usecli                        | ✓ Passed  | 2 s
+rpc_dumptxoutset.py                                    | ✓ Passed  | 7 s
+rpc_estimatefee.py                                     | ✓ Passed  | 2 s
+rpc_external_queue.py                                  | ✓ Passed  | 7 s
+rpc_generate.py                                        | ✓ Passed  | 2 s
+rpc_getblockfilter.py                                  | ✓ Passed  | 5 s
+rpc_getblockfrompeer.py                                | ✓ Passed  | 6 s
+rpc_getblockstats.py                                   | ✓ Passed  | 8 s
+rpc_getchaintips.py                                    | ✓ Passed  | 4 s
+rpc_getdescriptorinfo.py                               | ✓ Passed  | 2 s
+rpc_getpeerinfo_deprecation.py                         | ✓ Passed  | 4 s
+rpc_help.py                                            | ✓ Passed  | 6 s
+rpc_invalid_address_message.py                         | ✓ Passed  | 2 s
+rpc_invalidateblock.py                                 | ✓ Passed  | 24 s
+rpc_masternode.py                                      | ✓ Passed  | 24 s
+rpc_mempool_entry_fee_fields_deprecation.py            | ✓ Passed  | 4 s
+rpc_mempool_info.py                                    | ✓ Passed  | 3 s
+rpc_misc.py                                            | ✓ Passed  | 10 s
+rpc_mnauth.py                                          | ✓ Passed  | 20 s
+rpc_named_arguments.py                                 | ✓ Passed  | 2 s
+rpc_net.py --v1transport                               | ✓ Passed  | 44 s
+rpc_net.py --v2transport                               | ✓ Passed  | 45 s
+rpc_netinfo.py                                         | ✓ Passed  | 38 s
+rpc_packages.py                                        | ✓ Passed  | 7 s
+rpc_preciousblock.py                                   | ✓ Passed  | 5 s
+rpc_psbt.py --descriptors                              | ✓ Passed  | 32 s
+rpc_psbt.py --legacy-wallet                            | ✓ Passed  | 32 s
+rpc_quorum.py                                          | ✓ Passed  | 24 s
+rpc_rawtransaction.py --legacy-wallet                  | ✓ Passed  | 18 s
+rpc_scantxoutset.py                                    | ✓ Passed  | 6 s
+rpc_setban.py --v1transport                            | ✓ Passed  | 10 s
+rpc_setban.py --v2transport                            | ✓ Passed  | 10 s
+rpc_signer.py                                          | ✓ Passed  | 3 s
+rpc_signmessagewithprivkey.py                          | ✓ Passed  | 2 s
+rpc_signrawtransactionwithkey.py                       | ✓ Passed  | 2 s
+rpc_txoutproof.py                                      | ✓ Passed  | 8 s
+rpc_uptime.py                                          | ✓ Passed  | 2 s
+rpc_users.py                                           | ✓ Passed  | 12 s
+rpc_verifychainlock.py                                 | ✓ Passed  | 53 s
+rpc_verifyislock.py                                    | ✓ Passed  | 62 s
+rpc_whitelist.py                                       | ✓ Passed  | 1 s
+rpc_wipewallettxes.py                                  | ✓ Passed  | 10 s
+tool_wallet.py --descriptors                           | ✓ Passed  | 13 s
+tool_wallet.py --legacy-wallet                         | ✓ Passed  | 17 s
+wallet_abandonconflict.py --descriptors                | ✓ Passed  | 9 s
+wallet_abandonconflict.py --legacy-wallet              | ✓ Passed  | 16 s
+wallet_avoidreuse.py --descriptors                     | ✓ Passed  | 30 s
+wallet_avoidreuse.py --legacy-wallet                   | ✓ Passed  | 51 s
+wallet_backup.py --descriptors                         | ✓ Passed  | 52 s
+wallet_backup.py --legacy-wallet                       | ✓ Passed  | 94 s
+wallet_balance.py --descriptors                        | ✓ Passed  | 17 s
+wallet_balance.py --legacy-wallet                      | ✓ Passed  | 22 s
+wallet_basic.py --descriptors                          | ✓ Passed  | 67 s
+wallet_basic.py --legacy-wallet                        | ✓ Passed  | 85 s
+wallet_change_address.py --descriptors                 | ✓ Passed  | 5 s
+wallet_change_address.py --legacy-wallet               | ✓ Passed  | 15 s
+wallet_coinbase_category.py --descriptors              | ✓ Passed  | 13 s
+wallet_coinbase_category.py --legacy-wallet            | ✓ Passed  | 14 s
+wallet_conflicts.py --descriptors                      | ✓ Passed  | 9 s
+wallet_conflicts.py --legacy-wallet                    | ✓ Passed  | 10 s
+wallet_create_tx.py --descriptors                      | ✓ Passed  | 13 s
+wallet_create_tx.py --legacy-wallet                    | ✓ Passed  | 54 s
+wallet_createwallet.py --descriptors                   | ✓ Passed  | 6 s
+wallet_createwallet.py --legacy-wallet                 | ✓ Passed  | 8 s
+wallet_createwallet.py --usecli                        | ✓ Passed  | 11 s
+wallet_crosschain.py                                   | ✓ Passed  | 5 s
+wallet_descriptor.py --descriptors                     | ✓ Passed  | 5 s
+wallet_disable.py                                      | ✓ Passed  | 2 s
+wallet_dump.py --legacy-wallet                         | ✓ Passed  | 15 s
+wallet_dust_protection.py --descriptors                | ✓ Passed  | 58 s
+wallet_dust_protection.py --legacy-wallet              | ✓ Passed  | 48 s
+wallet_encryption.py --descriptors                     | ✓ Passed  | 9 s
+wallet_encryption.py --legacy-wallet                   | ✓ Passed  | 9 s
+wallet_fallbackfee.py --descriptors                    | ✓ Passed  | 9 s
+wallet_fallbackfee.py --legacy-wallet                  | ✓ Passed  | 11 s
+wallet_fast_rescan.py --descriptors                    | ✓ Passed  | 7 s
+wallet_fundrawtransaction.py --descriptors             | ✓ Passed  | 39 s
+wallet_fundrawtransaction.py --legacy-wallet           | ✓ Passed  | 55 s
+wallet_fundrawtransaction.py --legacy-wallet --nohd    | ✓ Passed  | 62 s
+wallet_groups.py --descriptors                         | ✓ Passed  | 28 s
+wallet_groups.py --legacy-wallet                       | ✓ Passed  | 31 s
+wallet_hd.py --descriptors                             | ✓ Passed  | 44 s
+wallet_hd.py --legacy-wallet                           | ✓ Passed  | 68 s
+wallet_import_rescan.py --legacy-wallet                | ✓ Passed  | 136 s
+wallet_import_with_label.py --legacy-wallet            | ✓ Passed  | 4 s
+wallet_importdescriptors.py --descriptors              | ✓ Passed  | 11 s
+wallet_importmulti.py --legacy-wallet                  | ✓ Passed  | 20 s
+wallet_importprunedfunds.py --descriptors              | ✓ Passed  | 12 s
+wallet_importprunedfunds.py --legacy-wallet            | ✓ Passed  | 13 s
+wallet_keypool.py --legacy-wallet                      | ✓ Passed  | 4 s
+wallet_keypool_hd.py --descriptors                     | ✓ Passed  | 5 s
+wallet_keypool_hd.py --legacy-wallet                   | ✓ Passed  | 6 s
+wallet_keypool_topup.py --descriptors                  | ✓ Passed  | 13 s
+wallet_keypool_topup.py --legacy-wallet                | ✓ Passed  | 21 s
+wallet_labels.py --descriptors                         | ✓ Passed  | 9 s
+wallet_labels.py --legacy-wallet                       | ✓ Passed  | 22 s
+wallet_listdescriptors.py --descriptors                | ✓ Passed  | 2 s
+wallet_listreceivedby.py --descriptors                 | ✓ Passed  | 14 s
+wallet_listreceivedby.py --legacy-wallet               | ✓ Passed  | 18 s
+wallet_listsinceblock.py --descriptors                 | ✓ Passed  | 20 s
+wallet_listsinceblock.py --legacy-wallet               | ✓ Passed  | 20 s
+wallet_listtransactions.py --descriptors               | ✓ Passed  | 13 s
+wallet_listtransactions.py --legacy-wallet             | ✓ Passed  | 16 s
+wallet_migration.py                                    | ✓ Passed  | 37 s
+wallet_mnemonicbits.py --descriptors                   | ✓ Passed  | 10 s
+wallet_mnemonicbits.py --legacy-wallet                 | ✓ Passed  | 10 s
+wallet_multisig_descriptor_psbt.py --descriptors       | ✓ Passed  | 6 s
+wallet_multiwallet.py --descriptors                    | ✓ Passed  | 35 s
+wallet_multiwallet.py --legacy-wallet                  | ✓ Passed  | 42 s
+wallet_multiwallet.py --usecli                         | ✓ Passed  | 47 s
+wallet_orphanedreward.py                               | ✓ Passed  | 31 s
+wallet_reorgsrestore.py                                | ✓ Passed  | 13 s
+wallet_resendwallettransactions.py --descriptors       | ✓ Passed  | 5 s
+wallet_resendwallettransactions.py --legacy-wallet     | ✓ Passed  | 3 s
+wallet_send.py --descriptors                           | ✓ Passed  | 27 s
+wallet_send.py --legacy-wallet                         | ✓ Passed  | 45 s
+wallet_sendall.py --descriptors                        | ✓ Passed  | 32 s
+wallet_sendall.py --legacy-wallet                      | ✓ Passed  | 126 s
+wallet_signer.py --descriptors                         | ✓ Passed  | 7 s
+wallet_signmessagewithaddress.py                       | ✓ Passed  | 3 s
+wallet_signrawtransactionwithwallet.py --descriptors   | ✓ Passed  | 3 s
+wallet_signrawtransactionwithwallet.py --legacy-wallet | ✓ Passed  | 6 s
+wallet_simulaterawtx.py --descriptors                  | ✓ Passed  | 4 s
+wallet_simulaterawtx.py --legacy-wallet                | ✓ Passed  | 6 s
+wallet_startup.py                                      | ✓ Passed  | 12 s
+wallet_timelock.py                                     | ✓ Passed  | 3 s
+wallet_transactiontime_rescan.py --descriptors         | ✓ Passed  | 14 s
+wallet_transactiontime_rescan.py --legacy-wallet       | ✓ Passed  | 24 s
+wallet_txn_clone.py                                    | ✓ Passed  | 6 s
+wallet_txn_clone.py --mineblock                        | ✓ Passed  | 7 s
+wallet_txn_doublespend.py --descriptors                | ✓ Passed  | 5 s
+wallet_txn_doublespend.py --legacy-wallet              | ✓ Passed  | 5 s
+wallet_txn_doublespend.py --mineblock                  | ✓ Passed  | 6 s
+wallet_upgradetohd.py --descriptors                    | ✓ Passed  | 39 s
+wallet_upgradetohd.py --legacy-wallet                  | ✓ Passed  | 44 s
+wallet_watchonly.py --legacy-wallet                    | ✓ Passed  | 8 s
+wallet_watchonly.py --usecli --legacy-wallet           | ✓ Passed  | 9 s
+feature_bind_extra.py                                  | ○ Skipped | 0 s
+feature_bind_port_discover.py                          | ○ Skipped | 0 s
+feature_bind_port_externalip.py                        | ○ Skipped | 1 s
+feature_unsupported_utxo_db.py                         | ○ Skipped | 0 s
+interface_usdt_coinselection.py                        | ○ Skipped | 0 s
+interface_usdt_net.py                                  | ○ Skipped | 0 s
+interface_usdt_utxocache.py                            | ○ Skipped | 1 s
+interface_usdt_validation.py                           | ○ Skipped | 1 s
+interface_zmq.py                                       | ○ Skipped | 0 s
+interface_zmq_dash.py --legacy-wallet                  | ○ Skipped | 0 s
+mempool_compatibility.py                               | ○ Skipped | 0 s
+rpc_bind.py --ipv4                                     | ○ Skipped | 0 s
+rpc_bind.py --ipv6                                     | ○ Skipped | 1 s
+rpc_bind.py --nonloopback                              | ○ Skipped | 0 s
+wallet_backwards_compatibility.py --descriptors        | ○ Skipped | 0 s
+wallet_backwards_compatibility.py --legacy-wallet      | ○ Skipped | 1 s
+wallet_upgradewallet.py --legacy-wallet                | ○ Skipped | 0 s
+feature_dip4_coinbasemerkleroots.py                    | ✖ Failed  | 149 s
+feature_governance.py --legacy-wallet                  | ✖ Failed  | 174 s
+feature_llmq_simplepose.py                             | ✖ Failed  | 189 s
+feature_timestampindex.py                              | ✖ Failed  | 8 s
+mempool_package_onemore.py                             | ✖ Failed  | 2 s
+mempool_packages.py                                    | ✖ Failed  | 2 s
+
+ALL                                                    | ✖ Failed  | 8850 s (accumulated) 
+Runtime: 2271 s
+
+make: *** [functional_test.info] Error 1

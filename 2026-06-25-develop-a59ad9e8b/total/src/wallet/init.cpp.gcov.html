@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/wallet/init.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/wallet</a> - init.cpp<span style="font-size: 80%;"> (source / <a href="init.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">102</td>
+            <td class="headerCovTableEntry">123</td>
+            <td class="headerCovTableEntryMed">82.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:43</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2009-2010 Satoshi Nakamoto</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Copyright (c) 2009-2021 The Bitcoin Core developers</a>
+<a name="3"><span class="lineNum">       3 </span>            : // Distributed under the MIT software license, see the accompanying</a>
+<a name="4"><span class="lineNum">       4 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="5"><span class="lineNum">       5 </span>            : </a>
+<a name="6"><span class="lineNum">       6 </span>            : #include &lt;chainparams.h&gt;</a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &lt;init.h&gt;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;interfaces/chain.h&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;interfaces/coinjoin.h&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;interfaces/init.h&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;interfaces/wallet.h&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : #include &lt;net.h&gt;</a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;node/context.h&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : #include &lt;node/interface_ui.h&gt;</a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &lt;univalue.h&gt;</a>
+<a name="16"><span class="lineNum">      16 </span>            : #include &lt;util/check.h&gt;</a>
+<a name="17"><span class="lineNum">      17 </span>            : #include &lt;util/error.h&gt;</a>
+<a name="18"><span class="lineNum">      18 </span>            : #include &lt;util/system.h&gt;</a>
+<a name="19"><span class="lineNum">      19 </span>            : #include &lt;util/moneystr.h&gt;</a>
+<a name="20"><span class="lineNum">      20 </span>            : #include &lt;util/translation.h&gt;</a>
+<a name="21"><span class="lineNum">      21 </span>            : #include &lt;validation.h&gt;</a>
+<a name="22"><span class="lineNum">      22 </span>            : #ifdef USE_BDB</a>
+<a name="23"><span class="lineNum">      23 </span>            : #include &lt;wallet/bdb.h&gt;</a>
+<a name="24"><span class="lineNum">      24 </span>            : #endif</a>
+<a name="25"><span class="lineNum">      25 </span>            : #include &lt;wallet/bip39.h&gt;</a>
+<a name="26"><span class="lineNum">      26 </span>            : #include &lt;wallet/coincontrol.h&gt;</a>
+<a name="27"><span class="lineNum">      27 </span>            : #include &lt;wallet/hdchain.h&gt;</a>
+<a name="28"><span class="lineNum">      28 </span>            : #include &lt;wallet/wallet.h&gt;</a>
+<a name="29"><span class="lineNum">      29 </span>            : #include &lt;walletinitinterface.h&gt;</a>
+<a name="30"><span class="lineNum">      30 </span>            : </a>
+<a name="31"><span class="lineNum">      31 </span>            : #include &lt;coinjoin/client.h&gt;</a>
+<a name="32"><span class="lineNum">      32 </span>            : #include &lt;coinjoin/options.h&gt;</a>
+<a name="33"><span class="lineNum">      33 </span>            : </a>
+<a name="34"><span class="lineNum">      34 </span>            : using node::NodeContext;</a>
+<a name="35"><span class="lineNum">      35 </span>            : </a>
+<a name="36"><span class="lineNum">      36 </span>            : namespace wallet {</a>
+<a name="37"><span class="lineNum">      37 </span>            : class WalletInit : public WalletInitInterface</a>
+<a name="38"><span class="lineNum">      38 </span>            : {</a>
+<a name="39"><span class="lineNum">      39 </span>            : public:</a>
+<a name="40"><span class="lineNum">      40 </span>            :     //! Was the wallet component compiled in.</a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">      12439 :     bool HasWalletSupport() const override {return true;}</span></a>
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<a name="43"><span class="lineNum">      43 </span>            :     //! Return the wallets help message.</a>
+<a name="44"><span class="lineNum">      44 </span>            :     void AddWalletOptions(ArgsManager&amp; argsman) const override;</a>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<a name="46"><span class="lineNum">      46 </span>            :     //! Wallets parameter interaction</a>
+<a name="47"><span class="lineNum">      47 </span>            :     bool ParameterInteraction() const override;</a>
+<a name="48"><span class="lineNum">      48 </span>            : </a>
+<a name="49"><span class="lineNum">      49 </span>            :     //! Add wallets that should be opened to list of chain clients.</a>
+<a name="50"><span class="lineNum">      50 </span>            :     void Construct(NodeContext&amp; node) const override;</a>
+<a name="51"><span class="lineNum">      51 </span>            : </a>
+<a name="52"><span class="lineNum">      52 </span>            :     // Dash Specific Wallet Init</a>
+<a name="53"><span class="lineNum">      53 </span>            :     void AutoLockMasternodeCollaterals(interfaces::WalletLoader&amp; wallet_loader) const override;</a>
+<a name="54"><span class="lineNum">      54 </span>            :     void InitCoinJoinSettings(interfaces::CoinJoin::Loader&amp; coinjoin_loader, interfaces::WalletLoader&amp; wallet_loader) const override;</a>
+<a name="55"><span class="lineNum">      55 </span>            :     void InitAutoBackup() const override;</a>
+<a name="56"><span class="lineNum">      56 </span>            : };</a>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       3789 : void WalletInit::AddWalletOptions(ArgsManager&amp; argsman) const</span></a>
+<a name="59"><span class="lineNum">      59 </span>            : {</a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-avoidpartialspends&quot;, strprintf(&quot;Group outputs by address, selecting many (possibly all) or none, instead of selecting on a per-output basis. Privacy is improved as addresses are mostly swept with fewer transactions and outputs are aggregated in clean change addresses. It may result in higher fees due to less optimal coin selection caused by this added limitation and possibly a larger-than-necessary number of inputs being used. Always enabled for wallets with \&quot;avoid_reuse\&quot; enabled, otherwise default: %u.&quot;, DEFAULT_AVOIDPARTIALSPENDS), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-consolidatefeerate=&lt;amt&gt;&quot;, strprintf(&quot;The maximum feerate (in %s/kvB) at which transaction building may use more inputs than strictly necessary so that the wallet's UTXO pool can be reduced (default: %s).&quot;, CURRENCY_UNIT, FormatMoney(DEFAULT_CONSOLIDATE_FEERATE)), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-createwalletbackups=&lt;n&gt;&quot;, strprintf(&quot;Number of automatic wallet backups (default: %u)&quot;, nWalletBackups), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-disablewallet&quot;, &quot;Do not load the wallet and disable wallet RPC calls&quot;, ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="64"><span class="lineNum">      64 </span>            : #if HAVE_SYSTEM</a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-instantsendnotify=&lt;cmd&gt;&quot;, &quot;Execute command when a wallet InstantSend transaction is successfully locked. %s in cmd is replaced by TxID and %w is replaced by wallet name. %w is not currently implemented on Windows. On systems where %w is supported, it should NOT be quoted because this would break shell escaping used to invoke the command.&quot;, ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="66"><span class="lineNum">      66 </span>            : #endif</a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-keypool=&lt;n&gt;&quot;, strprintf(&quot;Set key pool size to &lt;n&gt; (default: %u). Warning: Smaller sizes may increase the risk of losing funds when restoring from an old backup, if none of the addresses in the original keypool have been used.&quot;, DEFAULT_KEYPOOL_SIZE), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-rescan=&lt;mode&gt;&quot;, &quot;Rescan the block chain for missing wallet transactions on startup&quot;</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">       3789 :                                             &quot; (1 = start from wallet creation time, 2 = start from genesis block)&quot;, ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="70"><span class="lineNum">      70 </span>            : #ifdef ENABLE_EXTERNAL_SIGNER</a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-signer=&lt;cmd&gt;&quot;, &quot;External signing tool, see doc/external-signer.md&quot;, ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="72"><span class="lineNum">      72 </span>            : #endif</a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-spendzeroconfchange&quot;, strprintf(&quot;Spend unconfirmed change when sending transactions (default: %u)&quot;, DEFAULT_SPEND_ZEROCONF_CHANGE), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-dustprotectionthreshold=&lt;n&gt;&quot;,</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">       3789 :         strprintf(&quot;Automatically lock UTXOs from incoming external transactions at or below &lt;n&gt; duffs &quot;</span></a>
+<a name="76"><span class="lineNum">      76 </span>            :                   &quot;to protect against dust attacks. Locked UTXOs persist across restarts and are not &quot;</a>
+<a name="77"><span class="lineNum">      77 </span>            :                   &quot;automatically unlocked when threshold changes; use lockunspent RPC to unlock manually &quot;</a>
+<a name="78"><span class="lineNum">      78 </span>            :                   &quot;(0 = disabled, default: %d, max: %d)&quot;, DEFAULT_DUST_PROTECTION_THRESHOLD, MAX_DUST_PROTECTION_THRESHOLD),</a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">       3789 :         ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-wallet=&lt;path&gt;&quot;, &quot;Specify wallet path to load at startup. Can be used multiple times to load multiple wallets. Path is to a directory containing wallet data and log files. If the path is not absolute, it is interpreted relative to &lt;walletdir&gt;. This only loads existing wallets and does not create new ones. For backwards compatibility this also accepts names of existing top-level data files in &lt;walletdir&gt;.&quot;, ArgsManager::ALLOW_ANY | ArgsManager::NETWORK_ONLY, OptionsCategory::WALLET);</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-walletbackupsdir=&lt;dir&gt;&quot;, &quot;Specify full path to directory for automatic wallet backups (must exist)&quot;, ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-walletbroadcast&quot;, strprintf(&quot;Make the wallet broadcast transactions (default: %u)&quot;, DEFAULT_WALLETBROADCAST), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-walletdir=&lt;dir&gt;&quot;, &quot;Specify directory to hold wallets (default: &lt;datadir&gt;/wallets if it exists, otherwise &lt;datadir&gt;)&quot;, ArgsManager::ALLOW_ANY | ArgsManager::NETWORK_ONLY, OptionsCategory::WALLET);</span></a>
+<a name="84"><span class="lineNum">      84 </span>            : #if HAVE_SYSTEM</a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-walletnotify=&lt;cmd&gt;&quot;, &quot;Execute command when a wallet transaction changes. %s in cmd is replaced by TxID, %w is replaced by wallet name, %b is replaced by the hash of the block including the transaction (set to 'unconfirmed' if the transaction is not included) and %h is replaced by the block height (-1 if not included). %w is not currently implemented on windows. On systems where %w is supported, it should NOT be quoted because this would break shell escaping used to invoke the command.&quot;, ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="86"><span class="lineNum">      86 </span>            : #endif</a>
+<a name="87"><span class="lineNum">      87 </span>            : </a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-discardfee=&lt;amt&gt;&quot;, strprintf(&quot;The fee rate (in %s/kB) that indicates your tolerance for discarding change by adding it to the fee (default: %s). &quot;</span></a>
+<a name="89"><span class="lineNum">      89 </span>            :                                                                 &quot;Note: An output is discarded if it is dust at this rate, but we will always discard up to the dust relay fee and a discard fee above that is limited by the fee estimate for the longest target&quot;,</a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">       7578 :                                                               CURRENCY_UNIT, FormatMoney(DEFAULT_DISCARD_FEE)), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_FEE);</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-fallbackfee=&lt;amt&gt;&quot;, strprintf(&quot;A fee rate (in %s/kB) that will be used when fee estimation has insufficient data. 0 to entirely disable the fallbackfee feature. (default: %s)&quot;,</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">       7578 :                                                                CURRENCY_UNIT, FormatMoney(DEFAULT_FALLBACK_FEE)), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_FEE);</span></a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-maxapsfee=&lt;n&gt;&quot;, strprintf(&quot;Spend up to this amount in additional (absolute) fees (in %s) if it allows the use of partial spend avoidance (default: %s)&quot;, CURRENCY_UNIT, FormatMoney(DEFAULT_MAX_AVOIDPARTIALSPEND_FEE)), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET);</span></a>
+<a name="94"><span class="lineNum">      94 </span>            : </a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-maxtxfee=&lt;amt&gt;&quot;, strprintf(&quot;Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)&quot;,</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">       7578 :                                                             CURRENCY_UNIT, FormatMoney(DEFAULT_TRANSACTION_MAXFEE)), ArgsManager::ALLOW_ANY, OptionsCategory::DEBUG_TEST);</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-mintxfee=&lt;amt&gt;&quot;, strprintf(&quot;Fee rates (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)&quot;,</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">       7578 :                                                             CURRENCY_UNIT, FormatMoney(DEFAULT_TRANSACTION_MINFEE)), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_FEE);</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">       7578 :     argsman.AddArg(&quot;-paytxfee=&lt;amt&gt;&quot;, strprintf(&quot;Fee rate (in %s/kB) to add to transactions you send (default: %s)&quot;,</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">       7578 :                                                             CURRENCY_UNIT, FormatMoney(CFeeRate{DEFAULT_PAY_TX_FEE}.GetFeePerK())), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_FEE);</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-txconfirmtarget=&lt;n&gt;&quot;, strprintf(&quot;If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)&quot;, DEFAULT_TX_CONFIRM_TARGET), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_FEE);</span></a>
+<a name="102"><span class="lineNum">     102 </span>            : </a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-hdseed=&lt;hex&gt;&quot;, &quot;User defined seed for HD wallet (should be in hex). Only has effect during wallet creation/first start (default: randomly generated)&quot;, ArgsManager::ALLOW_ANY | ArgsManager::SENSITIVE, OptionsCategory::WALLET_HD);</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-mnemonic=&lt;text&gt;&quot;, &quot;User defined mnemonic for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)&quot;, ArgsManager::ALLOW_ANY | ArgsManager::SENSITIVE, OptionsCategory::WALLET_HD);</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-mnemonicbits=&lt;n&gt;&quot;, strprintf(&quot;User defined mnemonic security for HD wallet in bits (BIP39). Only has effect during wallet creation/first start (allowed values: 128, 160, 192, 224, 256; default: %u)&quot;, CHDChain::DEFAULT_MNEMONIC_BITS), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_HD);</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-mnemonicpassphrase=&lt;text&gt;&quot;, &quot;User defined mnemonic passphrase for HD wallet (BIP39). Only has effect during wallet creation/first start (default: empty string)&quot;, ArgsManager::ALLOW_ANY | ArgsManager::SENSITIVE, OptionsCategory::WALLET_HD);</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-usehd&quot;, strprintf(&quot;Use hierarchical deterministic key generation (HD) after BIP39/BIP44. Only has effect during wallet creation/first start (default: %u)&quot;, DEFAULT_USE_HD_WALLET), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_HD);</span></a>
+<a name="108"><span class="lineNum">     108 </span>            : </a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-enablecoinjoin&quot;, strprintf(&quot;Enable use of CoinJoin for funds stored in this wallet (0-1, default: %u)&quot;, 0), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoinamount=&lt;n&gt;&quot;, strprintf(&quot;Target CoinJoin balance (%u-%u, default: %u)&quot;, MIN_COINJOIN_AMOUNT, MAX_COINJOIN_AMOUNT, DEFAULT_COINJOIN_AMOUNT), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoinautostart&quot;, strprintf(&quot;Start CoinJoin automatically (0-1, default: %u)&quot;, DEFAULT_COINJOIN_AUTOSTART), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoindenomsgoal=&lt;n&gt;&quot;, strprintf(&quot;Try to create at least N inputs of each denominated amount (%u-%u, default: %u)&quot;, MIN_COINJOIN_DENOMS_GOAL, MAX_COINJOIN_DENOMS_GOAL, DEFAULT_COINJOIN_DENOMS_GOAL), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoindenomshardcap=&lt;n&gt;&quot;, strprintf(&quot;Create up to N inputs of each denominated amount (%u-%u, default: %u)&quot;, MIN_COINJOIN_DENOMS_HARDCAP, MAX_COINJOIN_DENOMS_HARDCAP, DEFAULT_COINJOIN_DENOMS_HARDCAP), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoinmultisession&quot;, strprintf(&quot;Enable multiple CoinJoin mixing sessions per block, experimental (0-1, default: %u)&quot;, DEFAULT_COINJOIN_MULTISESSION), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoinrounds=&lt;n&gt;&quot;, strprintf(&quot;Use N separate masternodes for each denominated input to mix funds (%u-%u, default: %u)&quot;, MIN_COINJOIN_ROUNDS, MAX_COINJOIN_ROUNDS, DEFAULT_COINJOIN_ROUNDS), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-coinjoinsessions=&lt;n&gt;&quot;, strprintf(&quot;Use N separate masternodes in parallel to mix funds (%u-%u, default: %u)&quot;, MIN_COINJOIN_SESSIONS, MAX_COINJOIN_SESSIONS, DEFAULT_COINJOIN_SESSIONS), ArgsManager::ALLOW_ANY, OptionsCategory::WALLET_COINJOIN);</span></a>
+<a name="117"><span class="lineNum">     117 </span>            : </a>
+<a name="118"><span class="lineNum">     118 </span>            : #ifdef USE_BDB</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-dblogsize=&lt;n&gt;&quot;, strprintf(&quot;Flush wallet database activity from memory to disk log every &lt;n&gt; megabytes (default: %u)&quot;, DatabaseOptions().max_log_mb), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::WALLET_DEBUG_TEST);</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-flushwallet&quot;, strprintf(&quot;Run a thread to flush wallet periodically (default: %u)&quot;, DEFAULT_FLUSHWALLET), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::WALLET_DEBUG_TEST);</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-privdb&quot;, strprintf(&quot;Sets the DB_PRIVATE flag in the wallet db environment (default: %u)&quot;, !DatabaseOptions().use_shared_memory), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::WALLET_DEBUG_TEST);</span></a>
+<a name="122"><span class="lineNum">     122 </span>            : #else</a>
+<a name="123"><span class="lineNum">     123 </span>            :     argsman.AddHiddenArgs({&quot;-dblogsize&quot;, &quot;-flushwallet&quot;, &quot;-privdb&quot;});</a>
+<a name="124"><span class="lineNum">     124 </span>            : #endif</a>
+<a name="125"><span class="lineNum">     125 </span>            : </a>
+<a name="126"><span class="lineNum">     126 </span>            : #ifdef USE_SQLITE</a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-unsafesqlitesync&quot;, &quot;Set SQLite synchronous=OFF to disable waiting for the database to sync to disk. This is unsafe and can cause data loss and corruption. This option is only used by tests to improve their performance (default: false)&quot;, ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::WALLET_DEBUG_TEST);</span></a>
+<a name="128"><span class="lineNum">     128 </span>            : #else</a>
+<a name="129"><span class="lineNum">     129 </span>            :     argsman.AddHiddenArgs({&quot;-unsafesqlitesync&quot;});</a>
+<a name="130"><span class="lineNum">     130 </span>            : #endif</a>
+<a name="131"><span class="lineNum">     131 </span>            : </a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-walletrejectlongchains&quot;, strprintf(&quot;Wallet will not create transactions that violate mempool chain limits (default: %u)&quot;, DEFAULT_WALLET_REJECT_LONG_CHAINS), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::WALLET_DEBUG_TEST);</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">       3789 :     argsman.AddArg(&quot;-walletcrosschain&quot;, strprintf(&quot;Allow reusing wallet files across chains (default: %u)&quot;, DEFAULT_WALLETCROSSCHAIN), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::WALLET_DEBUG_TEST);</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">       3789 : }</span></a>
+<a name="135"><span class="lineNum">     135 </span>            : </a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineCov">       3709 : bool WalletInit::ParameterInteraction() const</span></a>
+<a name="137"><span class="lineNum">     137 </span>            : {</a>
+<a name="138"><span class="lineNum">     138 </span>            : #ifdef USE_BDB</a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">       3709 :      if (!BerkeleyDatabaseSanityCheck()) {</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineNoCov">          0 :          return InitError(Untranslated(&quot;A version conflict was detected between the run-time BerkeleyDB library and the one used during compilation.&quot;));</span></a>
+<a name="141"><span class="lineNum">     141 </span>            :      }</a>
+<a name="142"><span class="lineNum">     142 </span>            : #endif</a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       3709 :     if (gArgs.GetBoolArg(&quot;-disablewallet&quot;, DEFAULT_DISABLE_WALLET)) {</span></a>
+<a name="144"><span class="lineNum">     144 </span><span class="lineCov">       1602 :         for (const std::string&amp; wallet : gArgs.GetArgs(&quot;-wallet&quot;)) {</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">          4 :             LogPrintf(&quot;%s: parameter interaction: -disablewallet -&gt; ignoring -wallet=%s\n&quot;, __func__, wallet);</span></a>
+<a name="146"><span class="lineNum">     146 </span>            :         }</a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">       1598 :         return true;</span></a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">       2111 :     } else if (gArgs.IsArgSet(&quot;-masternodeblsprivkey&quot;)) {</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineNoCov">          0 :         return InitError(_(&quot;You can not start a masternode with wallet enabled.&quot;));</span></a>
+<a name="151"><span class="lineNum">     151 </span>            :     }</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">       2111 :     if (gArgs.GetBoolArg(&quot;-blocksonly&quot;, DEFAULT_BLOCKSONLY) &amp;&amp; gArgs.SoftSetBoolArg(&quot;-walletbroadcast&quot;, false)) {</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineNoCov">          0 :         LogPrintf(&quot;%s: parameter interaction: -blocksonly=1 -&gt; setting -walletbroadcast=0\n&quot;, __func__);</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="156"><span class="lineNum">     156 </span>            : </a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">       2111 :     int rescan_mode = gArgs.GetIntArg(&quot;-rescan&quot;, 0);</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">       2111 :     if (rescan_mode &lt; 0 || rescan_mode &gt; 2) {</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineNoCov">          0 :         LogPrintf(&quot;%s: Warning: incorrect -rescan mode, falling back to default value.\n&quot;, __func__);</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :         InitWarning(_(&quot;Incorrect -rescan mode, falling back to default value&quot;));</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineNoCov">          0 :         gArgs.ForceRemoveArg(&quot;rescan&quot;);</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="163"><span class="lineNum">     163 </span>            : </a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">       2111 :     if (gArgs.IsArgSet(&quot;-walletbackupsdir&quot;)) {</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :         if (!fs::is_directory(gArgs.GetArg(&quot;-walletbackupsdir&quot;, &quot;&quot;))) {</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :             InitWarning(strprintf(_(&quot;Warning: incorrect parameter %s, path must exist! Using default path.&quot;), &quot;-walletbackupsdir&quot;));</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :             gArgs.ForceRemoveArg(&quot;walletbackupsdir&quot;);</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="170"><span class="lineNum">     170 </span>            : </a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">       2111 :     if (gArgs.IsArgSet(&quot;-hdseed&quot;) &amp;&amp; IsHex(gArgs.GetArg(&quot;-hdseed&quot;, &quot;not hex&quot;)) &amp;&amp; (gArgs.IsArgSet(&quot;-mnemonic&quot;) || gArgs.IsArgSet(&quot;-mnemonicpassphrase&quot;))) {</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :         InitWarning(strprintf(_(&quot;Warning: can't use %s and %s together, will prefer %s&quot;), &quot;-hdseed&quot;, &quot;-mnemonic/-mnemonicpassphrase&quot;, &quot;-hdseed&quot;));</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :         gArgs.ForceRemoveArg(&quot;mnemonic&quot;);</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineNoCov">          0 :         gArgs.ForceRemoveArg(&quot;mnemonicpassphrase&quot;);</span></a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="176"><span class="lineNum">     176 </span>            : </a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">       2111 :     if (gArgs.GetIntArg(&quot;-coinjoindenomshardcap&quot;, DEFAULT_COINJOIN_DENOMS_HARDCAP) &lt; gArgs.GetIntArg(&quot;-coinjoindenomsgoal&quot;, DEFAULT_COINJOIN_DENOMS_GOAL)) {</span></a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :         return InitError(strprintf(_(&quot;%s can't be lower than %s&quot;), &quot;-coinjoindenomshardcap&quot;, &quot;-coinjoindenomsgoal&quot;));</span></a>
+<a name="179"><span class="lineNum">     179 </span>            :     }</a>
+<a name="180"><span class="lineNum">     180 </span>            : </a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">       2111 :     if (CMnemonic::Generate(gArgs.GetIntArg(&quot;-mnemonicbits&quot;, CHDChain::DEFAULT_MNEMONIC_BITS)) == SecureString()) {</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">          4 :         return InitError(strprintf(_(&quot;Invalid '%s'. Allowed values: 128, 160, 192, 224, 256.&quot;), &quot;-mnemonicbits&quot;));</span></a>
+<a name="183"><span class="lineNum">     183 </span>            :     }</a>
+<a name="184"><span class="lineNum">     184 </span>            : </a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">       2107 :     return true;</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">       3709 : }</span></a>
+<a name="187"><span class="lineNum">     187 </span>            : </a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">       3023 : void WalletInit::Construct(NodeContext&amp; node) const</span></a>
+<a name="189"><span class="lineNum">     189 </span>            : {</a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">       3023 :     ArgsManager&amp; args = *Assert(node.args);</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">       3023 :     if (args.GetBoolArg(&quot;-disablewallet&quot;, DEFAULT_DISABLE_WALLET)) {</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">       1587 :         LogPrintf(&quot;Wallet disabled!\n&quot;);</span></a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineCov">       1587 :         return;</span></a>
+<a name="194"><span class="lineNum">     194 </span>            :     }</a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">       1436 :     node.coinjoin_loader = node.init-&gt;makeCoinJoinLoader();</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">       1436 :     auto wallet_loader = node.init-&gt;makeWalletLoader(*node.chain, *node.coinjoin_loader);</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">       1436 :     node.wallet_loader = wallet_loader.get();</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">       1436 :     node.chain_clients.emplace_back(std::move(wallet_loader));</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       3023 : }</span></a>
+<a name="200"><span class="lineNum">     200 </span>            : </a>
+<a name="201"><span class="lineNum">     201 </span>            : </a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">       1328 : void WalletInit::AutoLockMasternodeCollaterals(interfaces::WalletLoader&amp; wallet_loader) const</span></a>
+<a name="203"><span class="lineNum">     203 </span>            : {</a>
+<a name="204"><span class="lineNum">     204 </span>            :     // we can't do this before DIP3 is fully initialized</a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineCov">       1872 :     for (const auto&amp; wallet : wallet_loader.getWallets()) {</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">        544 :         wallet-&gt;autoLockMasternodeCollaterals();</span></a>
+<a name="207"><span class="lineNum">     207 </span>            :     }</a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">       1328 : }</span></a>
+<a name="209"><span class="lineNum">     209 </span>            : </a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">       6563 : void WalletInit::InitCoinJoinSettings(interfaces::CoinJoin::Loader&amp; coinjoin_loader, interfaces::WalletLoader&amp; wallet_loader) const</span></a>
+<a name="211"><span class="lineNum">     211 </span>            : {</a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">       6563 :     const auto&amp; wallets{wallet_loader.getWallets()};</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">       6563 :     CCoinJoinClientOptions::SetEnabled(!wallets.empty() ? gArgs.GetBoolArg(&quot;-enablecoinjoin&quot;, true) : false);</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">       6563 :     if (!CCoinJoinClientOptions::IsEnabled()) {</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">       2534 :         return;</span></a>
+<a name="216"><span class="lineNum">     216 </span>            :     }</a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">       4029 :     bool fAutoStart = gArgs.GetBoolArg(&quot;-coinjoinautostart&quot;, DEFAULT_COINJOIN_AUTOSTART);</span></a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">      16654 :     for (auto&amp; wallet : wallets) {</span></a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">      12625 :         auto manager = Assert(coinjoin_loader.GetClient(wallet-&gt;getWalletName()));</span></a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">      12625 :         if (wallet-&gt;isLocked(/*fForMixing=*/false)) {</span></a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">        692 :             manager-&gt;stopMixing();</span></a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">        692 :             LogPrintf(&quot;CoinJoin: Mixing stopped for locked wallet \&quot;%s\&quot;\n&quot;, wallet-&gt;getWalletName());</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">      12625 :         } else if (fAutoStart) {</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineNoCov">          0 :             manager-&gt;startMixing();</span></a>
+<a name="225"><span class="lineNum">     225 </span><span class="lineNoCov">          0 :             LogPrintf(&quot;CoinJoin: Automatic mixing started for wallet \&quot;%s\&quot;\n&quot;, wallet-&gt;getWalletName());</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">      12625 :     }</span></a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">       4029 :     LogPrintf(&quot;CoinJoin: autostart=%d, multisession=%d,&quot; /* Continued */</span></a>
+<a name="229"><span class="lineNum">     229 </span>            :               &quot;sessions=%d, rounds=%d, amount=%d, denoms_goal=%d, denoms_hardcap=%d\n&quot;,</a>
+<a name="230"><span class="lineNum">     230 </span>            :               fAutoStart, CCoinJoinClientOptions::IsMultiSessionEnabled(),</a>
+<a name="231"><span class="lineNum">     231 </span>            :               CCoinJoinClientOptions::GetSessions(), CCoinJoinClientOptions::GetRounds(),</a>
+<a name="232"><span class="lineNum">     232 </span>            :               CCoinJoinClientOptions::GetAmount(), CCoinJoinClientOptions::GetDenomsGoal(),</a>
+<a name="233"><span class="lineNum">     233 </span>            :               CCoinJoinClientOptions::GetDenomsHardCap());</a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">       6563 : }</span></a>
+<a name="235"><span class="lineNum">     235 </span>            : </a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">       3011 : void WalletInit::InitAutoBackup() const</span></a>
+<a name="237"><span class="lineNum">     237 </span>            : {</a>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">       3011 :     CWallet::InitAutoBackup();</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">       3011 : }</span></a>
+<a name="240"><span class="lineNum">     240 </span>            : } // namespace wallet</a>
+<a name="241"><span class="lineNum">     241 </span>            : </a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">       3308 : const WalletInitInterface&amp; g_wallet_init_interface = wallet::WalletInit();</span></a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

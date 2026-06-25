@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/test/evo_simplifiedmns_tests.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/test</a> - evo_simplifiedmns_tests.cpp<span style="font-size: 80%;"> (source / <a href="evo_simplifiedmns_tests.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:43</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2018-2025 The Dash Core developers</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Distributed under the MIT software license, see the accompanying</a>
+<a name="3"><span class="lineNum">       3 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #include &lt;test/util/setup_common.h&gt;</a>
+<a name="6"><span class="lineNum">       6 </span>            : </a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &lt;bls/bls.h&gt;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;evo/simplifiedmns.h&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;netbase.h&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : </a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;boost/test/unit_test.hpp&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">        146 : BOOST_FIXTURE_TEST_SUITE(evo_simplifiedmns_tests, RegTestingSetup)</span></a>
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">        149 : BOOST_AUTO_TEST_CASE(simplifiedmns_merkleroots)</span></a>
+<a name="16"><span class="lineNum">      16 </span>            : {</a>
+<a name="17"><span class="lineNum">      17 </span>            :     //TODO: Provide raw data for basic scheme as well</a>
+<a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 :     bls::bls_legacy_scheme.store(true);</span></a>
+<a name="19"><span class="lineNum">      19 </span><span class="lineCov">          1 :     std::vector&lt;std::unique_ptr&lt;CSimplifiedMNListEntry&gt;&gt; entries;</span></a>
+<a name="20"><span class="lineNum">      20 </span><span class="lineCov">         16 :     for (size_t i = 1; i &lt; 16; i++) {</span></a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">         15 :         CSimplifiedMNListEntry smle;</span></a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">         15 :         smle.nVersion = ProTxVersion::GetMax(!bls::bls_legacy_scheme, /*is_extended_addr=*/false);</span></a>
+<a name="23"><span class="lineNum">      23 </span><span class="lineCov">         15 :         smle.netInfo = NetInfoInterface::MakeNetInfo(smle.nVersion);</span></a>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">         15 :         smle.proRegTxHash.SetHex(strprintf(&quot;%064x&quot;, i));</span></a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">         15 :         smle.confirmedHash.SetHex(strprintf(&quot;%064x&quot;, i));</span></a>
+<a name="26"><span class="lineNum">      26 </span>            : </a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">         15 :         BOOST_CHECK_EQUAL(smle.netInfo-&gt;AddEntry(NetInfoPurpose::CORE_P2P, strprintf(&quot;%d.%d.%d.%d:%d&quot;, 0, 0, 0, i, i)),</span></a>
+<a name="28"><span class="lineNum">      28 </span>            :                           NetInfoStatus::Success);</a>
+<a name="29"><span class="lineNum">      29 </span>            : </a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">         15 :         std::vector&lt;unsigned char&gt; vecBytes{static_cast&lt;unsigned char&gt;(i)};</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">         15 :         vecBytes.resize(CBLSSecretKey::SerSize);</span></a>
+<a name="32"><span class="lineNum">      32 </span>            : </a>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">         15 :         smle.pubKeyOperator.Set(CBLSSecretKey(vecBytes).GetPublicKey(), bls::bls_legacy_scheme.load());</span></a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">         15 :         smle.keyIDVoting.SetHex(strprintf(&quot;%040x&quot;, i));</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">         15 :         smle.isValid = true;</span></a>
+<a name="36"><span class="lineNum">      36 </span>            : </a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">         15 :         entries.emplace_back(std::make_unique&lt;CSimplifiedMNListEntry&gt;(smle));</span></a>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">         15 :     }</span></a>
+<a name="39"><span class="lineNum">      39 </span>            : </a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          1 :     std::vector&lt;std::string&gt; expectedHashes = {</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">          1 :         &quot;3a1010e28226558560e5296bcee6bf0b9b963b73a1514f5aa2885e270f6b90c1&quot;,</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          1 :         &quot;85d3d93b28689128daf3a41d706ae5002f447b9b6372776f0ca9d53b31146884&quot;,</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">          1 :         &quot;8930eee6bd2e7971a7090edfb79f74c00a12280e59adfc2cc99d406a01e368f9&quot;,</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          1 :         &quot;dc2e69caa0ef97e8f5cf40a9530641bd4933dd8c9ad533054537728f7e5f58c2&quot;,</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          1 :         &quot;3e4a0e0a0d2ed397fa27221de3047de21f50d17d0ba43738cbdb9fee96c7cb46&quot;,</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">          1 :         &quot;eb18476a1496e1cb912b1d4dd93314b78c6a679d83cae8e144a717b967dc4b8c&quot;,</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">          1 :         &quot;6c0d01fa40ac11d7b523facd2bf5632c83f7e4df3f60fd1b364ea90f6c852156&quot;,</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">          1 :         &quot;c9e3e69d54e6e95b280ae102593fe114cf4620fa89dd88da1a146ada08815d68&quot;,</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          1 :         &quot;1023f67f735e8e9403d5f083e7a17489619b1790feac4f6b133e9dda15999ae6&quot;,</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          1 :         &quot;5d5fc77944f7c72df236a5baf460c7b9a947144d54d0953521f1494c8a2f7aaa&quot;,</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          1 :         &quot;ac7db66820de3c7506f8c6415fd352e36ac5f27c6adbdfb74de3e109d0d277df&quot;,</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :         &quot;cbc25ca965d0fa69a1fdc1d796b8ee2726a0e2137414e92fb9541630e3189901&quot;,</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 :         &quot;ac9934c4049ae952d41fb38e7e9659a558a5ce748bdb7fb613741598d1b16a27&quot;,</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          1 :         &quot;a61177eb14450bb8c56e5f0547035e0f3a70fe46f36901351cc568b2e48e29d0&quot;,</span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          1 :         &quot;67798d40a2196f446114c68d86445fe088750515a96eb65392c6bcfac8f3be9b&quot;</span></a>
+<a name="56"><span class="lineNum">      56 </span>            :     };</a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">          1 :     std::vector&lt;std::string&gt; calculatedHashes;</span></a>
+<a name="58"><span class="lineNum">      58 </span>            : </a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">         16 :     for (auto&amp; smle : entries) {</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">         15 :         calculatedHashes.emplace_back(smle-&gt;CalcHash().ToString());</span></a>
+<a name="61"><span class="lineNum">      61 </span>            :         //printf(&quot;\&quot;%s\&quot;,\n&quot;, calculatedHashes.back().c_str());</a>
+<a name="62"><span class="lineNum">      62 </span>            :     }</a>
+<a name="63"><span class="lineNum">      63 </span>            : </a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">          1 :     BOOST_CHECK(expectedHashes == calculatedHashes);</span></a>
+<a name="65"><span class="lineNum">      65 </span>            : </a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">          1 :     CSimplifiedMNList sml{std::move(entries)};</span></a>
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">          1 :     std::string expectedMerkleRoot = &quot;0bae2176078cf42fa3e1fda761d4255d1c1c54777c6a793d0ab2b07c85ed4022&quot;;</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :     std::string calculatedMerkleRoot = sml.CalcMerkleRoot(nullptr).ToString();</span></a>
+<a name="70"><span class="lineNum">      70 </span>            :     //printf(&quot;merkleRoot=\&quot;%s\&quot;,\n&quot;, calculatedMerkleRoot.c_str());</a>
+<a name="71"><span class="lineNum">      71 </span>            : </a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :     BOOST_CHECK(expectedMerkleRoot == calculatedMerkleRoot);</span></a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          1 : }</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">        146 : BOOST_AUTO_TEST_SUITE_END()</span></a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

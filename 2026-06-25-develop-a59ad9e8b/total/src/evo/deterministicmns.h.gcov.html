@@ -1,0 +1,851 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/evo/deterministicmns.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/evo</a> - deterministicmns.h<span style="font-size: 80%;"> (source / <a href="deterministicmns.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">256</td>
+            <td class="headerCovTableEntry">279</td>
+            <td class="headerCovTableEntryHi">91.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:43</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">105</td>
+            <td class="headerCovTableEntry">110</td>
+            <td class="headerCovTableEntryHi">95.5 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2018-2025 The Dash Core developers</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Distributed under the MIT software license, see the accompanying</a>
+<a name="3"><span class="lineNum">       3 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #ifndef BITCOIN_EVO_DETERMINISTICMNS_H</a>
+<a name="6"><span class="lineNum">       6 </span>            : #define BITCOIN_EVO_DETERMINISTICMNS_H</a>
+<a name="7"><span class="lineNum">       7 </span>            : </a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;evo/dmn_types.h&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;evo/dmnstate.h&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;evo/providertx.h&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;evo/types.h&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;arith_uint256.h&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : #include &lt;clientversion.h&gt;</a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &lt;consensus/params.h&gt;</a>
+<a name="16"><span class="lineNum">      16 </span>            : #include &lt;crypto/common.h&gt;</a>
+<a name="17"><span class="lineNum">      17 </span>            : #include &lt;saltedhasher.h&gt;</a>
+<a name="18"><span class="lineNum">      18 </span>            : #include &lt;scheduler.h&gt;</a>
+<a name="19"><span class="lineNum">      19 </span>            : #include &lt;sync.h&gt;</a>
+<a name="20"><span class="lineNum">      20 </span>            : </a>
+<a name="21"><span class="lineNum">      21 </span>            : #include &lt;gsl/pointers.h&gt;</a>
+<a name="22"><span class="lineNum">      22 </span>            : #include &lt;immer/map.hpp&gt;</a>
+<a name="23"><span class="lineNum">      23 </span>            : </a>
+<a name="24"><span class="lineNum">      24 </span>            : #include &lt;atomic&gt;</a>
+<a name="25"><span class="lineNum">      25 </span>            : #include &lt;limits&gt;</a>
+<a name="26"><span class="lineNum">      26 </span>            : #include &lt;numeric&gt;</a>
+<a name="27"><span class="lineNum">      27 </span>            : #include &lt;unordered_map&gt;</a>
+<a name="28"><span class="lineNum">      28 </span>            : #include &lt;utility&gt;</a>
+<a name="29"><span class="lineNum">      29 </span>            : </a>
+<a name="30"><span class="lineNum">      30 </span>            : class CBlock;</a>
+<a name="31"><span class="lineNum">      31 </span>            : class CBlockIndex;</a>
+<a name="32"><span class="lineNum">      32 </span>            : class CCoinsViewCache;</a>
+<a name="33"><span class="lineNum">      33 </span>            : class ChainstateManager;</a>
+<a name="34"><span class="lineNum">      34 </span>            : class CEvoDB;</a>
+<a name="35"><span class="lineNum">      35 </span>            : class CSimplifiedMNList;</a>
+<a name="36"><span class="lineNum">      36 </span>            : class CSimplifiedMNListEntry;</a>
+<a name="37"><span class="lineNum">      37 </span>            : class CMasternodeMetaMan;</a>
+<a name="38"><span class="lineNum">      38 </span>            : class CSpecialTxProcessor;</a>
+<a name="39"><span class="lineNum">      39 </span>            : struct RPCResult;</a>
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<a name="41"><span class="lineNum">      41 </span>            : extern RecursiveMutex cs_main; // NOLINT(readability-redundant-declaration)</a>
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<a name="43"><span class="lineNum">      43 </span>            : class CDeterministicMN</a>
+<a name="44"><span class="lineNum">      44 </span>            : {</a>
+<a name="45"><span class="lineNum">      45 </span>            : private:</a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">       9765 :     uint64_t internalId{std::numeric_limits&lt;uint64_t&gt;::max()};</span></a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<a name="48"><span class="lineNum">      48 </span>            : public:</a>
+<a name="49"><span class="lineNum">      49 </span>            :     static constexpr uint16_t MN_VERSION_FORMAT = 2;</a>
+<a name="50"><span class="lineNum">      50 </span>            :     static constexpr uint16_t MN_CURRENT_FORMAT = MN_VERSION_FORMAT;</a>
+<a name="51"><span class="lineNum">      51 </span>            : </a>
+<a name="52"><span class="lineNum">      52 </span>            :     uint256 proTxHash;</a>
+<a name="53"><span class="lineNum">      53 </span>            :     COutPoint collateralOutpoint;</a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">      12556 :     uint16_t nOperatorReward{0};</span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">       9765 :     MnType nType{MnType::Regular};</span></a>
+<a name="56"><span class="lineNum">      56 </span>            :     std::shared_ptr&lt;const CDeterministicMNState&gt; pdmnState;</a>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<a name="58"><span class="lineNum">      58 </span>            :     CDeterministicMN() = delete; // no default constructor, must specify internalId</a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">      11164 :     explicit CDeterministicMN(uint64_t _internalId, MnType mnType = MnType::Regular) :</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">       2791 :         internalId(_internalId),</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       2791 :         nType(mnType)</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">       2791 :     {</span></a>
+<a name="63"><span class="lineNum">      63 </span>            :         // only non-initial values</a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">       2791 :         assert(_internalId != std::numeric_limits&lt;uint64_t&gt;::max());</span></a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">       5582 :     }</span></a>
+<a name="66"><span class="lineNum">      66 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">      39060 :     CDeterministicMN(deserialize_type, Stream&amp; s) { s &gt;&gt; *this; }</span></a>
+<a name="68"><span class="lineNum">      68 </span>            : </a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">      61365 :     SERIALIZE_METHODS(CDeterministicMN, obj)</span></a>
+<a name="70"><span class="lineNum">      70 </span>            :     {</a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">      20455 :         READWRITE(obj.proTxHash);</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">      20455 :         READWRITE(VARINT(obj.internalId));</span></a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">      20455 :         READWRITE(obj.collateralOutpoint);</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">      20455 :         READWRITE(obj.nOperatorReward);</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">      20455 :         READWRITE(obj.pdmnState);</span></a>
+<a name="76"><span class="lineNum">      76 </span>            :         // We can't know if we are serialising for the Disk or for the Network here (s.GetType() is not accessible)</a>
+<a name="77"><span class="lineNum">      77 </span>            :         // Therefore if s.GetVersion() == CLIENT_VERSION -&gt; Then we know we are serialising for the Disk</a>
+<a name="78"><span class="lineNum">      78 </span>            :         // Otherwise, we can safely check with protocol versioning logic so we won't break old clients</a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">      20455 :         if (s.GetVersion() == CLIENT_VERSION || s.GetVersion() &gt;= DMN_TYPE_PROTO_VERSION) {</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">      20455 :             READWRITE(obj.nType);</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">      20455 :         } else {</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineNoCov">          0 :             SER_READ(obj, obj.nType = MnType::Regular);</span></a>
+<a name="83"><span class="lineNum">      83 </span>            :         }</a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">      20455 :     }</span></a>
+<a name="85"><span class="lineNum">      85 </span>            : </a>
+<a name="86"><span class="lineNum">      86 </span>            :     [[nodiscard]] uint64_t GetInternalId() const;</a>
+<a name="87"><span class="lineNum">      87 </span>            : </a>
+<a name="88"><span class="lineNum">      88 </span>            :     [[nodiscard]] CSimplifiedMNListEntry to_sml_entry() const;</a>
+<a name="89"><span class="lineNum">      89 </span>            :     [[nodiscard]] std::string ToString() const;</a>
+<a name="90"><span class="lineNum">      90 </span>            : </a>
+<a name="91"><span class="lineNum">      91 </span>            :     [[nodiscard]] static RPCResult GetJsonHelp(const std::string&amp; key, bool optional);</a>
+<a name="92"><span class="lineNum">      92 </span>            :     [[nodiscard]] UniValue ToJson() const;</a>
+<a name="93"><span class="lineNum">      93 </span>            : };</a>
+<a name="94"><span class="lineNum">      94 </span>            : </a>
+<a name="95"><span class="lineNum">      95 </span>            : class CDeterministicMNListDiff;</a>
+<a name="96"><span class="lineNum">      96 </span>            : </a>
+<a name="97"><span class="lineNum">      97 </span>            : template &lt;typename Stream, typename K, typename T, typename Hash, typename Equal&gt;</a>
+<a name="98"><span class="lineNum">      98 </span>            : void SerializeImmerMap(Stream&amp; os, const immer::map&lt;K, T, Hash, Equal&gt;&amp; m)</a>
+<a name="99"><span class="lineNum">      99 </span>            : {</a>
+<a name="100"><span class="lineNum">     100 </span>            :     WriteCompactSize(os, m.size());</a>
+<a name="101"><span class="lineNum">     101 </span>            :     for (typename immer::map&lt;K, T, Hash, Equal&gt;::const_iterator mi = m.begin(); mi != m.end(); ++mi)</a>
+<a name="102"><span class="lineNum">     102 </span>            :         Serialize(os, (*mi));</a>
+<a name="103"><span class="lineNum">     103 </span>            : }</a>
+<a name="104"><span class="lineNum">     104 </span>            : </a>
+<a name="105"><span class="lineNum">     105 </span>            : template &lt;typename Stream, typename K, typename T, typename Hash, typename Equal&gt;</a>
+<a name="106"><span class="lineNum">     106 </span>            : void UnserializeImmerMap(Stream&amp; is, immer::map&lt;K, T, Hash, Equal&gt;&amp; m)</a>
+<a name="107"><span class="lineNum">     107 </span>            : {</a>
+<a name="108"><span class="lineNum">     108 </span>            :     m = immer::map&lt;K, T, Hash, Equal&gt;();</a>
+<a name="109"><span class="lineNum">     109 </span>            :     unsigned int nSize = ReadCompactSize(is);</a>
+<a name="110"><span class="lineNum">     110 </span>            :     for (unsigned int i = 0; i &lt; nSize; i++) {</a>
+<a name="111"><span class="lineNum">     111 </span>            :         std::pair&lt;K, T&gt; item;</a>
+<a name="112"><span class="lineNum">     112 </span>            :         Unserialize(is, item);</a>
+<a name="113"><span class="lineNum">     113 </span>            :         m = m.set(item.first, item.second);</a>
+<a name="114"><span class="lineNum">     114 </span>            :     }</a>
+<a name="115"><span class="lineNum">     115 </span>            : }</a>
+<a name="116"><span class="lineNum">     116 </span>            : </a>
+<a name="117"><span class="lineNum">     117 </span>            : // For some reason the compiler is not able to choose the correct Serialize/Deserialize methods without a specialized</a>
+<a name="118"><span class="lineNum">     118 </span>            : // version of SerReadWrite. It otherwise always chooses the version that calls a.Serialize()</a>
+<a name="119"><span class="lineNum">     119 </span>            : template&lt;typename Stream, typename K, typename T, typename Hash, typename Equal&gt;</a>
+<a name="120"><span class="lineNum">     120 </span>            : inline void SerReadWrite(Stream&amp; s, const immer::map&lt;K, T, Hash, Equal&gt;&amp; m, CSerActionSerialize ser_action)</a>
+<a name="121"><span class="lineNum">     121 </span>            : {</a>
+<a name="122"><span class="lineNum">     122 </span>            :     ::SerializeImmerMap(s, m);</a>
+<a name="123"><span class="lineNum">     123 </span>            : }</a>
+<a name="124"><span class="lineNum">     124 </span>            : </a>
+<a name="125"><span class="lineNum">     125 </span>            : template&lt;typename Stream, typename K, typename T, typename Hash, typename Equal&gt;</a>
+<a name="126"><span class="lineNum">     126 </span>            : inline void SerReadWrite(Stream&amp; s, immer::map&lt;K, T, Hash, Equal&gt;&amp; obj, CSerActionUnserialize ser_action)</a>
+<a name="127"><span class="lineNum">     127 </span>            : {</a>
+<a name="128"><span class="lineNum">     128 </span>            :     ::UnserializeImmerMap(s, obj);</a>
+<a name="129"><span class="lineNum">     129 </span>            : }</a>
+<a name="130"><span class="lineNum">     130 </span>            : </a>
+<a name="131"><span class="lineNum">     131 </span>            : </a>
+<a name="132"><span class="lineNum">     132 </span>            : class CDeterministicMNList</a>
+<a name="133"><span class="lineNum">     133 </span>            : {</a>
+<a name="134"><span class="lineNum">     134 </span>            : private:</a>
+<a name="135"><span class="lineNum">     135 </span>            :     struct ImmerHasher</a>
+<a name="136"><span class="lineNum">     136 </span>            :     {</a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">    5199196 :         size_t operator()(const uint256&amp; hash) const { return ReadLE64(hash.begin()); }</span></a>
+<a name="138"><span class="lineNum">     138 </span>            :     };</a>
+<a name="139"><span class="lineNum">     139 </span>            : </a>
+<a name="140"><span class="lineNum">     140 </span>            : public:</a>
+<a name="141"><span class="lineNum">     141 </span>            :     using MnMap = immer::map&lt;uint256, CDeterministicMNCPtr, ImmerHasher&gt;;</a>
+<a name="142"><span class="lineNum">     142 </span>            :     using MnInternalIdMap = immer::map&lt;uint64_t, uint256&gt;;</a>
+<a name="143"><span class="lineNum">     143 </span>            :     using MnUniquePropertyMap = immer::map&lt;uint256, std::pair&lt;uint256, uint32_t&gt;, ImmerHasher&gt;;</a>
+<a name="144"><span class="lineNum">     144 </span>            : </a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">     578503 :     struct Counts {</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">     578503 :         size_t m_total_evo{0};</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">     578503 :         size_t m_total_mn{0};</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">     578503 :         size_t m_total_weighted{0};</span></a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">     578503 :         size_t m_valid_evo{0};</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">     578503 :         size_t m_valid_mn{0};</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">     578503 :         size_t m_valid_weighted{0};</span></a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">     507620 :         [[nodiscard]] size_t total() const { return m_total_mn + m_total_evo; }</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">      30185 :         [[nodiscard]] size_t enabled() const { return m_valid_mn + m_valid_evo; }</span></a>
+<a name="155"><span class="lineNum">     155 </span>            :     };</a>
+<a name="156"><span class="lineNum">     156 </span>            : </a>
+<a name="157"><span class="lineNum">     157 </span>            : private:</a>
+<a name="158"><span class="lineNum">     158 </span>            :     uint256 blockHash;</a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">    3451602 :     int nHeight{-1};</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">    3451602 :     uint32_t nTotalRegisteredCount{0};</span></a>
+<a name="161"><span class="lineNum">     161 </span>            :     MnMap mnMap;</a>
+<a name="162"><span class="lineNum">     162 </span>            :     MnInternalIdMap mnInternalIdMap;</a>
+<a name="163"><span class="lineNum">     163 </span>            : </a>
+<a name="164"><span class="lineNum">     164 </span>            :     // map of unique properties like address and keys</a>
+<a name="165"><span class="lineNum">     165 </span>            :     // we keep track of this as checking for duplicates would otherwise be painfully slow</a>
+<a name="166"><span class="lineNum">     166 </span>            :     MnUniquePropertyMap mnUniquePropertyMap;</a>
+<a name="167"><span class="lineNum">     167 </span>            : </a>
+<a name="168"><span class="lineNum">     168 </span>            :     // This SML could be null</a>
+<a name="169"><span class="lineNum">     169 </span>            :     // This cache is used to improve performance and meant to be reused</a>
+<a name="170"><span class="lineNum">     170 </span>            :     // for multiple CDeterministicMNList until mnMap is actually changed.</a>
+<a name="171"><span class="lineNum">     171 </span>            :     // Calls of AddMN, RemoveMN and (in some cases) UpdateMN reset this cache;</a>
+<a name="172"><span class="lineNum">     172 </span>            :     // it happens also for indirect calls such as ApplyDiff</a>
+<a name="173"><span class="lineNum">     173 </span>            :     // Thread safety: Protected by its own mutex for thread-safe access</a>
+<a name="174"><span class="lineNum">     174 </span>            :     mutable Mutex m_cached_sml_mutex;</a>
+<a name="175"><span class="lineNum">     175 </span>            :     mutable std::shared_ptr&lt;const CSimplifiedMNList&gt; m_cached_sml GUARDED_BY(m_cached_sml_mutex);</a>
+<a name="176"><span class="lineNum">     176 </span>            : </a>
+<a name="177"><span class="lineNum">     177 </span>            :     // Private helper method to invalidate SML cache</a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineCov">      80298 :     void InvalidateSMLCache() EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex)</span></a>
+<a name="179"><span class="lineNum">     179 </span>            :     {</a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineCov">      80298 :         LOCK(m_cached_sml_mutex);</span></a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">      80298 :         m_cached_sml = nullptr;</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">      80298 :     }</span></a>
+<a name="183"><span class="lineNum">     183 </span>            : </a>
+<a name="184"><span class="lineNum">     184 </span>            : public:</a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">   10354807 :     CDeterministicMNList() = default;</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">       2589 :     explicit CDeterministicMNList(const uint256&amp; _blockHash, int _height, uint32_t _totalRegisteredCount) :</span></a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">        863 :         blockHash(_blockHash),</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">        863 :         nHeight(_height),</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">        863 :         nTotalRegisteredCount(_totalRegisteredCount)</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">        863 :     {</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">        863 :         assert(nHeight &gt;= 0);</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">       1726 :     }</span></a>
+<a name="193"><span class="lineNum">     193 </span>            : </a>
+<a name="194"><span class="lineNum">     194 </span>            :     // Copy constructor</a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">    3279996 :     CDeterministicMNList(const CDeterministicMNList&amp; other) :</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">    1093332 :         blockHash(other.blockHash),</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">    1093332 :         nHeight(other.nHeight),</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">    1093332 :         nTotalRegisteredCount(other.nTotalRegisteredCount),</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">    1093332 :         mnMap(other.mnMap),</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">    1093332 :         mnInternalIdMap(other.mnInternalIdMap),</span></a>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">    1093332 :         mnUniquePropertyMap(other.mnUniquePropertyMap)</span></a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">    1093332 :     {</span></a>
+<a name="203"><span class="lineNum">     203 </span><span class="lineCov">    1093332 :         LOCK(other.m_cached_sml_mutex);</span></a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">    1093332 :         m_cached_sml = other.m_cached_sml;</span></a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineCov">    2186664 :     }</span></a>
+<a name="206"><span class="lineNum">     206 </span>            : </a>
+<a name="207"><span class="lineNum">     207 </span>            :     // Assignment operator</a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">    2485061 :     CDeterministicMNList&amp; operator=(const CDeterministicMNList&amp; other)</span></a>
+<a name="209"><span class="lineNum">     209 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex, !other.m_cached_sml_mutex)</a>
+<a name="210"><span class="lineNum">     210 </span>            :     {</a>
+<a name="211"><span class="lineNum">     211 </span><span class="lineCov">    2485061 :         if (this != &amp;other) {</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">    2485061 :             blockHash = other.blockHash;</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">    2485061 :             nHeight = other.nHeight;</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">    2485061 :             nTotalRegisteredCount = other.nTotalRegisteredCount;</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">    2485061 :             mnMap = other.mnMap;</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">    2485061 :             mnInternalIdMap = other.mnInternalIdMap;</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">    2485061 :             mnUniquePropertyMap = other.mnUniquePropertyMap;</span></a>
+<a name="218"><span class="lineNum">     218 </span>            : </a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">    2485061 :             LOCK2(m_cached_sml_mutex, other.m_cached_sml_mutex);</span></a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">    2485061 :             m_cached_sml = other.m_cached_sml;</span></a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">    2485061 :         }</span></a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">    2485061 :         return *this;</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="224"><span class="lineNum">     224 </span>            : </a>
+<a name="225"><span class="lineNum">     225 </span>            :     template &lt;typename Stream, typename Operation&gt;</a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">       7337 :     inline void SerializationOpBase(Stream&amp; s, Operation ser_action)</span></a>
+<a name="227"><span class="lineNum">     227 </span>            :     {</a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">       7337 :         READWRITE(blockHash);</span></a>
+<a name="229"><span class="lineNum">     229 </span><span class="lineCov">       7337 :         READWRITE(nHeight);</span></a>
+<a name="230"><span class="lineNum">     230 </span><span class="lineCov">       7337 :         READWRITE(nTotalRegisteredCount);</span></a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineCov">       7337 :     }</span></a>
+<a name="232"><span class="lineNum">     232 </span>            : </a>
+<a name="233"><span class="lineNum">     233 </span>            :     template&lt;typename Stream&gt;</a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">       3884 :     void Serialize(Stream&amp; s) const</span></a>
+<a name="235"><span class="lineNum">     235 </span>            :     {</a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">       3884 :         const_cast&lt;CDeterministicMNList*&gt;(this)-&gt;SerializationOpBase(s, CSerActionSerialize());</span></a>
+<a name="237"><span class="lineNum">     237 </span>            : </a>
+<a name="238"><span class="lineNum">     238 </span>            :         // Serialize the map as a vector</a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">       3884 :         WriteCompactSize(s, mnMap.size());</span></a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineCov">       8979 :         for (const auto&amp; [_, dmn] : mnMap) {</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">      10190 :             s &lt;&lt; *dmn;</span></a>
+<a name="242"><span class="lineNum">     242 </span>            :         }</a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">       3884 :     }</span></a>
+<a name="244"><span class="lineNum">     244 </span>            : </a>
+<a name="245"><span class="lineNum">     245 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">       3453 :     void Unserialize(Stream&amp; s) EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex)</span></a>
+<a name="247"><span class="lineNum">     247 </span>            :     {</a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">       3453 :         Clear();</span></a>
+<a name="249"><span class="lineNum">     249 </span>            : </a>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">       3453 :         SerializationOpBase(s, CSerActionUnserialize());</span></a>
+<a name="251"><span class="lineNum">     251 </span>            : </a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">       6511 :         for (size_t to_read = ReadCompactSize(s); to_read &gt; 0; --to_read) {</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       3058 :             AddMN(std::make_shared&lt;CDeterministicMN&gt;(deserialize, s), /*fBumpTotalCount=*/false);</span></a>
+<a name="254"><span class="lineNum">     254 </span><span class="lineCov">       3058 :         }</span></a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">       3453 :     }</span></a>
+<a name="256"><span class="lineNum">     256 </span>            : </a>
+<a name="257"><span class="lineNum">     257 </span><span class="lineCov">       3453 :     void Clear() EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex)</span></a>
+<a name="258"><span class="lineNum">     258 </span>            :     {</a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">       3453 :         blockHash = uint256{};</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">       3453 :         nHeight = -1;</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       3453 :         nTotalRegisteredCount = 0;</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">       3453 :         mnMap = MnMap();</span></a>
+<a name="263"><span class="lineNum">     263 </span><span class="lineCov">       3453 :         mnUniquePropertyMap = MnUniquePropertyMap();</span></a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">       3453 :         mnInternalIdMap = MnInternalIdMap();</span></a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">       3453 :         InvalidateSMLCache();</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">       3453 :     }</span></a>
+<a name="267"><span class="lineNum">     267 </span>            : </a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">     578504 :     [[nodiscard]] Counts GetCounts() const</span></a>
+<a name="269"><span class="lineNum">     269 </span>            :     {</a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">     578504 :         Counts ret;</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">    2745924 :         for (const auto&amp; [_, dmn] : mnMap) {</span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">    2167420 :             const bool is_evo = dmn-&gt;nType == MnType::Evo;</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">    2167420 :             const bool is_valid = !dmn-&gt;pdmnState-&gt;IsBanned();</span></a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">    2167420 :             const auto weight = GetMnType(dmn-&gt;nType).voting_weight;</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">    2167420 :             if (is_evo) {</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">     181495 :                 ret.m_total_evo++;</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">     181495 :                 if (is_valid) {</span></a>
+<a name="278"><span class="lineNum">     278 </span><span class="lineCov">     154043 :                     ret.m_valid_evo++;</span></a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineCov">     154043 :                 }</span></a>
+<a name="280"><span class="lineNum">     280 </span><span class="lineCov">     181495 :             } else {</span></a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">    1985925 :                 ret.m_total_mn++;</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">    1985925 :                 if (is_valid) {</span></a>
+<a name="283"><span class="lineNum">     283 </span><span class="lineCov">    1949507 :                     ret.m_valid_mn++;</span></a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">    1949507 :                 }</span></a>
+<a name="285"><span class="lineNum">     285 </span>            :             }</a>
+<a name="286"><span class="lineNum">     286 </span><span class="lineCov">    2167420 :             if (is_valid) {</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">    2103550 :                 ret.m_valid_weighted += weight;</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">    2103550 :             }</span></a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">    2167420 :             ret.m_total_weighted += weight;</span></a>
+<a name="290"><span class="lineNum">     290 </span>            :         }</a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineCov">     578504 :         return ret;</span></a>
+<a name="292"><span class="lineNum">     292 </span>            :     }</a>
+<a name="293"><span class="lineNum">     293 </span>            : </a>
+<a name="294"><span class="lineNum">     294 </span>            :     /**</a>
+<a name="295"><span class="lineNum">     295 </span>            :      * Execute a callback on all masternodes in the mnList. This will pass a reference</a>
+<a name="296"><span class="lineNum">     296 </span>            :      * of each masternode to the callback function. This should be preferred over ForEachMNShared.</a>
+<a name="297"><span class="lineNum">     297 </span>            :      * @param onlyValid Run on all masternodes, or only &quot;valid&quot; (not banned) masternodes</a>
+<a name="298"><span class="lineNum">     298 </span>            :      * @param cb callback to execute</a>
+<a name="299"><span class="lineNum">     299 </span>            :      */</a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">     443927 :     void ForEachMN(bool onlyValid, std::function&lt;void(const CDeterministicMN&amp;)&gt; cb) const</span></a>
+<a name="301"><span class="lineNum">     301 </span>            :     {</a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineCov">    2092508 :         for (const auto&amp; p : mnMap) {</span></a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">    1648581 :             if (!onlyValid || !p.second-&gt;pdmnState-&gt;IsBanned()) {</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">    1648579 :                 cb(*p.second);</span></a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineCov">    1648579 :             }</span></a>
+<a name="306"><span class="lineNum">     306 </span>            :         }</a>
+<a name="307"><span class="lineNum">     307 </span><span class="lineCov">     443927 :     }</span></a>
+<a name="308"><span class="lineNum">     308 </span>            : </a>
+<a name="309"><span class="lineNum">     309 </span>            :     /**</a>
+<a name="310"><span class="lineNum">     310 </span>            :      * Prefer ForEachMN. Execute a callback on all masternodes in the mnList.</a>
+<a name="311"><span class="lineNum">     311 </span>            :      * This will pass a non-null shared_ptr of each masternode to the callback function.</a>
+<a name="312"><span class="lineNum">     312 </span>            :      * Use this function only when a shared_ptr is needed in order to take shared ownership.</a>
+<a name="313"><span class="lineNum">     313 </span>            :      * @param onlyValid Run on all masternodes, or only &quot;valid&quot; (not banned) masternodes</a>
+<a name="314"><span class="lineNum">     314 </span>            :      * @param cb callback to execute</a>
+<a name="315"><span class="lineNum">     315 </span>            :      */</a>
+<a name="316"><span class="lineNum">     316 </span><span class="lineCov">     606041 :     void ForEachMNShared(bool onlyValid, std::function&lt;void(const CDeterministicMNCPtr&amp;)&gt; cb) const</span></a>
+<a name="317"><span class="lineNum">     317 </span>            :     {</a>
+<a name="318"><span class="lineNum">     318 </span><span class="lineCov">    3579774 :         for (const auto&amp; p : mnMap) {</span></a>
+<a name="319"><span class="lineNum">     319 </span><span class="lineCov">    2973733 :             if (!onlyValid || !p.second-&gt;pdmnState-&gt;IsBanned()) {</span></a>
+<a name="320"><span class="lineNum">     320 </span><span class="lineCov">    2890766 :                 cb(p.second);</span></a>
+<a name="321"><span class="lineNum">     321 </span><span class="lineCov">    2890766 :             }</span></a>
+<a name="322"><span class="lineNum">     322 </span>            :         }</a>
+<a name="323"><span class="lineNum">     323 </span><span class="lineCov">     606041 :     }</span></a>
+<a name="324"><span class="lineNum">     324 </span>            : </a>
+<a name="325"><span class="lineNum">     325 </span><span class="lineCov">    2444805 :     [[nodiscard]] const uint256&amp; GetBlockHash() const</span></a>
+<a name="326"><span class="lineNum">     326 </span>            :     {</a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineCov">    2444805 :         return blockHash;</span></a>
+<a name="328"><span class="lineNum">     328 </span>            :     }</a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">     381970 :     void SetBlockHash(const uint256&amp; _blockHash)</span></a>
+<a name="330"><span class="lineNum">     330 </span>            :     {</a>
+<a name="331"><span class="lineNum">     331 </span><span class="lineCov">     381970 :         blockHash = _blockHash;</span></a>
+<a name="332"><span class="lineNum">     332 </span><span class="lineCov">     381970 :     }</span></a>
+<a name="333"><span class="lineNum">     333 </span><span class="lineCov">    4055821 :     [[nodiscard]] int GetHeight() const</span></a>
+<a name="334"><span class="lineNum">     334 </span>            :     {</a>
+<a name="335"><span class="lineNum">     335 </span><span class="lineCov">    4055821 :         assert(nHeight &gt;= 0);</span></a>
+<a name="336"><span class="lineNum">     336 </span><span class="lineCov">    4055821 :         return nHeight;</span></a>
+<a name="337"><span class="lineNum">     337 </span>            :     }</a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">     214461 :     void SetHeight(int _height)</span></a>
+<a name="339"><span class="lineNum">     339 </span>            :     {</a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">     214461 :         assert(_height &gt;= 0);</span></a>
+<a name="341"><span class="lineNum">     341 </span><span class="lineCov">     214461 :         nHeight = _height;</span></a>
+<a name="342"><span class="lineNum">     342 </span><span class="lineCov">     214461 :     }</span></a>
+<a name="343"><span class="lineNum">     343 </span><span class="lineCov">       2789 :     [[nodiscard]] uint32_t GetTotalRegisteredCount() const</span></a>
+<a name="344"><span class="lineNum">     344 </span>            :     {</a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">       2789 :         return nTotalRegisteredCount;</span></a>
+<a name="346"><span class="lineNum">     346 </span>            :     }</a>
+<a name="347"><span class="lineNum">     347 </span>            : </a>
+<a name="348"><span class="lineNum">     348 </span>            :     [[nodiscard]] bool IsMNValid(const uint256&amp; proTxHash) const;</a>
+<a name="349"><span class="lineNum">     349 </span>            :     [[nodiscard]] bool IsMNPoSeBanned(const uint256&amp; proTxHash) const;</a>
+<a name="350"><span class="lineNum">     350 </span>            : </a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineCov">     110561 :     [[nodiscard]] bool HasMN(const uint256&amp; proTxHash) const</span></a>
+<a name="352"><span class="lineNum">     352 </span>            :     {</a>
+<a name="353"><span class="lineNum">     353 </span><span class="lineCov">     110561 :         return GetMN(proTxHash) != nullptr;</span></a>
+<a name="354"><span class="lineNum">     354 </span>            :     }</a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineCov">     229812 :     [[nodiscard]] bool HasMNByCollateral(const COutPoint&amp; collateralOutpoint) const</span></a>
+<a name="356"><span class="lineNum">     356 </span>            :     {</a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">     229812 :         return GetMNByCollateral(collateralOutpoint) != nullptr;</span></a>
+<a name="358"><span class="lineNum">     358 </span>            :     }</a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineNoCov">          0 :     [[nodiscard]] bool HasValidMNByCollateral(const COutPoint&amp; collateralOutpoint) const</span></a>
+<a name="360"><span class="lineNum">     360 </span>            :     {</a>
+<a name="361"><span class="lineNum">     361 </span><span class="lineNoCov">          0 :         return GetValidMNByCollateral(collateralOutpoint) != nullptr;</span></a>
+<a name="362"><span class="lineNum">     362 </span>            :     }</a>
+<a name="363"><span class="lineNum">     363 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetMN(const uint256&amp; proTxHash) const;</a>
+<a name="364"><span class="lineNum">     364 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetValidMN(const uint256&amp; proTxHash) const;</a>
+<a name="365"><span class="lineNum">     365 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetMNByOperatorKey(const CBLSPublicKey&amp; pubKey) const;</a>
+<a name="366"><span class="lineNum">     366 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetMNByCollateral(const COutPoint&amp; collateralOutpoint) const;</a>
+<a name="367"><span class="lineNum">     367 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetValidMNByCollateral(const COutPoint&amp; collateralOutpoint) const;</a>
+<a name="368"><span class="lineNum">     368 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetMNByService(const CService&amp; service) const;</a>
+<a name="369"><span class="lineNum">     369 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetMNByInternalId(uint64_t internalId) const;</a>
+<a name="370"><span class="lineNum">     370 </span>            :     [[nodiscard]] CDeterministicMNCPtr GetMNPayee(gsl::not_null&lt;const CBlockIndex*&gt; pindexPrev) const;</a>
+<a name="371"><span class="lineNum">     371 </span>            : </a>
+<a name="372"><span class="lineNum">     372 </span>            :     /**</a>
+<a name="373"><span class="lineNum">     373 </span>            :      * Calculates the projected MN payees for the next *count* blocks. The result is not guaranteed to be correct</a>
+<a name="374"><span class="lineNum">     374 </span>            :      * as PoSe banning might occur later</a>
+<a name="375"><span class="lineNum">     375 </span>            :      * @param nCount the number of payees to return. &quot;nCount = max()&quot;&quot; means &quot;all&quot;, use it to avoid calling GetCounts twice.</a>
+<a name="376"><span class="lineNum">     376 </span>            :      */</a>
+<a name="377"><span class="lineNum">     377 </span>            :     [[nodiscard]] std::vector&lt;CDeterministicMNCPtr&gt; GetProjectedMNPayees(gsl::not_null&lt;const CBlockIndex* const&gt; pindexPrev, int nCount = std::numeric_limits&lt;int&gt;::max()) const;</a>
+<a name="378"><span class="lineNum">     378 </span>            : </a>
+<a name="379"><span class="lineNum">     379 </span>            :     /**</a>
+<a name="380"><span class="lineNum">     380 </span>            :      * Calculates CSimplifiedMNList for current list and cache it</a>
+<a name="381"><span class="lineNum">     381 </span>            :      * Thread safety: Uses internal mutex for thread-safe cache access</a>
+<a name="382"><span class="lineNum">     382 </span>            :      */</a>
+<a name="383"><span class="lineNum">     383 </span>            :     gsl::not_null&lt;std::shared_ptr&lt;const CSimplifiedMNList&gt;&gt; to_sml() const EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="384"><span class="lineNum">     384 </span>            : </a>
+<a name="385"><span class="lineNum">     385 </span>            :     /**</a>
+<a name="386"><span class="lineNum">     386 </span>            :      * Calculates the maximum penalty which is allowed at the height of this MN list. It is dynamic and might change</a>
+<a name="387"><span class="lineNum">     387 </span>            :      * for every block.</a>
+<a name="388"><span class="lineNum">     388 </span>            :      */</a>
+<a name="389"><span class="lineNum">     389 </span>            :     [[nodiscard]] int CalcMaxPoSePenalty() const;</a>
+<a name="390"><span class="lineNum">     390 </span>            : </a>
+<a name="391"><span class="lineNum">     391 </span>            :     /**</a>
+<a name="392"><span class="lineNum">     392 </span>            :      * Returns a the given percentage from the max penalty for this MN list. Always use this method to calculate the</a>
+<a name="393"><span class="lineNum">     393 </span>            :      * value later passed to PoSePunish. The percentage should be high enough to take per-block penalty decreasing for MNs</a>
+<a name="394"><span class="lineNum">     394 </span>            :      * into account. This means, if you want to accept 2 failures per payment cycle, you should choose a percentage that</a>
+<a name="395"><span class="lineNum">     395 </span>            :      * is higher then 50%, e.g. 66%.</a>
+<a name="396"><span class="lineNum">     396 </span>            :      */</a>
+<a name="397"><span class="lineNum">     397 </span>            :     [[nodiscard]] int CalcPenalty(int percent) const;</a>
+<a name="398"><span class="lineNum">     398 </span>            : </a>
+<a name="399"><span class="lineNum">     399 </span>            :     /**</a>
+<a name="400"><span class="lineNum">     400 </span>            :      * Punishes a MN for misbehavior. If the resulting penalty score of the MN reaches the max penalty, it is banned.</a>
+<a name="401"><span class="lineNum">     401 </span>            :      * Penalty scores are only increased when the MN is not already banned, which means that after banning the penalty</a>
+<a name="402"><span class="lineNum">     402 </span>            :      * might appear lower then the current max penalty, while the MN is still banned.</a>
+<a name="403"><span class="lineNum">     403 </span>            :      */</a>
+<a name="404"><span class="lineNum">     404 </span>            :     void PoSePunish(const uint256&amp; proTxHash, int penalty, bool debugLogs) EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="405"><span class="lineNum">     405 </span>            : </a>
+<a name="406"><span class="lineNum">     406 </span>            :     void DecreaseScores() EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="407"><span class="lineNum">     407 </span>            :     /**</a>
+<a name="408"><span class="lineNum">     408 </span>            :      * Decrease penalty score of MN by 1.</a>
+<a name="409"><span class="lineNum">     409 </span>            :      * Only allowed on non-banned MNs.</a>
+<a name="410"><span class="lineNum">     410 </span>            :      */</a>
+<a name="411"><span class="lineNum">     411 </span>            :     void PoSeDecrease(const CDeterministicMN&amp; dmn) EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="412"><span class="lineNum">     412 </span>            : </a>
+<a name="413"><span class="lineNum">     413 </span>            :     [[nodiscard]] CDeterministicMNListDiff BuildDiff(const CDeterministicMNList&amp; to) const;</a>
+<a name="414"><span class="lineNum">     414 </span>            :     /**</a>
+<a name="415"><span class="lineNum">     415 </span>            :      * Apply Diff modifies current object.</a>
+<a name="416"><span class="lineNum">     416 </span>            :      * It is more efficient than creating a copy due to heavy copy constructor.</a>
+<a name="417"><span class="lineNum">     417 </span>            :      * Calculating for old block may require up to {DISK_SNAPSHOT_PERIOD} object copy &amp; destroy.</a>
+<a name="418"><span class="lineNum">     418 </span>            :      */</a>
+<a name="419"><span class="lineNum">     419 </span>            :     void ApplyDiff(gsl::not_null&lt;const CBlockIndex*&gt; pindex, const CDeterministicMNListDiff&amp; diff)</a>
+<a name="420"><span class="lineNum">     420 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="421"><span class="lineNum">     421 </span>            : </a>
+<a name="422"><span class="lineNum">     422 </span>            :     void AddMN(const CDeterministicMNCPtr&amp; dmn, bool fBumpTotalCount = true) EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="423"><span class="lineNum">     423 </span>            :     void UpdateMN(const CDeterministicMN&amp; oldDmn, const std::shared_ptr&lt;const CDeterministicMNState&gt;&amp; pdmnState)</a>
+<a name="424"><span class="lineNum">     424 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="425"><span class="lineNum">     425 </span>            :     void UpdateMN(const uint256&amp; proTxHash, const std::shared_ptr&lt;const CDeterministicMNState&gt;&amp; pdmnState)</a>
+<a name="426"><span class="lineNum">     426 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="427"><span class="lineNum">     427 </span>            :     void UpdateMN(const CDeterministicMN&amp; oldDmn, const CDeterministicMNStateDiff&amp; stateDiff)</a>
+<a name="428"><span class="lineNum">     428 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="429"><span class="lineNum">     429 </span>            :     void RemoveMN(const uint256&amp; proTxHash) EXCLUSIVE_LOCKS_REQUIRED(!m_cached_sml_mutex);</a>
+<a name="430"><span class="lineNum">     430 </span>            : </a>
+<a name="431"><span class="lineNum">     431 </span>            :     template &lt;typename T&gt;</a>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">      27930 :     [[nodiscard]] bool HasUniqueProperty(const T&amp; v) const</span></a>
+<a name="433"><span class="lineNum">     433 </span>            :     {</a>
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">      27930 :         return mnUniquePropertyMap.count(GetUniquePropertyHash(v)) != 0;</span></a>
+<a name="435"><span class="lineNum">     435 </span>            :     }</a>
+<a name="436"><span class="lineNum">     436 </span>            :     template &lt;typename T&gt;</a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineCov">     855957 :     [[nodiscard]] CDeterministicMNCPtr GetUniquePropertyMN(const T&amp; v) const</span></a>
+<a name="438"><span class="lineNum">     438 </span>            :     {</a>
+<a name="439"><span class="lineNum">     439 </span><span class="lineCov">     855957 :         auto p = mnUniquePropertyMap.find(GetUniquePropertyHash(v));</span></a>
+<a name="440"><span class="lineNum">     440 </span><span class="lineCov">     855957 :         if (!p) {</span></a>
+<a name="441"><span class="lineNum">     441 </span><span class="lineCov">     659633 :             return nullptr;</span></a>
+<a name="442"><span class="lineNum">     442 </span>            :         }</a>
+<a name="443"><span class="lineNum">     443 </span><span class="lineCov">     196324 :         return GetMN(p-&gt;first);</span></a>
+<a name="444"><span class="lineNum">     444 </span><span class="lineCov">     855957 :     }</span></a>
+<a name="445"><span class="lineNum">     445 </span>            : </a>
+<a name="446"><span class="lineNum">     446 </span>            :     // Compare two masternode lists for equality, ignoring non-deterministic members.</a>
+<a name="447"><span class="lineNum">     447 </span>            :     // Non-deterministic members (nTotalRegisteredCount, internalId) can differ between</a>
+<a name="448"><span class="lineNum">     448 </span>            :     // nodes due to different sync histories, but don't affect consensus validity.</a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">         11 :     bool IsEqual(const CDeterministicMNList&amp; rhs) const</span></a>
+<a name="450"><span class="lineNum">     450 </span>            :     {</a>
+<a name="451"><span class="lineNum">     451 </span>            :         // Compare deterministic metadata</a>
+<a name="452"><span class="lineNum">     452 </span><span class="lineCov">         22 :         if (blockHash != rhs.blockHash ||</span></a>
+<a name="453"><span class="lineNum">     453 </span><span class="lineCov">         11 :             nHeight != rhs.nHeight ||</span></a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">         11 :             mnUniquePropertyMap != rhs.mnUniquePropertyMap) {</span></a>
+<a name="455"><span class="lineNum">     455 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="456"><span class="lineNum">     456 </span>            :         }</a>
+<a name="457"><span class="lineNum">     457 </span>            : </a>
+<a name="458"><span class="lineNum">     458 </span>            :         // Compare map sizes (actual entries compared below)</a>
+<a name="459"><span class="lineNum">     459 </span>            :         // Note: Not comparing nTotalRegisteredCount (non-deterministic)</a>
+<a name="460"><span class="lineNum">     460 </span><span class="lineCov">         11 :         if (mnMap.size() != rhs.mnMap.size() ||</span></a>
+<a name="461"><span class="lineNum">     461 </span><span class="lineCov">         11 :             mnInternalIdMap.size() != rhs.mnInternalIdMap.size()) {</span></a>
+<a name="462"><span class="lineNum">     462 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="463"><span class="lineNum">     463 </span>            :         }</a>
+<a name="464"><span class="lineNum">     464 </span>            : </a>
+<a name="465"><span class="lineNum">     465 </span>            :         // Compare each masternode entry</a>
+<a name="466"><span class="lineNum">     466 </span><span class="lineCov">         17 :         for (const auto&amp; [proTxHash, dmn] : mnMap) {</span></a>
+<a name="467"><span class="lineNum">     467 </span><span class="lineCov">         12 :             auto dmn_rhs = rhs.mnMap.find(proTxHash);</span></a>
+<a name="468"><span class="lineNum">     468 </span><span class="lineCov">          6 :             if (dmn_rhs == nullptr) {</span></a>
+<a name="469"><span class="lineNum">     469 </span><span class="lineNoCov">          0 :                 return false;</span></a>
+<a name="470"><span class="lineNum">     470 </span>            :             }</a>
+<a name="471"><span class="lineNum">     471 </span>            : </a>
+<a name="472"><span class="lineNum">     472 </span>            :             // Compare deterministic masternode fields</a>
+<a name="473"><span class="lineNum">     473 </span>            :             // Note: Not comparing internalId (non-deterministic)</a>
+<a name="474"><span class="lineNum">     474 </span><span class="lineCov">         12 :             if (dmn-&gt;proTxHash != dmn_rhs-&gt;get()-&gt;proTxHash ||</span></a>
+<a name="475"><span class="lineNum">     475 </span><span class="lineCov">          6 :                 dmn-&gt;collateralOutpoint != dmn_rhs-&gt;get()-&gt;collateralOutpoint ||</span></a>
+<a name="476"><span class="lineNum">     476 </span><span class="lineCov">          6 :                 dmn-&gt;nOperatorReward != dmn_rhs-&gt;get()-&gt;nOperatorReward ||</span></a>
+<a name="477"><span class="lineNum">     477 </span><span class="lineCov">          6 :                 dmn-&gt;nType != dmn_rhs-&gt;get()-&gt;nType ||</span></a>
+<a name="478"><span class="lineNum">     478 </span>            :                 // Use SerializeHash for pdmnState to avoid enumerating all state fields</a>
+<a name="479"><span class="lineNum">     479 </span><span class="lineCov">          6 :                 SerializeHash(*dmn-&gt;pdmnState) != SerializeHash(*dmn_rhs-&gt;get()-&gt;pdmnState)) {</span></a>
+<a name="480"><span class="lineNum">     480 </span><span class="lineNoCov">          0 :                 return false;</span></a>
+<a name="481"><span class="lineNum">     481 </span>            :             }</a>
+<a name="482"><span class="lineNum">     482 </span>            :         }</a>
+<a name="483"><span class="lineNum">     483 </span><span class="lineCov">         11 :         return true;</span></a>
+<a name="484"><span class="lineNum">     484 </span><span class="lineCov">         11 :     }</span></a>
+<a name="485"><span class="lineNum">     485 </span>            : </a>
+<a name="486"><span class="lineNum">     486 </span>            : private:</a>
+<a name="487"><span class="lineNum">     487 </span>            :     template &lt;typename T&gt;</a>
+<a name="488"><span class="lineNum">     488 </span><span class="lineCov">    1207021 :     [[nodiscard]] uint256 GetUniquePropertyHash(const T&amp; v) const</span></a>
+<a name="489"><span class="lineNum">     489 </span>            :     {</a>
+<a name="490"><span class="lineNum">     490 </span>            : #define DMNL_NO_TEMPLATE(name) \</a>
+<a name="491"><span class="lineNum">     491 </span>            :     static_assert(!std::is_same_v&lt;std::decay_t&lt;T&gt;, name&gt;, &quot;GetUniquePropertyHash cannot be templated against &quot; #name)</a>
+<a name="492"><span class="lineNum">     492 </span>            :         DMNL_NO_TEMPLATE(CBLSPublicKey);</a>
+<a name="493"><span class="lineNum">     493 </span>            :         DMNL_NO_TEMPLATE(ExtNetInfo);</a>
+<a name="494"><span class="lineNum">     494 </span>            :         DMNL_NO_TEMPLATE(MnNetInfo);</a>
+<a name="495"><span class="lineNum">     495 </span>            :         DMNL_NO_TEMPLATE(NetInfoEntry);</a>
+<a name="496"><span class="lineNum">     496 </span>            :         DMNL_NO_TEMPLATE(NetInfoInterface);</a>
+<a name="497"><span class="lineNum">     497 </span>            :         DMNL_NO_TEMPLATE(std::shared_ptr&lt;NetInfoInterface&gt;);</a>
+<a name="498"><span class="lineNum">     498 </span>            : #undef DMNL_NO_TEMPLATE</a>
+<a name="499"><span class="lineNum">     499 </span><span class="lineCov">    1207021 :         int ser_version{PROTOCOL_VERSION};</span></a>
+<a name="500"><span class="lineNum">     500 </span>            :         if constexpr (std::is_same_v&lt;std::decay_t&lt;T&gt;, CService&gt;) {</a>
+<a name="501"><span class="lineNum">     501 </span>            :             // Special handling is required if we're using addresses that can only be (de)serialized using</a>
+<a name="502"><span class="lineNum">     502 </span>            :             // ADDRv2. Without this step, the address gets truncated, the hashmap gets contaminated with</a>
+<a name="503"><span class="lineNum">     503 </span>            :             // an invalid entry and subsequent attempts at registering ADDRv2 entries get blocked. We cannot</a>
+<a name="504"><span class="lineNum">     504 </span>            :             // apply this treatment ADDRv1 compatible addresses for backwards compatibility with the existing map.</a>
+<a name="505"><span class="lineNum">     505 </span><span class="lineCov">     101637 :             if (!v.IsAddrV1Compatible()) {</span></a>
+<a name="506"><span class="lineNum">     506 </span><span class="lineCov">        174 :                 ser_version |= ADDRV2_FORMAT;</span></a>
+<a name="507"><span class="lineNum">     507 </span><span class="lineCov">        174 :             }</span></a>
+<a name="508"><span class="lineNum">     508 </span>            :         }</a>
+<a name="509"><span class="lineNum">     509 </span><span class="lineCov">    1207021 :         return ::SerializeHash(v, /*nType=*/SER_GETHASH, /*nVersion=*/ser_version);</span></a>
+<a name="510"><span class="lineNum">     510 </span>            :     }</a>
+<a name="511"><span class="lineNum">     511 </span>            :     template &lt;typename T&gt;</a>
+<a name="512"><span class="lineNum">     512 </span><span class="lineCov">     313275 :     [[nodiscard]] bool AddUniqueProperty(const CDeterministicMN&amp; dmn, const T&amp; v)</span></a>
+<a name="513"><span class="lineNum">     513 </span>            :     {</a>
+<a name="514"><span class="lineNum">     514 </span><span class="lineCov">     305751 :         static const T nullValue{};</span></a>
+<a name="515"><span class="lineNum">     515 </span><span class="lineCov">     313275 :         if (v == nullValue) {</span></a>
+<a name="516"><span class="lineNum">     516 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="517"><span class="lineNum">     517 </span>            :         }</a>
+<a name="518"><span class="lineNum">     518 </span>            : </a>
+<a name="519"><span class="lineNum">     519 </span><span class="lineCov">     313275 :         auto hash = GetUniquePropertyHash(v);</span></a>
+<a name="520"><span class="lineNum">     520 </span><span class="lineCov">     313275 :         auto oldEntry = mnUniquePropertyMap.find(hash);</span></a>
+<a name="521"><span class="lineNum">     521 </span><span class="lineCov">     313275 :         if (oldEntry != nullptr &amp;&amp; oldEntry-&gt;first != dmn.proTxHash) {</span></a>
+<a name="522"><span class="lineNum">     522 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="523"><span class="lineNum">     523 </span>            :         }</a>
+<a name="524"><span class="lineNum">     524 </span><span class="lineCov">     313275 :         std::pair&lt;uint256, uint32_t&gt; newEntry(dmn.proTxHash, 1);</span></a>
+<a name="525"><span class="lineNum">     525 </span><span class="lineCov">     313275 :         if (oldEntry != nullptr) {</span></a>
+<a name="526"><span class="lineNum">     526 </span><span class="lineNoCov">          0 :             newEntry.second = oldEntry-&gt;second + 1;</span></a>
+<a name="527"><span class="lineNum">     527 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="528"><span class="lineNum">     528 </span><span class="lineCov">     313275 :         mnUniquePropertyMap = mnUniquePropertyMap.set(hash, newEntry);</span></a>
+<a name="529"><span class="lineNum">     529 </span><span class="lineCov">     313275 :         return true;</span></a>
+<a name="530"><span class="lineNum">     530 </span><span class="lineCov">     313275 :     }</span></a>
+<a name="531"><span class="lineNum">     531 </span>            :     template &lt;typename T&gt;</a>
+<a name="532"><span class="lineNum">     532 </span><span class="lineCov">       9860 :     [[nodiscard]] bool DeleteUniqueProperty(const CDeterministicMN&amp; dmn, const T&amp; oldValue)</span></a>
+<a name="533"><span class="lineNum">     533 </span>            :     {</a>
+<a name="534"><span class="lineNum">     534 </span><span class="lineCov">       9021 :         static const T nullValue{};</span></a>
+<a name="535"><span class="lineNum">     535 </span><span class="lineCov">       9860 :         if (oldValue == nullValue) {</span></a>
+<a name="536"><span class="lineNum">     536 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="537"><span class="lineNum">     537 </span>            :         }</a>
+<a name="538"><span class="lineNum">     538 </span>            : </a>
+<a name="539"><span class="lineNum">     539 </span><span class="lineCov">       9860 :         auto oldHash = GetUniquePropertyHash(oldValue);</span></a>
+<a name="540"><span class="lineNum">     540 </span><span class="lineCov">       9860 :         auto p = mnUniquePropertyMap.find(oldHash);</span></a>
+<a name="541"><span class="lineNum">     541 </span><span class="lineCov">       9860 :         if (p == nullptr || p-&gt;first != dmn.proTxHash) {</span></a>
+<a name="542"><span class="lineNum">     542 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="543"><span class="lineNum">     543 </span>            :         }</a>
+<a name="544"><span class="lineNum">     544 </span><span class="lineCov">       9860 :         if (p-&gt;second == 1) {</span></a>
+<a name="545"><span class="lineNum">     545 </span><span class="lineCov">       9860 :             mnUniquePropertyMap = mnUniquePropertyMap.erase(oldHash);</span></a>
+<a name="546"><span class="lineNum">     546 </span><span class="lineCov">       9860 :         } else {</span></a>
+<a name="547"><span class="lineNum">     547 </span><span class="lineNoCov">          0 :             mnUniquePropertyMap = mnUniquePropertyMap.set(oldHash, std::make_pair(dmn.proTxHash, p-&gt;second - 1));</span></a>
+<a name="548"><span class="lineNum">     548 </span>            :         }</a>
+<a name="549"><span class="lineNum">     549 </span><span class="lineCov">       9860 :         return true;</span></a>
+<a name="550"><span class="lineNum">     550 </span><span class="lineCov">       9860 :     }</span></a>
+<a name="551"><span class="lineNum">     551 </span>            :     template &lt;typename T&gt;</a>
+<a name="552"><span class="lineNum">     552 </span><span class="lineCov">    1178664 :     [[nodiscard]] bool UpdateUniqueProperty(const CDeterministicMN&amp; dmn, const T&amp; oldValue, const T&amp; newValue)</span></a>
+<a name="553"><span class="lineNum">     553 </span>            :     {</a>
+<a name="554"><span class="lineNum">     554 </span><span class="lineCov">    1178664 :         if (oldValue == newValue) {</span></a>
+<a name="555"><span class="lineNum">     555 </span><span class="lineCov">    1177666 :             return true;</span></a>
+<a name="556"><span class="lineNum">     556 </span>            :         }</a>
+<a name="557"><span class="lineNum">     557 </span><span class="lineCov">        259 :         static const T nullValue{};</span></a>
+<a name="558"><span class="lineNum">     558 </span>            : </a>
+<a name="559"><span class="lineNum">     559 </span><span class="lineCov">        998 :         if (oldValue != nullValue &amp;&amp; !DeleteUniqueProperty(dmn, oldValue)) {</span></a>
+<a name="560"><span class="lineNum">     560 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="561"><span class="lineNum">     561 </span>            :         }</a>
+<a name="562"><span class="lineNum">     562 </span>            : </a>
+<a name="563"><span class="lineNum">     563 </span><span class="lineCov">        998 :         if (newValue != nullValue &amp;&amp; !AddUniqueProperty(dmn, newValue)) {</span></a>
+<a name="564"><span class="lineNum">     564 </span><span class="lineNoCov">          0 :             return false;</span></a>
+<a name="565"><span class="lineNum">     565 </span>            :         }</a>
+<a name="566"><span class="lineNum">     566 </span><span class="lineCov">        998 :         return true;</span></a>
+<a name="567"><span class="lineNum">     567 </span><span class="lineCov">    1178664 :     }</span></a>
+<a name="568"><span class="lineNum">     568 </span>            : </a>
+<a name="569"><span class="lineNum">     569 </span><span class="lineCov">     214465 :     friend bool operator==(const CDeterministicMNList&amp; a, const CDeterministicMNList&amp; b)</span></a>
+<a name="570"><span class="lineNum">     570 </span>            :     {</a>
+<a name="571"><span class="lineNum">     571 </span><span class="lineCov">     214948 :         return  a.blockHash == b.blockHash &amp;&amp;</span></a>
+<a name="572"><span class="lineNum">     572 </span><span class="lineCov">        483 :                 a.nHeight == b.nHeight &amp;&amp;</span></a>
+<a name="573"><span class="lineNum">     573 </span><span class="lineCov">        483 :                 a.nTotalRegisteredCount == b.nTotalRegisteredCount &amp;&amp;</span></a>
+<a name="574"><span class="lineNum">     574 </span><span class="lineCov">        483 :                 a.mnMap == b.mnMap &amp;&amp;</span></a>
+<a name="575"><span class="lineNum">     575 </span><span class="lineCov">        483 :                 a.mnInternalIdMap == b.mnInternalIdMap &amp;&amp;</span></a>
+<a name="576"><span class="lineNum">     576 </span><span class="lineCov">        483 :                 a.mnUniquePropertyMap == b.mnUniquePropertyMap;</span></a>
+<a name="577"><span class="lineNum">     577 </span>            :     }</a>
+<a name="578"><span class="lineNum">     578 </span>            : };</a>
+<a name="579"><span class="lineNum">     579 </span>            : </a>
+<a name="580"><span class="lineNum">     580 </span><span class="lineCov">    1011368 : class CDeterministicMNListDiff</span></a>
+<a name="581"><span class="lineNum">     581 </span>            : {</a>
+<a name="582"><span class="lineNum">     582 </span>            : public:</a>
+<a name="583"><span class="lineNum">     583 </span><span class="lineCov">     517027 :     int nHeight{-1}; //memory only</span></a>
+<a name="584"><span class="lineNum">     584 </span>            : </a>
+<a name="585"><span class="lineNum">     585 </span>            :     std::vector&lt;CDeterministicMNCPtr&gt; addedMNs;</a>
+<a name="586"><span class="lineNum">     586 </span>            :     // keys are all relating to the internalId of MNs</a>
+<a name="587"><span class="lineNum">     587 </span>            :     std::unordered_map&lt;uint64_t, CDeterministicMNStateDiff&gt; updatedMNs;</a>
+<a name="588"><span class="lineNum">     588 </span>            :     std::set&lt;uint64_t&gt; removedMns;</a>
+<a name="589"><span class="lineNum">     589 </span>            : </a>
+<a name="590"><span class="lineNum">     590 </span>            :     template&lt;typename Stream&gt;</a>
+<a name="591"><span class="lineNum">     591 </span><span class="lineCov">     378393 :     void Serialize(Stream&amp; s) const</span></a>
+<a name="592"><span class="lineNum">     592 </span>            :     {</a>
+<a name="593"><span class="lineNum">     593 </span><span class="lineCov">     378393 :         s &lt;&lt; addedMNs;</span></a>
+<a name="594"><span class="lineNum">     594 </span>            : </a>
+<a name="595"><span class="lineNum">     595 </span><span class="lineCov">     378393 :         WriteCompactSize(s, updatedMNs.size());</span></a>
+<a name="596"><span class="lineNum">     596 </span><span class="lineCov">     692577 :         for (const auto&amp; [internalId, pdmnState] : updatedMNs) {</span></a>
+<a name="597"><span class="lineNum">     597 </span><span class="lineCov">     628368 :             WriteVarInt&lt;Stream, VarIntMode::DEFAULT, uint64_t&gt;(s, internalId);</span></a>
+<a name="598"><span class="lineNum">     598 </span><span class="lineCov">     628368 :             s &lt;&lt; pdmnState;</span></a>
+<a name="599"><span class="lineNum">     599 </span>            :         }</a>
+<a name="600"><span class="lineNum">     600 </span>            : </a>
+<a name="601"><span class="lineNum">     601 </span><span class="lineCov">     378393 :         WriteCompactSize(s, removedMns.size());</span></a>
+<a name="602"><span class="lineNum">     602 </span><span class="lineCov">     379742 :         for (const auto&amp; internalId : removedMns) {</span></a>
+<a name="603"><span class="lineNum">     603 </span><span class="lineCov">       1349 :             WriteVarInt&lt;Stream, VarIntMode::DEFAULT, uint64_t&gt;(s, internalId);</span></a>
+<a name="604"><span class="lineNum">     604 </span>            :         }</a>
+<a name="605"><span class="lineNum">     605 </span><span class="lineCov">     378393 :     }</span></a>
+<a name="606"><span class="lineNum">     606 </span>            : </a>
+<a name="607"><span class="lineNum">     607 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="608"><span class="lineNum">     608 </span><span class="lineCov">     135175 :     void Unserialize(Stream&amp; s)</span></a>
+<a name="609"><span class="lineNum">     609 </span>            :     {</a>
+<a name="610"><span class="lineNum">     610 </span><span class="lineCov">     135175 :         UnserializeImpl(s, false); // Default: new format</span></a>
+<a name="611"><span class="lineNum">     611 </span><span class="lineCov">     135175 :     }</span></a>
+<a name="612"><span class="lineNum">     612 </span>            : </a>
+<a name="613"><span class="lineNum">     613 </span>            :     // Legacy-aware unserialize method</a>
+<a name="614"><span class="lineNum">     614 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="615"><span class="lineNum">     615 </span><span class="lineNoCov">          0 :     void UnserializeLegacyFormat(Stream&amp; s)</span></a>
+<a name="616"><span class="lineNum">     616 </span>            :     {</a>
+<a name="617"><span class="lineNum">     617 </span><span class="lineNoCov">          0 :         UnserializeImpl(s, true); // Legacy format</span></a>
+<a name="618"><span class="lineNum">     618 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="619"><span class="lineNum">     619 </span>            : </a>
+<a name="620"><span class="lineNum">     620 </span>            : private:</a>
+<a name="621"><span class="lineNum">     621 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="622"><span class="lineNum">     622 </span><span class="lineCov">     135175 :     void UnserializeImpl(Stream&amp; s, bool isLegacyFormat)</span></a>
+<a name="623"><span class="lineNum">     623 </span>            :     {</a>
+<a name="624"><span class="lineNum">     624 </span>            :         // Reset all collections before reading</a>
+<a name="625"><span class="lineNum">     625 </span><span class="lineCov">     135175 :         addedMNs.clear();</span></a>
+<a name="626"><span class="lineNum">     626 </span><span class="lineCov">     135175 :         updatedMNs.clear();</span></a>
+<a name="627"><span class="lineNum">     627 </span><span class="lineCov">     135175 :         removedMns.clear();</span></a>
+<a name="628"><span class="lineNum">     628 </span>            : </a>
+<a name="629"><span class="lineNum">     629 </span><span class="lineCov">     141882 :         for (size_t to_read = ReadCompactSize(s); to_read &gt; 0; --to_read) {</span></a>
+<a name="630"><span class="lineNum">     630 </span><span class="lineCov">       6707 :             addedMNs.push_back(std::make_shared&lt;CDeterministicMN&gt;(deserialize, s));</span></a>
+<a name="631"><span class="lineNum">     631 </span><span class="lineCov">       6707 :         }</span></a>
+<a name="632"><span class="lineNum">     632 </span>            : </a>
+<a name="633"><span class="lineNum">     633 </span><span class="lineCov">     193726 :         for (size_t to_read = ReadCompactSize(s); to_read &gt; 0; --to_read) {</span></a>
+<a name="634"><span class="lineNum">     634 </span><span class="lineCov">      58551 :             uint64_t internalId = ReadVarInt&lt;Stream, VarIntMode::DEFAULT, uint64_t&gt;(s);</span></a>
+<a name="635"><span class="lineNum">     635 </span>            :             // CDeterministicMNState can have newer fields but doesn't need migration logic here as</a>
+<a name="636"><span class="lineNum">     636 </span>            :             // CDeterministicMNStateDiff is always serialised using a bitmask and new fields have a new bit guide value,</a>
+<a name="637"><span class="lineNum">     637 </span>            :             // so we are good to continue. We do need migration logic to change field order though.</a>
+<a name="638"><span class="lineNum">     638 </span><span class="lineCov">      58551 :             if (isLegacyFormat) {</span></a>
+<a name="639"><span class="lineNum">     639 </span>            :                 // Use legacy deserializer for old format</a>
+<a name="640"><span class="lineNum">     640 </span><span class="lineNoCov">          0 :                 CDeterministicMNStateDiffLegacy legacyDiff(deserialize, s);</span></a>
+<a name="641"><span class="lineNum">     641 </span>            :                 // Convert to new format and store</a>
+<a name="642"><span class="lineNum">     642 </span><span class="lineNoCov">          0 :                 updatedMNs.emplace(internalId, legacyDiff.ToNewFormat());</span></a>
+<a name="643"><span class="lineNum">     643 </span><span class="lineNoCov">          0 :             } else {</span></a>
+<a name="644"><span class="lineNum">     644 </span>            :                 // Use current deserializer for new format</a>
+<a name="645"><span class="lineNum">     645 </span><span class="lineCov">      58551 :                 updatedMNs.emplace(internalId, CDeterministicMNStateDiff(deserialize, s));</span></a>
+<a name="646"><span class="lineNum">     646 </span>            :             }</a>
+<a name="647"><span class="lineNum">     647 </span><span class="lineCov">      58551 :         }</span></a>
+<a name="648"><span class="lineNum">     648 </span>            : </a>
+<a name="649"><span class="lineNum">     649 </span><span class="lineCov">     135361 :         for (size_t to_read = ReadCompactSize(s); to_read &gt; 0; --to_read) {</span></a>
+<a name="650"><span class="lineNum">     650 </span><span class="lineCov">        186 :             uint64_t internalId = ReadVarInt&lt;Stream, VarIntMode::DEFAULT, uint64_t&gt;(s);</span></a>
+<a name="651"><span class="lineNum">     651 </span><span class="lineCov">        186 :             removedMns.emplace(internalId);</span></a>
+<a name="652"><span class="lineNum">     652 </span><span class="lineCov">        186 :         }</span></a>
+<a name="653"><span class="lineNum">     653 </span><span class="lineCov">     135175 :     }</span></a>
+<a name="654"><span class="lineNum">     654 </span>            : </a>
+<a name="655"><span class="lineNum">     655 </span>            : public:</a>
+<a name="656"><span class="lineNum">     656 </span><span class="lineCov">     182770 :     bool HasChanges() const</span></a>
+<a name="657"><span class="lineNum">     657 </span>            :     {</a>
+<a name="658"><span class="lineNum">     658 </span><span class="lineCov">     182770 :         return !addedMNs.empty() || !updatedMNs.empty() || !removedMns.empty();</span></a>
+<a name="659"><span class="lineNum">     659 </span>            :     }</a>
+<a name="660"><span class="lineNum">     660 </span>            : };</a>
+<a name="661"><span class="lineNum">     661 </span>            : </a>
+<a name="662"><span class="lineNum">     662 </span>            : </a>
+<a name="663"><span class="lineNum">     663 </span>            : constexpr int llmq_max_blocks() {</a>
+<a name="664"><span class="lineNum">     664 </span>            :     int max_blocks{0};</a>
+<a name="665"><span class="lineNum">     665 </span>            :     for (const auto&amp; llmq : Consensus::available_llmqs) {</a>
+<a name="666"><span class="lineNum">     666 </span>            :         int blocks = (llmq.useRotation ? 1 : llmq.signingActiveQuorumCount) * llmq.dkgInterval;</a>
+<a name="667"><span class="lineNum">     667 </span>            :         max_blocks = std::max(max_blocks, blocks);</a>
+<a name="668"><span class="lineNum">     668 </span>            :     }</a>
+<a name="669"><span class="lineNum">     669 </span>            :     return max_blocks;</a>
+<a name="670"><span class="lineNum">     670 </span>            : }</a>
+<a name="671"><span class="lineNum">     671 </span>            : </a>
+<a name="672"><span class="lineNum">     672 </span><span class="lineCov">     105821 : struct MNListUpdates</span></a>
+<a name="673"><span class="lineNum">     673 </span>            : {</a>
+<a name="674"><span class="lineNum">     674 </span>            :     CDeterministicMNList old_list;</a>
+<a name="675"><span class="lineNum">     675 </span>            :     CDeterministicMNList new_list;</a>
+<a name="676"><span class="lineNum">     676 </span>            :     CDeterministicMNListDiff diff;</a>
+<a name="677"><span class="lineNum">     677 </span>            : };</a>
+<a name="678"><span class="lineNum">     678 </span>            : </a>
+<a name="679"><span class="lineNum">     679 </span>            : class CDeterministicMNManager</a>
+<a name="680"><span class="lineNum">     680 </span>            : {</a>
+<a name="681"><span class="lineNum">     681 </span>            :     static constexpr int DISK_SNAPSHOT_PERIOD = 576; // once per day</a>
+<a name="682"><span class="lineNum">     682 </span>            :     // keep cache for enough disk snapshots to have all active quourms covered</a>
+<a name="683"><span class="lineNum">     683 </span>            :     static constexpr int DISK_SNAPSHOTS = llmq_max_blocks() / DISK_SNAPSHOT_PERIOD + 1;</a>
+<a name="684"><span class="lineNum">     684 </span>            :     static constexpr int LIST_DIFFS_CACHE_SIZE = DISK_SNAPSHOT_PERIOD * DISK_SNAPSHOTS;</a>
+<a name="685"><span class="lineNum">     685 </span>            : </a>
+<a name="686"><span class="lineNum">     686 </span>            : private:</a>
+<a name="687"><span class="lineNum">     687 </span>            :     Mutex cs;</a>
+<a name="688"><span class="lineNum">     688 </span>            :     Mutex cs_cleanup;</a>
+<a name="689"><span class="lineNum">     689 </span>            :     // We have performed CleanupCache() on this height.</a>
+<a name="690"><span class="lineNum">     690 </span>            :     int did_cleanup GUARDED_BY(cs_cleanup) {0};</a>
+<a name="691"><span class="lineNum">     691 </span>            : </a>
+<a name="692"><span class="lineNum">     692 </span>            :     // Main thread has indicated we should perform cleanup up to this height</a>
+<a name="693"><span class="lineNum">     693 </span>            :     std::atomic&lt;int&gt; to_cleanup {0};</a>
+<a name="694"><span class="lineNum">     694 </span>            : </a>
+<a name="695"><span class="lineNum">     695 </span>            :     CEvoDB&amp; m_evoDb;</a>
+<a name="696"><span class="lineNum">     696 </span>            :     CMasternodeMetaMan&amp; m_mn_metaman;</a>
+<a name="697"><span class="lineNum">     697 </span>            : </a>
+<a name="698"><span class="lineNum">     698 </span>            :     Uint256HashMap&lt;CDeterministicMNList&gt; mnListsCache GUARDED_BY(cs);</a>
+<a name="699"><span class="lineNum">     699 </span>            :     Uint256HashMap&lt;CDeterministicMNListDiff&gt; mnListDiffsCache GUARDED_BY(cs);</a>
+<a name="700"><span class="lineNum">     700 </span>            :     const CBlockIndex* tipIndex GUARDED_BY(cs) {nullptr};</a>
+<a name="701"><span class="lineNum">     701 </span>            :     const CBlockIndex* m_initial_snapshot_index GUARDED_BY(cs) {nullptr};</a>
+<a name="702"><span class="lineNum">     702 </span>            : </a>
+<a name="703"><span class="lineNum">     703 </span>            : public:</a>
+<a name="704"><span class="lineNum">     704 </span>            :     CDeterministicMNManager() = delete;</a>
+<a name="705"><span class="lineNum">     705 </span>            :     CDeterministicMNManager(const CDeterministicMNManager&amp;) = delete;</a>
+<a name="706"><span class="lineNum">     706 </span>            :     CDeterministicMNManager&amp; operator=(const CDeterministicMNManager&amp;) = delete;</a>
+<a name="707"><span class="lineNum">     707 </span>            :     explicit CDeterministicMNManager(CEvoDB&amp; evoDb, CMasternodeMetaMan&amp; mn_metaman);</a>
+<a name="708"><span class="lineNum">     708 </span>            :     ~CDeterministicMNManager();</a>
+<a name="709"><span class="lineNum">     709 </span>            : </a>
+<a name="710"><span class="lineNum">     710 </span>            :     bool ProcessBlock(const CBlock&amp; block, gsl::not_null&lt;const CBlockIndex*&gt; pindex, BlockValidationState&amp; state,</a>
+<a name="711"><span class="lineNum">     711 </span>            :                       const CDeterministicMNList&amp; newList, std::optional&lt;MNListUpdates&gt;&amp; updatesRet)</a>
+<a name="712"><span class="lineNum">     712 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!cs, ::cs_main);</a>
+<a name="713"><span class="lineNum">     713 </span>            :     bool UndoBlock(gsl::not_null&lt;const CBlockIndex*&gt; pindex, std::optional&lt;MNListUpdates&gt;&amp; updatesRet) EXCLUSIVE_LOCKS_REQUIRED(!cs);</a>
+<a name="714"><span class="lineNum">     714 </span>            : </a>
+<a name="715"><span class="lineNum">     715 </span>            :     void UpdatedBlockTip(gsl::not_null&lt;const CBlockIndex*&gt; pindex) EXCLUSIVE_LOCKS_REQUIRED(!cs);</a>
+<a name="716"><span class="lineNum">     716 </span>            : </a>
+<a name="717"><span class="lineNum">     717 </span><span class="lineCov">     763002 :     CDeterministicMNList GetListForBlock(gsl::not_null&lt;const CBlockIndex*&gt; pindex) EXCLUSIVE_LOCKS_REQUIRED(!cs) {</span></a>
+<a name="718"><span class="lineNum">     718 </span><span class="lineCov">     763002 :         LOCK(cs);</span></a>
+<a name="719"><span class="lineNum">     719 </span><span class="lineCov">     763002 :         return GetListForBlockInternal(pindex);</span></a>
+<a name="720"><span class="lineNum">     720 </span><span class="lineCov">     763006 :     };</span></a>
+<a name="721"><span class="lineNum">     721 </span>            :     CDeterministicMNList GetListAtChainTip() EXCLUSIVE_LOCKS_REQUIRED(!cs);</a>
+<a name="722"><span class="lineNum">     722 </span>            : </a>
+<a name="723"><span class="lineNum">     723 </span>            :     // Test if given TX is a ProRegTx which also contains the collateral at index n</a>
+<a name="724"><span class="lineNum">     724 </span>            :     static bool IsProTxWithCollateral(const CTransactionRef&amp; tx, uint32_t n);</a>
+<a name="725"><span class="lineNum">     725 </span>            : </a>
+<a name="726"><span class="lineNum">     726 </span>            :     void DoMaintenance() EXCLUSIVE_LOCKS_REQUIRED(!cs, !cs_cleanup);</a>
+<a name="727"><span class="lineNum">     727 </span>            : </a>
+<a name="728"><span class="lineNum">     728 </span>            :     // Recalculate and optionally repair diffs between snapshots</a>
+<a name="729"><span class="lineNum">     729 </span><span class="lineCov">        415 :     struct RecalcDiffsResult {</span></a>
+<a name="730"><span class="lineNum">     730 </span><span class="lineCov">        415 :         int start_height{0};</span></a>
+<a name="731"><span class="lineNum">     731 </span><span class="lineCov">        415 :         int stop_height{0};</span></a>
+<a name="732"><span class="lineNum">     732 </span><span class="lineCov">        415 :         int diffs_recalculated{0};</span></a>
+<a name="733"><span class="lineNum">     733 </span><span class="lineCov">        415 :         int snapshots_verified{0};</span></a>
+<a name="734"><span class="lineNum">     734 </span>            :         std::vector&lt;std::string&gt; verification_errors;</a>
+<a name="735"><span class="lineNum">     735 </span>            :         std::vector&lt;std::string&gt; repair_errors;</a>
+<a name="736"><span class="lineNum">     736 </span>            :     };</a>
+<a name="737"><span class="lineNum">     737 </span>            : </a>
+<a name="738"><span class="lineNum">     738 </span>            :     // Callback type for building a new MN list from a block</a>
+<a name="739"><span class="lineNum">     739 </span>            :     using BuildListFromBlockFunc = std::function&lt;bool(</a>
+<a name="740"><span class="lineNum">     740 </span>            :         const CBlock&amp; block,</a>
+<a name="741"><span class="lineNum">     741 </span>            :         gsl::not_null&lt;const CBlockIndex*&gt; pindexPrev,</a>
+<a name="742"><span class="lineNum">     742 </span>            :         const CDeterministicMNList&amp; prevList,</a>
+<a name="743"><span class="lineNum">     743 </span>            :         const CCoinsViewCache&amp; view,</a>
+<a name="744"><span class="lineNum">     744 </span>            :         bool debugLogs,</a>
+<a name="745"><span class="lineNum">     745 </span>            :         BlockValidationState&amp; state,</a>
+<a name="746"><span class="lineNum">     746 </span>            :         CDeterministicMNList&amp; mnListRet)&gt;;</a>
+<a name="747"><span class="lineNum">     747 </span>            : </a>
+<a name="748"><span class="lineNum">     748 </span>            :     [[nodiscard]] RecalcDiffsResult RecalculateAndRepairDiffs(const CBlockIndex* start_index,</a>
+<a name="749"><span class="lineNum">     749 </span>            :                                                               const CBlockIndex* stop_index, ChainstateManager&amp; chainman,</a>
+<a name="750"><span class="lineNum">     750 </span>            :                                                               BuildListFromBlockFunc build_list_func, bool repair)</a>
+<a name="751"><span class="lineNum">     751 </span>            :         EXCLUSIVE_LOCKS_REQUIRED(!cs);</a>
+<a name="752"><span class="lineNum">     752 </span>            :     [[nodiscard]] bool IsRepaired() const;</a>
+<a name="753"><span class="lineNum">     753 </span>            :     void CompleteRepair();</a>
+<a name="754"><span class="lineNum">     754 </span>            : </a>
+<a name="755"><span class="lineNum">     755 </span>            :     // Migration support for nVersion-first CDeterministicMNStateDiff format</a>
+<a name="756"><span class="lineNum">     756 </span>            :     [[nodiscard]] bool IsMigrationRequired() const EXCLUSIVE_LOCKS_REQUIRED(!cs, ::cs_main);</a>
+<a name="757"><span class="lineNum">     757 </span>            :     [[nodiscard]] bool MigrateLegacyDiffs(const CBlockIndex* const tip_index) EXCLUSIVE_LOCKS_REQUIRED(!cs, ::cs_main);</a>
+<a name="758"><span class="lineNum">     758 </span>            : </a>
+<a name="759"><span class="lineNum">     759 </span>            : private:</a>
+<a name="760"><span class="lineNum">     760 </span>            :     void CleanupCache(int nHeight) EXCLUSIVE_LOCKS_REQUIRED(cs);</a>
+<a name="761"><span class="lineNum">     761 </span>            :     CDeterministicMNList GetListForBlockInternal(gsl::not_null&lt;const CBlockIndex*&gt; pindex) EXCLUSIVE_LOCKS_REQUIRED(cs);</a>
+<a name="762"><span class="lineNum">     762 </span>            : </a>
+<a name="763"><span class="lineNum">     763 </span>            :     // Helper methods for RecalculateAndRepairDiffs</a>
+<a name="764"><span class="lineNum">     764 </span>            :     std::vector&lt;const CBlockIndex*&gt; CollectSnapshotBlocks(const CBlockIndex* start_index, const CBlockIndex* stop_index,</a>
+<a name="765"><span class="lineNum">     765 </span>            :                                                           const Consensus::Params&amp; consensus_params);</a>
+<a name="766"><span class="lineNum">     766 </span>            :     bool VerifySnapshotPair(const CBlockIndex* from_index, const CBlockIndex* to_index,</a>
+<a name="767"><span class="lineNum">     767 </span>            :                             const CDeterministicMNList&amp; from_snapshot, const CDeterministicMNList&amp; to_snapshot,</a>
+<a name="768"><span class="lineNum">     768 </span>            :                             RecalcDiffsResult&amp; result);</a>
+<a name="769"><span class="lineNum">     769 </span>            :     std::vector&lt;std::pair&lt;uint256, CDeterministicMNListDiff&gt;&gt; RepairSnapshotPair(</a>
+<a name="770"><span class="lineNum">     770 </span>            :         const CBlockIndex* from_index, const CBlockIndex* to_index, const CDeterministicMNList&amp; from_snapshot,</a>
+<a name="771"><span class="lineNum">     771 </span>            :         const CDeterministicMNList&amp; to_snapshot, BuildListFromBlockFunc build_list_func, RecalcDiffsResult&amp; result);</a>
+<a name="772"><span class="lineNum">     772 </span>            :     void WriteRepairedDiffs(const std::vector&lt;std::pair&lt;uint256, CDeterministicMNListDiff&gt;&gt;&amp; recalculated_diffs,</a>
+<a name="773"><span class="lineNum">     773 </span>            :                             RecalcDiffsResult&amp; result) EXCLUSIVE_LOCKS_REQUIRED(!cs);</a>
+<a name="774"><span class="lineNum">     774 </span>            : };</a>
+<a name="775"><span class="lineNum">     775 </span>            : #endif // BITCOIN_EVO_DETERMINISTICMNS_H</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

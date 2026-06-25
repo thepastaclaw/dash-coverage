@@ -1,0 +1,342 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - test_dash_coverage.info - src/primitives/block.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/primitives</a> - block.h<span style="font-size: 80%;"> (source / <a href="block.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">test_dash_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">57</td>
+            <td class="headerCovTableEntry">116</td>
+            <td class="headerCovTableEntryLo">49.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:51</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">71</td>
+            <td class="headerCovTableEntry">109</td>
+            <td class="headerCovTableEntryLo">65.1 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2009-2010 Satoshi Nakamoto</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Copyright (c) 2009-2020 The Bitcoin Core developers</a>
+<a name="3"><span class="lineNum">       3 </span>            : // Distributed under the MIT software license, see the accompanying</a>
+<a name="4"><span class="lineNum">       4 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="5"><span class="lineNum">       5 </span>            : </a>
+<a name="6"><span class="lineNum">       6 </span>            : #ifndef BITCOIN_PRIMITIVES_BLOCK_H</a>
+<a name="7"><span class="lineNum">       7 </span>            : #define BITCOIN_PRIMITIVES_BLOCK_H</a>
+<a name="8"><span class="lineNum">       8 </span>            : </a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;list&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;primitives/transaction.h&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;serialize.h&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : #include &lt;uint256.h&gt;</a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;cstddef&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : #include &lt;type_traits&gt;</a>
+<a name="15"><span class="lineNum">      15 </span>            : </a>
+<a name="16"><span class="lineNum">      16 </span>            : /** Nodes collect new transactions into a block, hash them into a hash tree,</a>
+<a name="17"><span class="lineNum">      17 </span>            :  * and scan through nonce values to make the block's hash satisfy proof-of-work</a>
+<a name="18"><span class="lineNum">      18 </span>            :  * requirements.  When they solve the proof-of-work, they broadcast the block</a>
+<a name="19"><span class="lineNum">      19 </span>            :  * to everyone and the block is added to the block chain.  The first transaction</a>
+<a name="20"><span class="lineNum">      20 </span>            :  * in the block is a special one that creates a new coin owned by the creator</a>
+<a name="21"><span class="lineNum">      21 </span>            :  * of the block.</a>
+<a name="22"><span class="lineNum">      22 </span>            :  */</a>
+<a name="23"><span class="lineNum">      23 </span>            : class CBlockHeader</a>
+<a name="24"><span class="lineNum">      24 </span>            : {</a>
+<a name="25"><span class="lineNum">      25 </span>            : public:</a>
+<a name="26"><span class="lineNum">      26 </span>            :     // header</a>
+<a name="27"><span class="lineNum">      27 </span>            :     int32_t nVersion;</a>
+<a name="28"><span class="lineNum">      28 </span>            :     uint256 hashPrevBlock;</a>
+<a name="29"><span class="lineNum">      29 </span>            :     uint256 hashMerkleRoot;</a>
+<a name="30"><span class="lineNum">      30 </span>            :     uint32_t nTime;</a>
+<a name="31"><span class="lineNum">      31 </span>            :     uint32_t nBits;</a>
+<a name="32"><span class="lineNum">      32 </span>            :     uint32_t nNonce;</a>
+<a name="33"><span class="lineNum">      33 </span>            : </a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">      82962 :     CBlockHeader()</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">       1155 :     {</span></a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">      81807 :         SetNull();</span></a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">      82962 :     }</span></a>
+<a name="38"><span class="lineNum">      38 </span>            : </a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">    3862648 :     SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce); }</span></a>
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">     207412 :     void SetNull()</span></a>
+<a name="42"><span class="lineNum">      42 </span>            :     {</a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">     207412 :         nVersion = 0;</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">     207412 :         hashPrevBlock.SetNull();</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">     207412 :         hashMerkleRoot.SetNull();</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">     207412 :         nTime = 0;</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">     207412 :         nBits = 0;</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">     207412 :         nNonce = 0;</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">     207412 :     }</span></a>
+<a name="50"><span class="lineNum">      50 </span>            : </a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">        958 :     bool IsNull() const</span></a>
+<a name="52"><span class="lineNum">      52 </span>            :     {</a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">        958 :         return (nBits == 0);</span></a>
+<a name="54"><span class="lineNum">      54 </span>            :     }</a>
+<a name="55"><span class="lineNum">      55 </span>            : </a>
+<a name="56"><span class="lineNum">      56 </span>            :     uint256 GetHash() const;</a>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">     221416 :     int64_t GetBlockTime() const</span></a>
+<a name="59"><span class="lineNum">      59 </span>            :     {</a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">     221416 :         return (int64_t)nTime;</span></a>
+<a name="61"><span class="lineNum">      61 </span>            :     }</a>
+<a name="62"><span class="lineNum">      62 </span>            : };</a>
+<a name="63"><span class="lineNum">      63 </span>            : </a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 : class CompressedHeaderBitField</span></a>
+<a name="65"><span class="lineNum">      65 </span>            : {</a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineNoCov">          0 :     std::byte bit_field{0};</span></a>
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<a name="68"><span class="lineNum">      68 </span>            : public:</a>
+<a name="69"><span class="lineNum">      69 </span>            :     enum class Flag : std::underlying_type_t&lt;std::byte&gt; {</a>
+<a name="70"><span class="lineNum">      70 </span>            :         VERSION_BIT_0 = (1 &lt;&lt; 0),</a>
+<a name="71"><span class="lineNum">      71 </span>            :         VERSION_BIT_1 = (1 &lt;&lt; 1),</a>
+<a name="72"><span class="lineNum">      72 </span>            :         VERSION_BIT_2 = (1 &lt;&lt; 2),</a>
+<a name="73"><span class="lineNum">      73 </span>            :         PREV_BLOCK_HASH = (1 &lt;&lt; 3),</a>
+<a name="74"><span class="lineNum">      74 </span>            :         TIMESTAMP = (1 &lt;&lt; 4),</a>
+<a name="75"><span class="lineNum">      75 </span>            :         NBITS = (1 &lt;&lt; 5),</a>
+<a name="76"><span class="lineNum">      76 </span>            :     };</a>
+<a name="77"><span class="lineNum">      77 </span>            : </a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineNoCov">          0 :     inline bool IsCompressed(Flag flag) const</span></a>
+<a name="79"><span class="lineNum">      79 </span>            :     {</a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineNoCov">          0 :         return (bit_field &amp; to_byte(flag)) == to_byte(0);</span></a>
+<a name="81"><span class="lineNum">      81 </span>            :     }</a>
+<a name="82"><span class="lineNum">      82 </span>            : </a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineNoCov">          0 :     inline void MarkAsUncompressed(Flag flag)</span></a>
+<a name="84"><span class="lineNum">      84 </span>            :     {</a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :         bit_field |= to_byte(flag);</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="87"><span class="lineNum">      87 </span>            : </a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineNoCov">          0 :     inline void MarkAsCompressed(Flag flag)</span></a>
+<a name="89"><span class="lineNum">      89 </span>            :     {</a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineNoCov">          0 :         bit_field &amp;= ~to_byte(flag);</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="92"><span class="lineNum">      92 </span>            : </a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineNoCov">          0 :     inline bool IsVersionCompressed() const</span></a>
+<a name="94"><span class="lineNum">      94 </span>            :     {</a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 :         return GetVersionOffset() != 0;</span></a>
+<a name="96"><span class="lineNum">      96 </span>            :     }</a>
+<a name="97"><span class="lineNum">      97 </span>            : </a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineNoCov">          0 :     inline void SetVersionOffset(uint8_t version)</span></a>
+<a name="99"><span class="lineNum">      99 </span>            :     {</a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineNoCov">          0 :         bit_field &amp;= ~VERSION_BIT_MASK;</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineNoCov">          0 :         bit_field |= to_byte(version) &amp; VERSION_BIT_MASK;</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="103"><span class="lineNum">     103 </span>            : </a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 :     inline uint8_t GetVersionOffset() const</span></a>
+<a name="105"><span class="lineNum">     105 </span>            :     {</a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineNoCov">          0 :         return to_uint8(bit_field &amp; VERSION_BIT_MASK);</span></a>
+<a name="107"><span class="lineNum">     107 </span>            :     }</a>
+<a name="108"><span class="lineNum">     108 </span>            : </a>
+<a name="109"><span class="lineNum">     109 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineNoCov">          0 :     void Serialize(Stream&amp; s) const</span></a>
+<a name="111"><span class="lineNum">     111 </span>            :     {</a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 :         ::Serialize(s, to_uint8(bit_field));</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="114"><span class="lineNum">     114 </span>            : </a>
+<a name="115"><span class="lineNum">     115 </span>            :     template &lt;typename Stream&gt;</a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineNoCov">          0 :     void Unserialize(Stream&amp; s)</span></a>
+<a name="117"><span class="lineNum">     117 </span>            :     {</a>
+<a name="118"><span class="lineNum">     118 </span>            :         uint8_t new_bit_field_value;</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 :         ::Unserialize(s, new_bit_field_value);</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :         bit_field = to_byte(new_bit_field_value);</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="122"><span class="lineNum">     122 </span>            : </a>
+<a name="123"><span class="lineNum">     123 </span>            : private:</a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :     static constexpr uint8_t to_uint8(const std::byte value)</span></a>
+<a name="125"><span class="lineNum">     125 </span>            :     {</a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :         return std::to_integer&lt;uint8_t&gt;(value);</span></a>
+<a name="127"><span class="lineNum">     127 </span>            :     }</a>
+<a name="128"><span class="lineNum">     128 </span>            : </a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :     static constexpr std::byte to_byte(const uint8_t value)</span></a>
+<a name="130"><span class="lineNum">     130 </span>            :     {</a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :         return std::byte{value};</span></a>
+<a name="132"><span class="lineNum">     132 </span>            :     }</a>
+<a name="133"><span class="lineNum">     133 </span>            : </a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineNoCov">          0 :     static constexpr std::byte to_byte(const Flag flag)</span></a>
+<a name="135"><span class="lineNum">     135 </span>            :     {</a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 :         return static_cast&lt;std::byte&gt;(flag);</span></a>
+<a name="137"><span class="lineNum">     137 </span>            :     }</a>
+<a name="138"><span class="lineNum">     138 </span>            : </a>
+<a name="139"><span class="lineNum">     139 </span>            :     static constexpr std::byte VERSION_BIT_MASK = static_cast&lt;std::byte&gt;(Flag::VERSION_BIT_0) | static_cast&lt;std::byte&gt;(Flag::VERSION_BIT_1) | static_cast&lt;std::byte&gt;(Flag::VERSION_BIT_2);</a>
+<a name="140"><span class="lineNum">     140 </span>            : };</a>
+<a name="141"><span class="lineNum">     141 </span>            : </a>
+<a name="142"><span class="lineNum">     142 </span>            : struct CompressibleBlockHeader : CBlockHeader {</a>
+<a name="143"><span class="lineNum">     143 </span>            :     CompressedHeaderBitField bit_field;</a>
+<a name="144"><span class="lineNum">     144 </span><span class="lineNoCov">          0 :     int16_t time_offset{0};</span></a>
+<a name="145"><span class="lineNum">     145 </span>            : </a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineNoCov">          0 :     CompressibleBlockHeader() = default;</span></a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 :     explicit CompressibleBlockHeader(CBlockHeader&amp;&amp; block_header)</span></a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineNoCov">          0 :     {</span></a>
+<a name="150"><span class="lineNum">     150 </span>            :         static_assert(std::is_trivially_copyable_v&lt;CBlockHeader&gt;, &quot;If CBlockHeader is not trivially copyable, please consider using std::move on the next line&quot;);</a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineNoCov">          0 :         *static_cast&lt;CBlockHeader*&gt;(this) = block_header;</span></a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span>            :         // When we create this from a block header, mark everything as uncompressed</a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineNoCov">          0 :         bit_field.SetVersionOffset(0);</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineNoCov">          0 :         bit_field.MarkAsUncompressed(CompressedHeaderBitField::Flag::PREV_BLOCK_HASH);</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :         bit_field.MarkAsUncompressed(CompressedHeaderBitField::Flag::TIMESTAMP);</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :         bit_field.MarkAsUncompressed(CompressedHeaderBitField::Flag::NBITS);</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="159"><span class="lineNum">     159 </span>            : </a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :     SERIALIZE_METHODS(CompressibleBlockHeader, obj)</span></a>
+<a name="161"><span class="lineNum">     161 </span>            :     {</a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :         READWRITE(obj.bit_field);</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :         if (!obj.bit_field.IsVersionCompressed()) {</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :             READWRITE(obj.nVersion);</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :         if (!obj.bit_field.IsCompressed(CompressedHeaderBitField::Flag::PREV_BLOCK_HASH)) {</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :             READWRITE(obj.hashPrevBlock);</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :         READWRITE(obj.hashMerkleRoot);</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :         if (!obj.bit_field.IsCompressed(CompressedHeaderBitField::Flag::TIMESTAMP)) {</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :             READWRITE(obj.nTime);</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :         } else {</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :             READWRITE(obj.time_offset);</span></a>
+<a name="174"><span class="lineNum">     174 </span>            :         }</a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :         if (!obj.bit_field.IsCompressed(CompressedHeaderBitField::Flag::NBITS)) {</span></a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineNoCov">          0 :             READWRITE(obj.nBits);</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :         READWRITE(obj.nNonce);</span></a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="180"><span class="lineNum">     180 </span>            : </a>
+<a name="181"><span class="lineNum">     181 </span>            :     void Compress(const std::vector&lt;CompressibleBlockHeader&gt;&amp; previous_blocks, std::list&lt;int32_t&gt;&amp; last_unique_versions);</a>
+<a name="182"><span class="lineNum">     182 </span>            : </a>
+<a name="183"><span class="lineNum">     183 </span>            :     void Uncompress(const std::vector&lt;CBlockHeader&gt;&amp; previous_blocks, std::list&lt;int32_t&gt;&amp; last_unique_versions);</a>
+<a name="184"><span class="lineNum">     184 </span>            : };</a>
+<a name="185"><span class="lineNum">     185 </span>            : </a>
+<a name="186"><span class="lineNum">     186 </span>            : class CBlock : public CBlockHeader</a>
+<a name="187"><span class="lineNum">     187 </span>            : {</a>
+<a name="188"><span class="lineNum">     188 </span>            : public:</a>
+<a name="189"><span class="lineNum">     189 </span>            :     // network and disk</a>
+<a name="190"><span class="lineNum">     190 </span>            :     std::vector&lt;CTransactionRef&gt; vtx;</a>
+<a name="191"><span class="lineNum">     191 </span>            : </a>
+<a name="192"><span class="lineNum">     192 </span>            :     // memory only</a>
+<a name="193"><span class="lineNum">     193 </span>            :     mutable bool fChecked;</a>
+<a name="194"><span class="lineNum">     194 </span>            : </a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">     161288 :     CBlock()</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">      80644 :     {</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">      80644 :         SetNull();</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">     161288 :     }</span></a>
+<a name="199"><span class="lineNum">     199 </span>            : </a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">         16 :     CBlock(const CBlockHeader &amp;header)</span></a>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">          8 :     {</span></a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">          8 :         SetNull();</span></a>
+<a name="203"><span class="lineNum">     203 </span><span class="lineCov">          8 :         *(static_cast&lt;CBlockHeader*&gt;(this)) = header;</span></a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">         16 :     }</span></a>
+<a name="205"><span class="lineNum">     205 </span>            : </a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">     801351 :     SERIALIZE_METHODS(CBlock, obj)</span></a>
+<a name="207"><span class="lineNum">     207 </span>            :     {</a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">     267117 :         READWRITEAS(CBlockHeader, obj);</span></a>
+<a name="209"><span class="lineNum">     209 </span><span class="lineCov">     267117 :         READWRITE(obj.vtx);</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">     267117 :     }</span></a>
+<a name="211"><span class="lineNum">     211 </span>            : </a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">     125599 :     void SetNull()</span></a>
+<a name="213"><span class="lineNum">     213 </span>            :     {</a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">     125599 :         CBlockHeader::SetNull();</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">     125599 :         vtx.clear();</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">     125599 :         fChecked = false;</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">     125599 :     }</span></a>
+<a name="218"><span class="lineNum">     218 </span>            : </a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">        837 :     CBlockHeader GetBlockHeader() const</span></a>
+<a name="220"><span class="lineNum">     220 </span>            :     {</a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">        837 :         CBlockHeader block;</span></a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">        837 :         block.nVersion       = nVersion;</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">        837 :         block.hashPrevBlock  = hashPrevBlock;</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">        837 :         block.hashMerkleRoot = hashMerkleRoot;</span></a>
+<a name="225"><span class="lineNum">     225 </span><span class="lineCov">        837 :         block.nTime          = nTime;</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">        837 :         block.nBits          = nBits;</span></a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">        837 :         block.nNonce         = nNonce;</span></a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">        837 :         return block;</span></a>
+<a name="229"><span class="lineNum">     229 </span>            :     }</a>
+<a name="230"><span class="lineNum">     230 </span>            : </a>
+<a name="231"><span class="lineNum">     231 </span>            :     std::string ToString() const;</a>
+<a name="232"><span class="lineNum">     232 </span>            : };</a>
+<a name="233"><span class="lineNum">     233 </span>            : </a>
+<a name="234"><span class="lineNum">     234 </span>            : </a>
+<a name="235"><span class="lineNum">     235 </span>            : /** Describes a place in the block chain to another node such that if the</a>
+<a name="236"><span class="lineNum">     236 </span>            :  * other node doesn't have the same branch, it can find a recent common trunk.</a>
+<a name="237"><span class="lineNum">     237 </span>            :  * The further back it is, the further before the fork it may be.</a>
+<a name="238"><span class="lineNum">     238 </span>            :  */</a>
+<a name="239"><span class="lineNum">     239 </span>            : struct CBlockLocator</a>
+<a name="240"><span class="lineNum">     240 </span>            : {</a>
+<a name="241"><span class="lineNum">     241 </span>            :     std::vector&lt;uint256&gt; vHave;</a>
+<a name="242"><span class="lineNum">     242 </span>            : </a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">        176 :     CBlockLocator() {}</span></a>
+<a name="244"><span class="lineNum">     244 </span>            : </a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">        628 :     explicit CBlockLocator(const std::vector&lt;uint256&gt;&amp; vHaveIn) : vHave(vHaveIn) {}</span></a>
+<a name="246"><span class="lineNum">     246 </span>            : </a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">        645 :     SERIALIZE_METHODS(CBlockLocator, obj)</span></a>
+<a name="248"><span class="lineNum">     248 </span>            :     {</a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">        215 :         int nVersion = s.GetVersion();</span></a>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">        215 :         if (!(s.GetType() &amp; SER_GETHASH))</span></a>
+<a name="251"><span class="lineNum">     251 </span><span class="lineCov">        215 :             READWRITE(nVersion);</span></a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">        215 :         READWRITE(obj.vHave);</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">        215 :     }</span></a>
+<a name="254"><span class="lineNum">     254 </span>            : </a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">        144 :     void SetNull()</span></a>
+<a name="256"><span class="lineNum">     256 </span>            :     {</a>
+<a name="257"><span class="lineNum">     257 </span><span class="lineCov">        144 :         vHave.clear();</span></a>
+<a name="258"><span class="lineNum">     258 </span><span class="lineCov">        144 :     }</span></a>
+<a name="259"><span class="lineNum">     259 </span>            : </a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">        123 :     bool IsNull() const</span></a>
+<a name="261"><span class="lineNum">     261 </span>            :     {</a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">        123 :         return vHave.empty();</span></a>
+<a name="263"><span class="lineNum">     263 </span>            :     }</a>
+<a name="264"><span class="lineNum">     264 </span>            : };</a>
+<a name="265"><span class="lineNum">     265 </span>            : </a>
+<a name="266"><span class="lineNum">     266 </span>            : #endif // BITCOIN_PRIMITIVES_BLOCK_H</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

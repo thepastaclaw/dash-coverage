@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - test_dash_coverage.info - src/masternode/sync.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/masternode</a> - sync.cpp<span style="font-size: 80%;"> (source / <a href="sync.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">test_dash_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">92</td>
+            <td class="headerCovTableEntryLo">19.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:51</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">35.7 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2014-2025 The Dash Core developers</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Distributed under the MIT/X11 software license, see the accompanying</a>
+<a name="3"><span class="lineNum">       3 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #include &lt;masternode/sync.h&gt;</a>
+<a name="6"><span class="lineNum">       6 </span>            : </a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &lt;chain.h&gt;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;logging.h&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;util/time.h&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;util/translation.h&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : #include &lt;cassert&gt;</a>
+<a name="13"><span class="lineNum">      13 </span>            : </a>
+<a name="14"><span class="lineNum">      14 </span><span class="lineNoCov">          0 : void NullNodeSyncNotifier::SyncReset() { assert(false); }</span></a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineNoCov">          0 : void NullNodeSyncNotifier::SyncFinished() { assert(false); }</span></a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span><span class="lineCov">        368 : CMasternodeSync::CMasternodeSync(std::unique_ptr&lt;NodeSyncNotifier&gt;&amp;&amp; sync_notifier) :</span></a>
+<a name="18"><span class="lineNum">      18 </span>            :     nTimeAssetSyncStarted{GetTime()},</a>
+<a name="19"><span class="lineNum">      19 </span>            :     nTimeLastBumped{GetTime()},</a>
+<a name="20"><span class="lineNum">      20 </span>            :     m_sync_notifier{std::move(sync_notifier)}</a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">        184 : {</span></a>
+<a name="22"><span class="lineNum">      22 </span>            :     assert(m_sync_notifier != nullptr);</a>
+<a name="23"><span class="lineNum">      23 </span><span class="lineCov">        184 : }</span></a>
+<a name="24"><span class="lineNum">      24 </span>            : </a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">        368 : CMasternodeSync::~CMasternodeSync() = default;</span></a>
+<a name="26"><span class="lineNum">      26 </span>            : </a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">          2 : void CMasternodeSync::Reset(bool fForce, bool fNotifyReset)</span></a>
+<a name="28"><span class="lineNum">      28 </span>            : {</a>
+<a name="29"><span class="lineNum">      29 </span>            :     // Avoid resetting the sync process if we just &quot;recently&quot; received a new block</a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">          2 :     if (!fForce) {</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          2 :         if (GetTime() - nTimeLastUpdateBlockTip &lt; MASTERNODE_SYNC_RESET_SECONDS) {</span></a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineNoCov">          0 :             return;</span></a>
+<a name="33"><span class="lineNum">      33 </span>            :         }</a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">          2 :     }</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          2 :     nCurrentAsset = MASTERNODE_SYNC_BLOCKCHAIN;</span></a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 :     nTriedPeerCount = 0;</span></a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          2 :     nTimeAssetSyncStarted = GetTime();</span></a>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">          2 :     nTimeLastBumped = GetTime();</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">          2 :     nTimeLastUpdateBlockTip = 0;</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          2 :     fReachedBestHeader = false;</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">          2 :     if (fNotifyReset) {</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          2 :         m_sync_notifier-&gt;SyncReset();</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">          2 :     }</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          2 : }</span></a>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineNoCov">          0 : void CMasternodeSync::BumpAssetLastTime(const std::string&amp; strFuncName)</span></a>
+<a name="47"><span class="lineNum">      47 </span>            : {</a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineNoCov">          0 :     if (IsSynced()) return;</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineNoCov">          0 :     nTimeLastBumped = GetTime();</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineNoCov">          0 :     LogPrint(BCLog::MNSYNC, &quot;CMasternodeSync::BumpAssetLastTime -- %s\n&quot;, strFuncName);</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="52"><span class="lineNum">      52 </span>            : </a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineNoCov">          0 : std::string CMasternodeSync::GetAssetName() const</span></a>
+<a name="54"><span class="lineNum">      54 </span>            : {</a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineNoCov">          0 :     switch(nCurrentAsset)</span></a>
+<a name="56"><span class="lineNum">      56 </span>            :     {</a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineNoCov">          0 :         case(MASTERNODE_SYNC_BLOCKCHAIN):   return &quot;MASTERNODE_SYNC_BLOCKCHAIN&quot;;</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineNoCov">          0 :         case(MASTERNODE_SYNC_GOVERNANCE):   return &quot;MASTERNODE_SYNC_GOVERNANCE&quot;;</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineNoCov">          0 :         case MASTERNODE_SYNC_FINISHED:      return &quot;MASTERNODE_SYNC_FINISHED&quot;;</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineNoCov">          0 :         default:                            return &quot;UNKNOWN&quot;;</span></a>
+<a name="61"><span class="lineNum">      61 </span>            :     }</a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="63"><span class="lineNum">      63 </span>            : </a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 : void CMasternodeSync::SwitchToNextAsset()</span></a>
+<a name="65"><span class="lineNum">      65 </span>            : {</a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineNoCov">          0 :     switch(nCurrentAsset)</span></a>
+<a name="67"><span class="lineNum">      67 </span>            :     {</a>
+<a name="68"><span class="lineNum">      68 </span>            :         case(MASTERNODE_SYNC_BLOCKCHAIN):</a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineNoCov">          0 :             LogPrintf(&quot;CMasternodeSync::SwitchToNextAsset -- Completed %s in %llds\n&quot;, GetAssetName(), GetTime() - nTimeAssetSyncStarted);</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineNoCov">          0 :             nCurrentAsset = MASTERNODE_SYNC_GOVERNANCE;</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineNoCov">          0 :             LogPrintf(&quot;CMasternodeSync::SwitchToNextAsset -- Starting %s\n&quot;, GetAssetName());</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineNoCov">          0 :             break;</span></a>
+<a name="73"><span class="lineNum">      73 </span>            :         case(MASTERNODE_SYNC_GOVERNANCE):</a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineNoCov">          0 :             LogPrintf(&quot;CMasternodeSync::SwitchToNextAsset -- Completed %s in %llds\n&quot;, GetAssetName(), GetTime() - nTimeAssetSyncStarted);</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineNoCov">          0 :             nCurrentAsset = MASTERNODE_SYNC_FINISHED;</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineNoCov">          0 :             m_sync_notifier-&gt;SyncFinished();</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineNoCov">          0 :             LogPrintf(&quot;CMasternodeSync::SwitchToNextAsset -- Sync has finished\n&quot;);</span></a>
+<a name="78"><span class="lineNum">      78 </span>            : </a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineNoCov">          0 :             break;</span></a>
+<a name="80"><span class="lineNum">      80 </span>            :     }</a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineNoCov">          0 :     nTriedPeerCount = 0;</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineNoCov">          0 :     nTimeAssetSyncStarted = GetTime();</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineNoCov">          0 :     BumpAssetLastTime(&quot;CMasternodeSync::SwitchToNextAsset&quot;);</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="85"><span class="lineNum">      85 </span>            : </a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineNoCov">          0 : std::string CMasternodeSync::GetSyncStatus() const</span></a>
+<a name="87"><span class="lineNum">      87 </span>            : {</a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineNoCov">          0 :     switch (nCurrentAsset) {</span></a>
+<a name="89"><span class="lineNum">      89 </span><span class="lineNoCov">          0 :         case MASTERNODE_SYNC_BLOCKCHAIN:    return _(&quot;Synchronizing blockchain…&quot;).translated;</span></a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineNoCov">          0 :         case MASTERNODE_SYNC_GOVERNANCE:    return _(&quot;Synchronizing governance objects…&quot;).translated;</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineNoCov">          0 :         case MASTERNODE_SYNC_FINISHED:      return _(&quot;Synchronization finished&quot;).translated;</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineNoCov">          0 :         default:                            return &quot;&quot;;</span></a>
+<a name="93"><span class="lineNum">      93 </span>            :     }</a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="95"><span class="lineNum">      95 </span>            : </a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineNoCov">          0 : void CMasternodeSync::AcceptedBlockHeader(const CBlockIndex *pindexNew)</span></a>
+<a name="97"><span class="lineNum">      97 </span>            : {</a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineNoCov">          0 :     LogPrint(BCLog::MNSYNC, &quot;CMasternodeSync::AcceptedBlockHeader -- pindexNew-&gt;nHeight: %d\n&quot;, pindexNew-&gt;nHeight);</span></a>
+<a name="99"><span class="lineNum">      99 </span>            : </a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineNoCov">          0 :     if (!IsBlockchainSynced()) {</span></a>
+<a name="101"><span class="lineNum">     101 </span>            :         // Postpone timeout each time new block header arrives while we are still syncing blockchain</a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineNoCov">          0 :         BumpAssetLastTime(&quot;CMasternodeSync::AcceptedBlockHeader&quot;);</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="105"><span class="lineNum">     105 </span>            : </a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineNoCov">          0 : void CMasternodeSync::NotifyHeaderTip(const CBlockIndex *pindexNew, bool fInitialDownload)</span></a>
+<a name="107"><span class="lineNum">     107 </span>            : {</a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineNoCov">          0 :     if (pindexNew == nullptr) {</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineNoCov">          0 :         return;</span></a>
+<a name="110"><span class="lineNum">     110 </span>            :     }</a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineNoCov">          0 :     LogPrint(BCLog::MNSYNC, &quot;CMasternodeSync::NotifyHeaderTip -- pindexNew-&gt;nHeight: %d fInitialDownload=%d\n&quot;, pindexNew-&gt;nHeight, fInitialDownload);</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 :     if (IsSynced())</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineNoCov">          0 :         return;</span></a>
+<a name="114"><span class="lineNum">     114 </span>            : </a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineNoCov">          0 :     if (!IsBlockchainSynced()) {</span></a>
+<a name="116"><span class="lineNum">     116 </span>            :         // Postpone timeout each time new block arrives while we are still syncing blockchain</a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineNoCov">          0 :         BumpAssetLastTime(&quot;CMasternodeSync::NotifyHeaderTip&quot;);</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="120"><span class="lineNum">     120 </span>            : </a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineNoCov">          0 : void CMasternodeSync::UpdatedBlockTip(const CBlockIndex *pindexTip, const CBlockIndex *pindexNew, bool fInitialDownload)</span></a>
+<a name="122"><span class="lineNum">     122 </span>            : {</a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineNoCov">          0 :     LogPrint(BCLog::MNSYNC, &quot;CMasternodeSync::UpdatedBlockTip -- pindexNew-&gt;nHeight: %d fInitialDownload=%d\n&quot;, pindexNew-&gt;nHeight, fInitialDownload);</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :     nTimeLastUpdateBlockTip = GetTime&lt;std::chrono::seconds&gt;().count();</span></a>
+<a name="125"><span class="lineNum">     125 </span>            : </a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :     if (IsSynced())</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineNoCov">          0 :         return;</span></a>
+<a name="128"><span class="lineNum">     128 </span>            : </a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :     if (!IsBlockchainSynced()) {</span></a>
+<a name="130"><span class="lineNum">     130 </span>            :         // Postpone timeout each time new block arrives while we are still syncing blockchain</a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :         BumpAssetLastTime(&quot;CMasternodeSync::UpdatedBlockTip&quot;);</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="133"><span class="lineNum">     133 </span>            : </a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineNoCov">          0 :     if (fInitialDownload) {</span></a>
+<a name="135"><span class="lineNum">     135 </span>            :         // switched too early</a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 :         if (IsBlockchainSynced()) {</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineNoCov">          0 :             Reset(true);</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="139"><span class="lineNum">     139 </span>            : </a>
+<a name="140"><span class="lineNum">     140 </span>            :         // no need to check any further while still in IBD mode</a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineNoCov">          0 :         return;</span></a>
+<a name="142"><span class="lineNum">     142 </span>            :     }</a>
+<a name="143"><span class="lineNum">     143 </span>            : </a>
+<a name="144"><span class="lineNum">     144 </span>            :     // Note: since we sync headers first, it should be ok to use this</a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 :     if (pindexTip == nullptr) return;</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineNoCov">          0 :     bool fReachedBestHeaderNew = pindexNew-&gt;GetBlockHash() == pindexTip-&gt;GetBlockHash();</span></a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 :     if (fReachedBestHeader &amp;&amp; !fReachedBestHeaderNew) {</span></a>
+<a name="149"><span class="lineNum">     149 </span>            :         // Switching from true to false means that we previously stuck syncing headers for some reason,</a>
+<a name="150"><span class="lineNum">     150 </span>            :         // probably initial timeout was not enough,</a>
+<a name="151"><span class="lineNum">     151 </span>            :         // because there is no way we can update tip not having best header</a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineNoCov">          0 :         Reset(true);</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="154"><span class="lineNum">     154 </span>            : </a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineNoCov">          0 :     fReachedBestHeader = fReachedBestHeaderNew;</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :     LogPrint(BCLog::MNSYNC, &quot;CMasternodeSync::UpdatedBlockTip -- pindexNew-&gt;nHeight: %d pindexTip-&gt;nHeight: %d fInitialDownload=%d fReachedBestHeader=%d\n&quot;,</span></a>
+<a name="157"><span class="lineNum">     157 </span>            :                 pindexNew-&gt;nHeight, pindexTip-&gt;nHeight, fInitialDownload, fReachedBestHeader);</a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 : }</span></a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

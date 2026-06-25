@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>Dash Core Coverage — 2026-06-25</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;max-width:980px;margin:40px auto;line-height:1.45;padding:0 20px}code{background:#f4f4f4;padding:2px 4px;border-radius:4px}li{margin:4px 0}.warn{background:#fff7d6;border-left:4px solid #d6a100;padding:12px}</style>
+<h1>Dash Core coverage — develop @ a59ad9e8b</h1>
+<p>Generated 2026-06-25 from Dash Core autotools/lcov coverage on macOS arm64.</p>
+<ul>
+  <li><a href="unit/index.html">Unit test coverage HTML</a> — <strong>59.3%</strong> lines, <strong>59.9%</strong> functions.</li>
+  <li><a href="total/index.html">Unit + functional coverage HTML</a> — <strong>85.2%</strong> lines, <strong>77.9%</strong> functions.</li>
+  <li><a href="logs/functional-extended.log">Functional test runner log</a></li>
+</ul>
+<div class="warn"><strong>Note:</strong> the extended functional coverage run executed most of the suite but ended non-zero: 290 passed, 17 skipped, 6 failed. The lcov report was generated from the coverage data left by that run, so treat it as useful directional coverage rather than a perfectly clean green-suite artifact.</div>
+<h2>Failed functional tests</h2>
+<ul>
+  <li><code>feature_dip4_coinbasemerkleroots.py</code></li>
+  <li><code>feature_governance.py --legacy-wallet</code></li>
+  <li><code>feature_llmq_simplepose.py</code></li>
+  <li><code>feature_timestampindex.py</code></li>
+  <li><code>mempool_package_onemore.py</code></li>
+  <li><code>mempool_packages.py</code></li>
+</ul>
+<h2>Dash-specific improvement opportunities</h2>
+<ul>
+  <li><strong>CoinJoin</strong> is the clear low-coverage Dash-specific area: ~26.4% lines overall. Biggest files: <code>coinjoin/client.cpp</code> 8.5%, <code>coinjoin/server.cpp</code> 10.3%, <code>coinjoin/coinjoin.cpp</code> 34.8%.</li>
+  <li><strong>Governance</strong> is middle coverage (~70.8%) but has meaningful branch/path gaps, especially object validation/lifecycle and superblock paths.</li>
+  <li><strong>Dash RPC surfaces</strong> look decent overall (~84.6%), but targeted negative/error-path tests for Evo/Governance/Quorum RPCs would still be valuable.</li>
+  <li><strong>Evo/LLMQ/ChainLocks</strong> have good aggregate line coverage from functional tests, but failures in the extended run suggest timeout/flakiness sensitivity under coverage instrumentation.</li>
+</ul>

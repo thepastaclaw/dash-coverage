@@ -1,0 +1,863 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/test/dip0020opcodes_tests.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/test</a> - dip0020opcodes_tests.cpp<span style="font-size: 80%;"> (source / <a href="dip0020opcodes_tests.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">314</td>
+            <td class="headerCovTableEntry">314</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:43</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">34</td>
+            <td class="headerCovTableEntry">34</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2018-2025 The Dash Core developers</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Distributed under the MIT software license, see the accompanying</a>
+<a name="3"><span class="lineNum">       3 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #include &lt;policy/policy.h&gt;</a>
+<a name="6"><span class="lineNum">       6 </span>            : #include &lt;script/interpreter.h&gt;</a>
+<a name="7"><span class="lineNum">       7 </span>            : </a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;boost/test/unit_test.hpp&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : </a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;array&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : using valtype = std::vector&lt;uint8_t&gt;;</a>
+<a name="13"><span class="lineNum">      13 </span>            : using stacktype = std::vector&lt;valtype&gt;;</a>
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">        146 : BOOST_AUTO_TEST_SUITE(dip0020opcodes_tests)</span></a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span>            : std::array&lt;uint32_t, 2&gt; flagset{{0, STANDARD_SCRIPT_VERIFY_FLAGS}};</a>
+<a name="18"><span class="lineNum">      18 </span>            : </a>
+<a name="19"><span class="lineNum">      19 </span>            : /**</a>
+<a name="20"><span class="lineNum">      20 </span>            :  * General utility functions to check for script passing/failing.</a>
+<a name="21"><span class="lineNum">      21 </span>            :  */</a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">      43972 : static void CheckTestResultForAllFlags(const stacktype&amp; original_stack,</span></a>
+<a name="23"><span class="lineNum">      23 </span>            :                                        const CScript&amp; script,</a>
+<a name="24"><span class="lineNum">      24 </span>            :                                        const stacktype&amp; expected)</a>
+<a name="25"><span class="lineNum">      25 </span>            : {</a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">      43972 :     BaseSignatureChecker sigchecker;</span></a>
+<a name="27"><span class="lineNum">      27 </span>            : </a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">     131916 :     for (uint32_t flags : flagset) {</span></a>
+<a name="29"><span class="lineNum">      29 </span><span class="lineCov">      87944 :         ScriptError err = ScriptError::SCRIPT_ERR_OK;</span></a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">      87944 :         stacktype stack{original_stack};</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">      87944 :         bool r = EvalScript(stack, script, flags, sigchecker, SigVersion::BASE, &amp;err);</span></a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineCov">      87944 :         BOOST_CHECK(r);</span></a>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">      87944 :         BOOST_CHECK(stack == expected);</span></a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">      87944 :     }</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">      43972 : }</span></a>
+<a name="36"><span class="lineNum">      36 </span>            : </a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">       7648 : static void CheckError(uint32_t flags, const stacktype&amp; original_stack,</span></a>
+<a name="38"><span class="lineNum">      38 </span>            :                        const CScript&amp; script, ScriptError expected_error)</a>
+<a name="39"><span class="lineNum">      39 </span>            : {</a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">       7648 :     BaseSignatureChecker sigchecker;</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">       7648 :     ScriptError err = ScriptError::SCRIPT_ERR_OK;</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">       7648 :     stacktype stack{original_stack};</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">       7648 :     bool r = EvalScript(stack, script, flags, sigchecker, SigVersion::BASE, &amp;err);</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">       7648 :     BOOST_CHECK(!r);</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">       7648 :     BOOST_CHECK(err == expected_error);</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">       7648 : }</span></a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">       3724 : static void CheckErrorForAllFlags(const stacktype&amp; original_stack,</span></a>
+<a name="49"><span class="lineNum">      49 </span>            :                                   const CScript&amp; script,</a>
+<a name="50"><span class="lineNum">      50 </span>            :                                   ScriptError expected_error)</a>
+<a name="51"><span class="lineNum">      51 </span>            : {</a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">      11172 :     for (uint32_t flags : flagset) {</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       7448 :         CheckError(flags, original_stack, script, expected_error);</span></a>
+<a name="54"><span class="lineNum">      54 </span>            :     }</a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">       3724 : }</span></a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       1617 : static void CheckOpError(const stacktype&amp; original_stack, opcodetype op,</span></a>
+<a name="58"><span class="lineNum">      58 </span>            :                          ScriptError expected_error)</a>
+<a name="59"><span class="lineNum">      59 </span>            : {</a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">       1617 :     CheckErrorForAllFlags(original_stack, CScript() &lt;&lt; op, expected_error);</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       1617 : }</span></a>
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">         12 : static void CheckAllBitwiseOpErrors(const stacktype&amp; stack,</span></a>
+<a name="64"><span class="lineNum">      64 </span>            :                                     ScriptError expected_error)</a>
+<a name="65"><span class="lineNum">      65 </span>            : {</a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">         12 :     CheckOpError(stack, OP_AND, expected_error);</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">         12 :     CheckOpError(stack, OP_OR, expected_error);</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">         12 :     CheckOpError(stack, OP_XOR, expected_error);</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">         12 : }</span></a>
+<a name="70"><span class="lineNum">      70 </span>            : </a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">      27771 : static void CheckBinaryOp(const valtype&amp; a, const valtype&amp; b, opcodetype op,</span></a>
+<a name="72"><span class="lineNum">      72 </span>            :                           const valtype&amp; expected)</a>
+<a name="73"><span class="lineNum">      73 </span>            : {</a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">      27771 :     CheckTestResultForAllFlags({a, b}, CScript() &lt;&lt; op, {expected});</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">      27771 : }</span></a>
+<a name="76"><span class="lineNum">      76 </span>            : </a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">        195 : static valtype NegativeValtype(const valtype&amp; v)</span></a>
+<a name="78"><span class="lineNum">      78 </span>            : {</a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">        195 :     valtype r(v);</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">        195 :     if (r.size() &gt; 0) {</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">        186 :         r[r.size() - 1] ^= 0x80;</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">        186 :     }</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">        195 :     CScriptNum::MinimallyEncode(r);</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">        195 :     return r;</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">        195 : }</span></a>
+<a name="86"><span class="lineNum">      86 </span>            : </a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">        148 : BOOST_AUTO_TEST_CASE(negative_valtype_test)</span></a>
+<a name="88"><span class="lineNum">      88 </span>            : {</a>
+<a name="89"><span class="lineNum">      89 </span>            :     // Test zero values</a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({}) == valtype{});</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x00}) == valtype{});</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x80}) == valtype{});</span></a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x00, 0x00}) == valtype{});</span></a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x00, 0x80}) == valtype{});</span></a>
+<a name="95"><span class="lineNum">      95 </span>            : </a>
+<a name="96"><span class="lineNum">      96 </span>            :     // Non-zero values</a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x01}) == valtype{0x81});</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x81}) == valtype{0x01});</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x02, 0x01}) == (valtype{0x02, 0x81}));</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0x02, 0x81}) == (valtype{0x02, 0x01}));</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0xff, 0x02, 0x01}) ==</span></a>
+<a name="102"><span class="lineNum">     102 </span>            :                 (valtype{0xff, 0x02, 0x81}));</a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0xff, 0x02, 0x81}) ==</span></a>
+<a name="104"><span class="lineNum">     104 </span>            :                 (valtype{0xff, 0x02, 0x01}));</a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0xff, 0xff, 0x02, 0x01}) ==</span></a>
+<a name="106"><span class="lineNum">     106 </span>            :                 (valtype{0xff, 0xff, 0x02, 0x81}));</a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0xff, 0xff, 0x02, 0x81}) ==</span></a>
+<a name="108"><span class="lineNum">     108 </span>            :                 (valtype{0xff, 0xff, 0x02, 0x01}));</a>
+<a name="109"><span class="lineNum">     109 </span>            : </a>
+<a name="110"><span class="lineNum">     110 </span>            :     // Should not be overly-minimized</a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0xff, 0x80}) == (valtype{0xff, 0x00}));</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">          1 :     BOOST_CHECK(NegativeValtype({0xff, 0x00}) == (valtype{0xff, 0x80}));</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">          1 : }</span></a>
+<a name="114"><span class="lineNum">     114 </span>            : </a>
+<a name="115"><span class="lineNum">     115 </span>            : /**</a>
+<a name="116"><span class="lineNum">     116 </span>            :  * Bitwise Opcodes</a>
+<a name="117"><span class="lineNum">     117 </span>            :  */</a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">       4161 : static void RunTestForAllBitwiseOpcodes(const valtype&amp; a, const valtype&amp; b,</span></a>
+<a name="119"><span class="lineNum">     119 </span>            :                                         const valtype&amp; expected_and,</a>
+<a name="120"><span class="lineNum">     120 </span>            :                                         const valtype&amp; expected_or,</a>
+<a name="121"><span class="lineNum">     121 </span>            :                                         const valtype&amp; expected_xor)</a>
+<a name="122"><span class="lineNum">     122 </span>            : {</a>
+<a name="123"><span class="lineNum">     123 </span>            :     // Bitwise ops are commutative, so we check both ways.</a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">       4161 :     CheckBinaryOp(a, b, OP_AND, expected_and);</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">       4161 :     CheckBinaryOp(b, a, OP_AND, expected_and);</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">       4161 :     CheckBinaryOp(a, b, OP_OR, expected_or);</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       4161 :     CheckBinaryOp(b, a, OP_OR, expected_or);</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">       4161 :     CheckBinaryOp(a, b, OP_XOR, expected_xor);</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">       4161 :     CheckBinaryOp(b, a, OP_XOR, expected_xor);</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">       4161 : }</span></a>
+<a name="131"><span class="lineNum">     131 </span>            : </a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">          8 : static void RunTestForAllBitwiseOpcodesSizes(const valtype&amp; a, const valtype&amp; b,</span></a>
+<a name="133"><span class="lineNum">     133 </span>            :                                              const valtype&amp; expected_and,</a>
+<a name="134"><span class="lineNum">     134 </span>            :                                              const valtype&amp; expected_or,</a>
+<a name="135"><span class="lineNum">     135 </span>            :                                              const valtype&amp; expected_xor)</a>
+<a name="136"><span class="lineNum">     136 </span>            : {</a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">          8 :     valtype wa, wb, wand, wor, wxor;</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">       4168 :     for (size_t i = 0; i &lt; a.size(); i++) {</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">       4160 :         wa.push_back(a[i]);</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">       4160 :         wb.push_back(b[i]);</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">       4160 :         wand.push_back(expected_and[i]);</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">       4160 :         wor.push_back(expected_or[i]);</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       4160 :         wxor.push_back(expected_xor[i]);</span></a>
+<a name="144"><span class="lineNum">     144 </span>            : </a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">       4160 :         RunTestForAllBitwiseOpcodes(wa, wb, wand, wor, wxor);</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">       4160 :     }</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">          8 : }</span></a>
+<a name="148"><span class="lineNum">     148 </span>            : </a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">          4 : static void TestBitwiseOpcodes(const valtype&amp; a, const valtype&amp; b,</span></a>
+<a name="150"><span class="lineNum">     150 </span>            :                                const valtype&amp; expected_and,</a>
+<a name="151"><span class="lineNum">     151 </span>            :                                const valtype&amp; expected_or)</a>
+<a name="152"><span class="lineNum">     152 </span>            : {</a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">          4 :     valtype expected_xor(expected_and.size());</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">       2084 :     for (size_t i = 0; i &lt; a.size(); i++) {</span></a>
+<a name="155"><span class="lineNum">     155 </span>            :         // A ^ B = (A | B) &amp; ~(A &amp; B)</a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineCov">       2080 :         expected_xor[i] = expected_or[i] &amp; ~expected_and[i];</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">       2080 :     }</span></a>
+<a name="158"><span class="lineNum">     158 </span>            : </a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          4 :     RunTestForAllBitwiseOpcodesSizes(a, b, expected_and, expected_or,</span></a>
+<a name="160"><span class="lineNum">     160 </span>            :                                      expected_xor);</a>
+<a name="161"><span class="lineNum">     161 </span>            : </a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">          4 :     valtype nota(a.size());</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">          4 :     valtype notb(b.size());</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">          4 :     valtype nand(expected_and.size());</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          4 :     valtype nor(expected_or.size());</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">       2084 :     for (size_t i = 0; i &lt; a.size(); i++) {</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">       2080 :         nota[i] = ~a[i];</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">       2080 :         notb[i] = ~b[i];</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">       2080 :         nand[i] = ~expected_and[i];</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineCov">       2080 :         nor[i] = ~expected_or[i];</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">       2080 :     }</span></a>
+<a name="172"><span class="lineNum">     172 </span>            : </a>
+<a name="173"><span class="lineNum">     173 </span>            :     // ~A &amp; ~B == ~(A | B)</a>
+<a name="174"><span class="lineNum">     174 </span>            :     // ~A | ~B == ~(A &amp; B)</a>
+<a name="175"><span class="lineNum">     175 </span>            :     // ~A ^ ~B == A ^ B</a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">          4 :     RunTestForAllBitwiseOpcodesSizes(nota, notb, nor, nand, expected_xor);</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">          4 : }</span></a>
+<a name="178"><span class="lineNum">     178 </span>            : </a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">        148 : BOOST_AUTO_TEST_CASE(bitwise_opcodes_test)</span></a>
+<a name="180"><span class="lineNum">     180 </span>            : {</a>
+<a name="181"><span class="lineNum">     181 </span>            :     // Check that empty ops works.</a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">          1 :     RunTestForAllBitwiseOpcodes({}, {}, {}, {}, {});</span></a>
+<a name="183"><span class="lineNum">     183 </span>            : </a>
+<a name="184"><span class="lineNum">     184 </span>            :     // Run all variations of zeros and ones.</a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">          1 :     valtype allzeros(MAX_SCRIPT_ELEMENT_SIZE, 0);</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">          1 :     valtype allones(MAX_SCRIPT_ELEMENT_SIZE, 0xff);</span></a>
+<a name="187"><span class="lineNum">     187 </span>            : </a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL(allzeros.size(), MAX_SCRIPT_ELEMENT_SIZE);</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL(allones.size(), MAX_SCRIPT_ELEMENT_SIZE);</span></a>
+<a name="190"><span class="lineNum">     190 </span>            : </a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          1 :     TestBitwiseOpcodes(allzeros, allzeros, allzeros, allzeros);</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">          1 :     TestBitwiseOpcodes(allzeros, allones, allzeros, allones);</span></a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineCov">          1 :     TestBitwiseOpcodes(allones, allones, allones, allones);</span></a>
+<a name="194"><span class="lineNum">     194 </span>            : </a>
+<a name="195"><span class="lineNum">     195 </span>            :     // Let's use two random a and b.</a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          1 :     valtype a{</span></a>
+<a name="197"><span class="lineNum">     197 </span>            :         0x34, 0x0e, 0x7e, 0x17, 0x83, 0x66, 0x1a, 0x81, 0x45, 0x8d, 0x26, 0x26,</a>
+<a name="198"><span class="lineNum">     198 </span>            :         0xbc, 0xbd, 0x56, 0xe7, 0xf2, 0x1c, 0xec, 0xf6, 0x79, 0x8c, 0x3e, 0x58,</a>
+<a name="199"><span class="lineNum">     199 </span>            :         0x0f, 0x86, 0xcf, 0x53, 0xbe, 0x66, 0x8f, 0xa7, 0xbe, 0xf6, 0x30, 0x12,</a>
+<a name="200"><span class="lineNum">     200 </span>            :         0x8d, 0x01, 0x00, 0x37, 0x7f, 0x5b, 0x64, 0x50, 0x63, 0x40, 0x6a, 0x44,</a>
+<a name="201"><span class="lineNum">     201 </span>            :         0xf5, 0x7e, 0x02, 0xc7, 0xab, 0x45, 0xcf, 0x6a, 0x98, 0x61, 0xe8, 0xb8,</a>
+<a name="202"><span class="lineNum">     202 </span>            :         0xc4, 0x9e, 0x11, 0xe8, 0x30, 0x71, 0x07, 0x73, 0xa2, 0x4d, 0xdd, 0xa6,</a>
+<a name="203"><span class="lineNum">     203 </span>            :         0x6c, 0xf4, 0x2a, 0x22, 0xa0, 0xac, 0xdc, 0xf4, 0xcc, 0xfb, 0x4d, 0xe3,</a>
+<a name="204"><span class="lineNum">     204 </span>            :         0x55, 0xde, 0x44, 0x46, 0x32, 0x36, 0x93, 0xb4, 0xd9, 0xd1, 0x3b, 0x06,</a>
+<a name="205"><span class="lineNum">     205 </span>            :         0x09, 0x6a, 0x64, 0xc3, 0x18, 0x58, 0xc4, 0x9f, 0x1b, 0x6a, 0xa3, 0xab,</a>
+<a name="206"><span class="lineNum">     206 </span>            :         0x59, 0x37, 0xbd, 0x36, 0x97, 0x35, 0x26, 0x87, 0x63, 0x58, 0x08, 0x6e,</a>
+<a name="207"><span class="lineNum">     207 </span>            :         0x5e, 0x46, 0xcf, 0x15, 0x33, 0xfc, 0x46, 0x45, 0x97, 0x61, 0x4b, 0xb8,</a>
+<a name="208"><span class="lineNum">     208 </span>            :         0xec, 0xdd, 0x1b, 0x69, 0x6e, 0x8a, 0x27, 0xf9, 0xcd, 0x4b, 0x5c, 0xa4,</a>
+<a name="209"><span class="lineNum">     209 </span>            :         0x84, 0x18, 0xd5, 0x23, 0x50, 0xc6, 0x63, 0xbe, 0xca, 0xd3, 0xd0, 0x91,</a>
+<a name="210"><span class="lineNum">     210 </span>            :         0x39, 0x16, 0x6a, 0x6e, 0xd6, 0x09, 0x18, 0x52, 0x05, 0x6a, 0xa7, 0xf7,</a>
+<a name="211"><span class="lineNum">     211 </span>            :         0x64, 0xa3, 0xf0, 0xba, 0x75, 0xc5, 0x9c, 0xf7, 0xbb, 0x70, 0x68, 0x65,</a>
+<a name="212"><span class="lineNum">     212 </span>            :         0x4f, 0xdb, 0xd0, 0x36, 0x14, 0xfb, 0x1a, 0xf6, 0x6e, 0xea, 0x8d, 0xc8,</a>
+<a name="213"><span class="lineNum">     213 </span>            :         0xa5, 0xad, 0x61, 0xc6, 0x04, 0x4c, 0xc3, 0xb9, 0x68, 0x8c, 0xa4, 0xe4,</a>
+<a name="214"><span class="lineNum">     214 </span>            :         0x04, 0xae, 0xee, 0xca, 0xe7, 0x52, 0xa7, 0xba, 0x16, 0x91, 0x26, 0x9b,</a>
+<a name="215"><span class="lineNum">     215 </span>            :         0xae, 0x31, 0xcd, 0x6f, 0x4e, 0x7e, 0x47, 0x60, 0x40, 0xf0, 0xbc, 0xe2,</a>
+<a name="216"><span class="lineNum">     216 </span>            :         0x20, 0xaf, 0xc1, 0x4f, 0x26, 0x54, 0x93, 0x37, 0xfc, 0xbf, 0x50, 0xd3,</a>
+<a name="217"><span class="lineNum">     217 </span>            :         0xf2, 0x30, 0x70, 0xfc, 0x67, 0x15, 0x82, 0xd3, 0x39, 0x27, 0xa2, 0x4f,</a>
+<a name="218"><span class="lineNum">     218 </span>            :         0xce, 0x10, 0xed, 0x11, 0x73, 0xc4, 0x48, 0xe9, 0x65, 0xa1, 0x5e, 0xf2,</a>
+<a name="219"><span class="lineNum">     219 </span>            :         0x0c, 0x81, 0x3b, 0x80, 0xe1, 0x9f, 0x53, 0x31, 0x49, 0x73, 0xc8, 0x0a,</a>
+<a name="220"><span class="lineNum">     220 </span>            :         0x6e, 0xa4, 0xe1, 0xe1, 0xe2, 0xac, 0xeb, 0x0b, 0xa5, 0x4b, 0xc5, 0x47,</a>
+<a name="221"><span class="lineNum">     221 </span>            :         0xf6, 0xf1, 0x15, 0x10, 0x31, 0xf0, 0xcb, 0x6f, 0xed, 0xd3, 0x50, 0x7d,</a>
+<a name="222"><span class="lineNum">     222 </span>            :         0xb2, 0x86, 0x87, 0xab, 0x62, 0x5c, 0x4c, 0x4b, 0xb0, 0x0a, 0x20, 0x19,</a>
+<a name="223"><span class="lineNum">     223 </span>            :         0xb9, 0x8c, 0x1a, 0xf5, 0xe6, 0x29, 0xa0, 0x8a, 0x55, 0x88, 0xa0, 0xf5,</a>
+<a name="224"><span class="lineNum">     224 </span>            :         0xef, 0xe6, 0x50, 0x6d, 0x36, 0x7b, 0x75, 0xe5, 0x14, 0xc8, 0xfb, 0xc6,</a>
+<a name="225"><span class="lineNum">     225 </span>            :         0x5b, 0xe7, 0x99, 0x37, 0x62, 0x56, 0xdb, 0x8f, 0x40, 0x43, 0x54, 0x8d,</a>
+<a name="226"><span class="lineNum">     226 </span>            :         0x68, 0x19, 0xc2, 0xf5, 0xc0, 0x37, 0xed, 0xee, 0x0e, 0xab, 0x0b, 0x77,</a>
+<a name="227"><span class="lineNum">     227 </span>            :         0x29, 0x27, 0xac, 0x07, 0x70, 0xfa, 0xa9, 0x69, 0x28, 0x51, 0xf5, 0x65,</a>
+<a name="228"><span class="lineNum">     228 </span>            :         0x58, 0x7a, 0xcc, 0xc9, 0xfe, 0x3c, 0xa0, 0x0d, 0x6e, 0x87, 0x38, 0x36,</a>
+<a name="229"><span class="lineNum">     229 </span>            :         0xb7, 0x1a, 0x41, 0x6c, 0x9a, 0x13, 0xfa, 0x86, 0x13, 0xe6, 0xc9, 0xec,</a>
+<a name="230"><span class="lineNum">     230 </span>            :         0x9f, 0x50, 0x15, 0xc3, 0x74, 0x4c, 0x29, 0x67, 0x0a, 0xa7, 0x7e, 0x7f,</a>
+<a name="231"><span class="lineNum">     231 </span>            :         0x3c, 0xab, 0xe9, 0x44, 0x61, 0x6e, 0x64, 0x50, 0x47, 0x1e, 0x17, 0x23,</a>
+<a name="232"><span class="lineNum">     232 </span>            :         0x64, 0x29, 0x9c, 0x9c, 0xef, 0x5b, 0x28, 0xe3, 0x0e, 0xa5, 0x2a, 0x2f,</a>
+<a name="233"><span class="lineNum">     233 </span>            :         0x2d, 0xc6, 0x6c, 0xd3, 0xaa, 0x03, 0x48, 0x15, 0x0c, 0x92, 0x80, 0x86,</a>
+<a name="234"><span class="lineNum">     234 </span>            :         0x2f, 0xc2, 0xbd, 0x5e, 0x82, 0x61, 0xa1, 0x88, 0xdd, 0x5e, 0xea, 0xef,</a>
+<a name="235"><span class="lineNum">     235 </span>            :         0x19, 0xf9, 0x84, 0x66, 0xf7, 0xbb, 0x44, 0xad, 0xf9, 0xf7, 0x2f, 0x2a,</a>
+<a name="236"><span class="lineNum">     236 </span>            :         0xd5, 0x37, 0xef, 0x28, 0x3d, 0x1a, 0xdc, 0x6c, 0xf1, 0xcc, 0xca, 0xd5,</a>
+<a name="237"><span class="lineNum">     237 </span>            :         0x2b, 0x58, 0x63, 0xc0, 0x34, 0x91, 0x87, 0xd9, 0x36, 0x2f, 0x90, 0xeb,</a>
+<a name="238"><span class="lineNum">     238 </span>            :         0xf1, 0xde, 0x8b, 0x8c, 0x20, 0x51, 0x83, 0xfd, 0xf4, 0xfd, 0xe7, 0x40,</a>
+<a name="239"><span class="lineNum">     239 </span>            :         0x68, 0xf3, 0x5a, 0x17, 0x80, 0x21, 0xf3, 0xc1, 0x90, 0x3c, 0x75, 0x23,</a>
+<a name="240"><span class="lineNum">     240 </span>            :         0x48, 0x1c, 0x98, 0xb5};</a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">          1 :     valtype b{</span></a>
+<a name="242"><span class="lineNum">     242 </span>            :         0xd2, 0x9e, 0x99, 0xc9, 0xe7, 0x11, 0x7b, 0x0e, 0x4b, 0x8e, 0x11, 0x08,</a>
+<a name="243"><span class="lineNum">     243 </span>            :         0xd1, 0x5c, 0xf4, 0xb8, 0x2c, 0x14, 0x3f, 0x45, 0x75, 0xe9, 0x8a, 0xeb,</a>
+<a name="244"><span class="lineNum">     244 </span>            :         0x81, 0xf8, 0xd8, 0xa3, 0x8e, 0x4b, 0x63, 0x0e, 0x7f, 0x1e, 0xfd, 0x84,</a>
+<a name="245"><span class="lineNum">     245 </span>            :         0x83, 0x7c, 0x26, 0x1f, 0xf0, 0xc9, 0x37, 0x1c, 0x5f, 0xf5, 0xf3, 0x3d,</a>
+<a name="246"><span class="lineNum">     246 </span>            :         0x67, 0x2b, 0x27, 0x30, 0xdb, 0x3e, 0xe7, 0x2f, 0x7b, 0x7d, 0x1c, 0x40,</a>
+<a name="247"><span class="lineNum">     247 </span>            :         0x06, 0x2a, 0x72, 0x5a, 0x37, 0x0c, 0xd5, 0xa8, 0xa3, 0x81, 0xd4, 0x73,</a>
+<a name="248"><span class="lineNum">     248 </span>            :         0xef, 0x1e, 0x4e, 0x6c, 0xb9, 0x10, 0x3d, 0x04, 0x6e, 0xca, 0xe7, 0xdf,</a>
+<a name="249"><span class="lineNum">     249 </span>            :         0x62, 0x7b, 0x64, 0x00, 0x6a, 0xb6, 0xda, 0x02, 0x96, 0x74, 0xa7, 0xc2,</a>
+<a name="250"><span class="lineNum">     250 </span>            :         0xbb, 0x28, 0x69, 0xdf, 0xc8, 0x09, 0xff, 0x6c, 0x6f, 0x7a, 0xf8, 0x82,</a>
+<a name="251"><span class="lineNum">     251 </span>            :         0x69, 0xf1, 0x59, 0xf8, 0x3d, 0xe0, 0x6d, 0xa5, 0x71, 0xfb, 0x39, 0x2e,</a>
+<a name="252"><span class="lineNum">     252 </span>            :         0x17, 0x51, 0xcb, 0x94, 0x2a, 0xd0, 0x4e, 0x02, 0xaf, 0xa5, 0xd5, 0x39,</a>
+<a name="253"><span class="lineNum">     253 </span>            :         0x56, 0xda, 0x10, 0x2e, 0xa2, 0x91, 0x0b, 0xd2, 0xca, 0xb1, 0xac, 0x6d,</a>
+<a name="254"><span class="lineNum">     254 </span>            :         0xd2, 0xef, 0xad, 0x59, 0x54, 0xbc, 0xd3, 0x44, 0x4c, 0x6c, 0xe2, 0x5c,</a>
+<a name="255"><span class="lineNum">     255 </span>            :         0xed, 0xab, 0xc0, 0x04, 0x6d, 0x3e, 0x92, 0xf9, 0x4a, 0xce, 0x76, 0xed,</a>
+<a name="256"><span class="lineNum">     256 </span>            :         0x45, 0x50, 0x93, 0x29, 0x17, 0x93, 0x9c, 0xf0, 0xd8, 0x3c, 0xcd, 0xf7,</a>
+<a name="257"><span class="lineNum">     257 </span>            :         0x52, 0x9f, 0x27, 0x57, 0x2a, 0xff, 0xe0, 0x33, 0xb6, 0xa4, 0x41, 0xa3,</a>
+<a name="258"><span class="lineNum">     258 </span>            :         0x35, 0x0b, 0xab, 0x0c, 0x0b, 0xdd, 0x98, 0x10, 0x1d, 0x97, 0x24, 0x7a,</a>
+<a name="259"><span class="lineNum">     259 </span>            :         0x8e, 0xcb, 0xa3, 0x7a, 0xe9, 0xa8, 0x73, 0xf4, 0x4a, 0x4c, 0x6b, 0xb7,</a>
+<a name="260"><span class="lineNum">     260 </span>            :         0x31, 0x65, 0xca, 0x5a, 0xc4, 0xd8, 0x3c, 0xe0, 0xad, 0x30, 0x2a, 0x2e,</a>
+<a name="261"><span class="lineNum">     261 </span>            :         0x34, 0x2e, 0x40, 0x84, 0xdd, 0x5d, 0x08, 0xed, 0x10, 0x12, 0xca, 0x3f,</a>
+<a name="262"><span class="lineNum">     262 </span>            :         0x24, 0x2d, 0x08, 0x5b, 0x86, 0xb6, 0xf4, 0x70, 0x00, 0x5c, 0x9d, 0x30,</a>
+<a name="263"><span class="lineNum">     263 </span>            :         0x2a, 0x81, 0xd2, 0x5c, 0xa1, 0x70, 0xcf, 0x99, 0x0f, 0xf5, 0x94, 0xef,</a>
+<a name="264"><span class="lineNum">     264 </span>            :         0x54, 0x1d, 0xab, 0x91, 0x24, 0x59, 0x4f, 0xf6, 0xcb, 0xb8, 0x6d, 0x14,</a>
+<a name="265"><span class="lineNum">     265 </span>            :         0x21, 0xf1, 0xfb, 0x14, 0x5c, 0x29, 0x4e, 0x6e, 0xb0, 0x4d, 0x64, 0x0c,</a>
+<a name="266"><span class="lineNum">     266 </span>            :         0x38, 0xee, 0x19, 0x63, 0x14, 0x9b, 0x3d, 0xb4, 0x19, 0x25, 0x91, 0xe6,</a>
+<a name="267"><span class="lineNum">     267 </span>            :         0xde, 0xf4, 0x34, 0x2b, 0x87, 0x99, 0xbd, 0xec, 0x1c, 0xd3, 0x92, 0x34,</a>
+<a name="268"><span class="lineNum">     268 </span>            :         0xb7, 0xba, 0xef, 0x00, 0xae, 0xdc, 0xec, 0x9d, 0xd1, 0xfa, 0x83, 0x9f,</a>
+<a name="269"><span class="lineNum">     269 </span>            :         0x95, 0x8d, 0xb0, 0xed, 0xc0, 0x67, 0xae, 0xce, 0x15, 0xdb, 0x28, 0x8b,</a>
+<a name="270"><span class="lineNum">     270 </span>            :         0x8f, 0xcb, 0xc4, 0x9b, 0x0d, 0x46, 0x67, 0x96, 0xb0, 0x86, 0xb2, 0xdb,</a>
+<a name="271"><span class="lineNum">     271 </span>            :         0x3c, 0x89, 0x6e, 0x57, 0xac, 0xcb, 0x34, 0x57, 0x37, 0x80, 0x00, 0x34,</a>
+<a name="272"><span class="lineNum">     272 </span>            :         0x78, 0x71, 0xf0, 0x1a, 0x2c, 0x28, 0x87, 0x9f, 0x08, 0x21, 0x7c, 0x0e,</a>
+<a name="273"><span class="lineNum">     273 </span>            :         0x7e, 0x29, 0xfb, 0x9a, 0x2c, 0x77, 0x48, 0x2f, 0x88, 0xe2, 0xf0, 0x6a,</a>
+<a name="274"><span class="lineNum">     274 </span>            :         0x87, 0x15, 0x0c, 0x4c, 0xbf, 0xcb, 0xdd, 0xee, 0x75, 0xe1, 0xbc, 0x38,</a>
+<a name="275"><span class="lineNum">     275 </span>            :         0x31, 0xdc, 0xe9, 0x61, 0x53, 0x1e, 0xc8, 0x4b, 0x80, 0x94, 0x5c, 0x03,</a>
+<a name="276"><span class="lineNum">     276 </span>            :         0xdd, 0x4b, 0xae, 0xa8, 0x54, 0xe9, 0x8b, 0x23, 0x20, 0x21, 0xc8, 0x03,</a>
+<a name="277"><span class="lineNum">     277 </span>            :         0x83, 0x33, 0x5f, 0x11, 0x37, 0xfc, 0xd5, 0xb3, 0x11, 0x9a, 0x06, 0x0d,</a>
+<a name="278"><span class="lineNum">     278 </span>            :         0xbf, 0xcd, 0xc7, 0x22, 0x88, 0xb8, 0xc9, 0x3f, 0xec, 0x7c, 0x11, 0x96,</a>
+<a name="279"><span class="lineNum">     279 </span>            :         0x6a, 0xa0, 0x57, 0xdf, 0x5b, 0xde, 0xa2, 0x09, 0x11, 0xd3, 0xfd, 0xbf,</a>
+<a name="280"><span class="lineNum">     280 </span>            :         0x84, 0x7a, 0x9d, 0x3a, 0xba, 0x0f, 0x6d, 0x01, 0xad, 0xbc, 0xb9, 0xd8,</a>
+<a name="281"><span class="lineNum">     281 </span>            :         0x8a, 0xe4, 0xd6, 0xa2, 0x04, 0x93, 0xe0, 0x02, 0xd2, 0x45, 0x49, 0x14,</a>
+<a name="282"><span class="lineNum">     282 </span>            :         0x8e, 0x84, 0x9c, 0x7c, 0x57, 0x1b, 0x05, 0x27, 0xf6, 0x59, 0x83, 0xd1,</a>
+<a name="283"><span class="lineNum">     283 </span>            :         0xf4, 0xb6, 0x2f, 0xbe, 0x6e, 0x35, 0x7e, 0x97, 0x10, 0xf5, 0x42, 0x1a,</a>
+<a name="284"><span class="lineNum">     284 </span>            :         0xc9, 0x4d, 0xb9, 0x07, 0x71, 0x6d, 0xd1, 0x96, 0xc3, 0x88, 0xb6, 0xe6,</a>
+<a name="285"><span class="lineNum">     285 </span>            :         0x0e, 0x8a, 0x8a, 0xd7};</a>
+<a name="286"><span class="lineNum">     286 </span>            : </a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL(a.size(), MAX_SCRIPT_ELEMENT_SIZE);</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL(b.size(), MAX_SCRIPT_ELEMENT_SIZE);</span></a>
+<a name="289"><span class="lineNum">     289 </span>            : </a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineCov">          1 :     valtype aandb{</span></a>
+<a name="291"><span class="lineNum">     291 </span>            :         0x10, 0x0e, 0x18, 0x01, 0x83, 0x00, 0x1a, 0x00, 0x41, 0x8c, 0x00, 0x00,</a>
+<a name="292"><span class="lineNum">     292 </span>            :         0x90, 0x1c, 0x54, 0xa0, 0x20, 0x14, 0x2c, 0x44, 0x71, 0x88, 0x0a, 0x48,</a>
+<a name="293"><span class="lineNum">     293 </span>            :         0x01, 0x80, 0xc8, 0x03, 0x8e, 0x42, 0x03, 0x06, 0x3e, 0x16, 0x30, 0x00,</a>
+<a name="294"><span class="lineNum">     294 </span>            :         0x81, 0x00, 0x00, 0x17, 0x70, 0x49, 0x24, 0x10, 0x43, 0x40, 0x62, 0x04,</a>
+<a name="295"><span class="lineNum">     295 </span>            :         0x65, 0x2a, 0x02, 0x00, 0x8b, 0x04, 0xc7, 0x2a, 0x18, 0x61, 0x08, 0x00,</a>
+<a name="296"><span class="lineNum">     296 </span>            :         0x04, 0x0a, 0x10, 0x48, 0x30, 0x00, 0x05, 0x20, 0xa2, 0x01, 0xd4, 0x22,</a>
+<a name="297"><span class="lineNum">     297 </span>            :         0x6c, 0x14, 0x0a, 0x20, 0xa0, 0x00, 0x1c, 0x04, 0x4c, 0xca, 0x45, 0xc3,</a>
+<a name="298"><span class="lineNum">     298 </span>            :         0x40, 0x5a, 0x44, 0x00, 0x22, 0x36, 0x92, 0x00, 0x90, 0x50, 0x23, 0x02,</a>
+<a name="299"><span class="lineNum">     299 </span>            :         0x09, 0x28, 0x60, 0xc3, 0x08, 0x08, 0xc4, 0x0c, 0x0b, 0x6a, 0xa0, 0x82,</a>
+<a name="300"><span class="lineNum">     300 </span>            :         0x49, 0x31, 0x19, 0x30, 0x15, 0x20, 0x24, 0x85, 0x61, 0x58, 0x08, 0x2e,</a>
+<a name="301"><span class="lineNum">     301 </span>            :         0x16, 0x40, 0xcb, 0x14, 0x22, 0xd0, 0x46, 0x00, 0x87, 0x21, 0x41, 0x38,</a>
+<a name="302"><span class="lineNum">     302 </span>            :         0x44, 0xd8, 0x10, 0x28, 0x22, 0x80, 0x03, 0xd0, 0xc8, 0x01, 0x0c, 0x24,</a>
+<a name="303"><span class="lineNum">     303 </span>            :         0x80, 0x08, 0x85, 0x01, 0x50, 0x84, 0x43, 0x04, 0x48, 0x40, 0xc0, 0x10,</a>
+<a name="304"><span class="lineNum">     304 </span>            :         0x29, 0x02, 0x40, 0x04, 0x44, 0x08, 0x10, 0x50, 0x00, 0x4a, 0x26, 0xe5,</a>
+<a name="305"><span class="lineNum">     305 </span>            :         0x44, 0x00, 0x90, 0x28, 0x15, 0x81, 0x9c, 0xf0, 0x98, 0x30, 0x48, 0x65,</a>
+<a name="306"><span class="lineNum">     306 </span>            :         0x42, 0x9b, 0x00, 0x16, 0x00, 0xfb, 0x00, 0x32, 0x26, 0xa0, 0x01, 0x80,</a>
+<a name="307"><span class="lineNum">     307 </span>            :         0x25, 0x09, 0x21, 0x04, 0x00, 0x4c, 0x80, 0x10, 0x08, 0x84, 0x24, 0x60,</a>
+<a name="308"><span class="lineNum">     308 </span>            :         0x04, 0x8a, 0xa2, 0x4a, 0xe1, 0x00, 0x23, 0xb0, 0x02, 0x00, 0x22, 0x93,</a>
+<a name="309"><span class="lineNum">     309 </span>            :         0x20, 0x21, 0xc8, 0x4a, 0x44, 0x58, 0x04, 0x60, 0x00, 0x30, 0x28, 0x22,</a>
+<a name="310"><span class="lineNum">     310 </span>            :         0x20, 0x2e, 0x40, 0x04, 0x04, 0x54, 0x00, 0x25, 0x10, 0x12, 0x40, 0x13,</a>
+<a name="311"><span class="lineNum">     311 </span>            :         0x20, 0x20, 0x00, 0x58, 0x06, 0x14, 0x80, 0x50, 0x00, 0x04, 0x80, 0x00,</a>
+<a name="312"><span class="lineNum">     312 </span>            :         0x0a, 0x00, 0xc0, 0x10, 0x21, 0x40, 0x48, 0x89, 0x05, 0xa1, 0x14, 0xe2,</a>
+<a name="313"><span class="lineNum">     313 </span>            :         0x04, 0x01, 0x2b, 0x80, 0x20, 0x19, 0x43, 0x30, 0x49, 0x30, 0x48, 0x00,</a>
+<a name="314"><span class="lineNum">     314 </span>            :         0x20, 0xa0, 0xe1, 0x00, 0x40, 0x28, 0x4a, 0x0a, 0xa0, 0x49, 0x44, 0x04,</a>
+<a name="315"><span class="lineNum">     315 </span>            :         0x30, 0xe0, 0x11, 0x00, 0x10, 0x90, 0x09, 0x24, 0x09, 0x01, 0x10, 0x64,</a>
+<a name="316"><span class="lineNum">     316 </span>            :         0x92, 0x84, 0x04, 0x2b, 0x02, 0x18, 0x0c, 0x48, 0x10, 0x02, 0x00, 0x10,</a>
+<a name="317"><span class="lineNum">     317 </span>            :         0xb1, 0x88, 0x0a, 0x00, 0xa6, 0x08, 0xa0, 0x88, 0x51, 0x88, 0x80, 0x95,</a>
+<a name="318"><span class="lineNum">     318 </span>            :         0x85, 0x84, 0x10, 0x6d, 0x00, 0x63, 0x24, 0xc4, 0x14, 0xc8, 0x28, 0x82,</a>
+<a name="319"><span class="lineNum">     319 </span>            :         0x0b, 0xc3, 0x80, 0x13, 0x00, 0x46, 0x43, 0x86, 0x00, 0x02, 0x10, 0x89,</a>
+<a name="320"><span class="lineNum">     320 </span>            :         0x28, 0x09, 0x42, 0x55, 0x80, 0x03, 0x24, 0x46, 0x06, 0x80, 0x00, 0x34,</a>
+<a name="321"><span class="lineNum">     321 </span>            :         0x28, 0x21, 0xa0, 0x02, 0x20, 0x28, 0x81, 0x09, 0x08, 0x01, 0x74, 0x04,</a>
+<a name="322"><span class="lineNum">     322 </span>            :         0x58, 0x28, 0xc8, 0x88, 0x2c, 0x34, 0x00, 0x0d, 0x08, 0x82, 0x30, 0x22,</a>
+<a name="323"><span class="lineNum">     323 </span>            :         0x87, 0x10, 0x00, 0x4c, 0x9a, 0x03, 0xd8, 0x86, 0x11, 0xe0, 0x88, 0x28,</a>
+<a name="324"><span class="lineNum">     324 </span>            :         0x11, 0x50, 0x01, 0x41, 0x50, 0x0c, 0x08, 0x43, 0x00, 0x84, 0x5c, 0x03,</a>
+<a name="325"><span class="lineNum">     325 </span>            :         0x1c, 0x0b, 0xa8, 0x00, 0x40, 0x68, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03,</a>
+<a name="326"><span class="lineNum">     326 </span>            :         0x00, 0x21, 0x1c, 0x10, 0x27, 0x58, 0x00, 0xa3, 0x00, 0x80, 0x02, 0x0d,</a>
+<a name="327"><span class="lineNum">     327 </span>            :         0x2d, 0xc4, 0x44, 0x02, 0x88, 0x00, 0x48, 0x15, 0x0c, 0x10, 0x00, 0x86,</a>
+<a name="328"><span class="lineNum">     328 </span>            :         0x2a, 0x80, 0x15, 0x5e, 0x02, 0x40, 0xa0, 0x08, 0x11, 0x52, 0xe8, 0xaf,</a>
+<a name="329"><span class="lineNum">     329 </span>            :         0x00, 0x78, 0x84, 0x22, 0xb2, 0x0b, 0x44, 0x01, 0xa9, 0xb4, 0x29, 0x08,</a>
+<a name="330"><span class="lineNum">     330 </span>            :         0x80, 0x24, 0xc6, 0x20, 0x04, 0x12, 0xc0, 0x00, 0xd0, 0x44, 0x48, 0x14,</a>
+<a name="331"><span class="lineNum">     331 </span>            :         0x0a, 0x00, 0x00, 0x40, 0x14, 0x11, 0x05, 0x01, 0x36, 0x09, 0x80, 0xc1,</a>
+<a name="332"><span class="lineNum">     332 </span>            :         0xf0, 0x96, 0x0b, 0x8c, 0x20, 0x11, 0x02, 0x95, 0x10, 0xf5, 0x42, 0x00,</a>
+<a name="333"><span class="lineNum">     333 </span>            :         0x48, 0x41, 0x18, 0x07, 0x00, 0x21, 0xd1, 0x80, 0x80, 0x08, 0x34, 0x22,</a>
+<a name="334"><span class="lineNum">     334 </span>            :         0x08, 0x08, 0x88, 0x95};</a>
+<a name="335"><span class="lineNum">     335 </span><span class="lineCov">          1 :     valtype aorb{</span></a>
+<a name="336"><span class="lineNum">     336 </span>            :         0xf6, 0x9e, 0xff, 0xdf, 0xe7, 0x77, 0x7b, 0x8f, 0x4f, 0x8f, 0x37, 0x2e,</a>
+<a name="337"><span class="lineNum">     337 </span>            :         0xfd, 0xfd, 0xf6, 0xff, 0xfe, 0x1c, 0xff, 0xf7, 0x7d, 0xed, 0xbe, 0xfb,</a>
+<a name="338"><span class="lineNum">     338 </span>            :         0x8f, 0xfe, 0xdf, 0xf3, 0xbe, 0x6f, 0xef, 0xaf, 0xff, 0xfe, 0xfd, 0x96,</a>
+<a name="339"><span class="lineNum">     339 </span>            :         0x8f, 0x7d, 0x26, 0x3f, 0xff, 0xdb, 0x77, 0x5c, 0x7f, 0xf5, 0xfb, 0x7d,</a>
+<a name="340"><span class="lineNum">     340 </span>            :         0xf7, 0x7f, 0x27, 0xf7, 0xfb, 0x7f, 0xef, 0x6f, 0xfb, 0x7d, 0xfc, 0xf8,</a>
+<a name="341"><span class="lineNum">     341 </span>            :         0xc6, 0xbe, 0x73, 0xfa, 0x37, 0x7d, 0xd7, 0xfb, 0xa3, 0xcd, 0xdd, 0xf7,</a>
+<a name="342"><span class="lineNum">     342 </span>            :         0xef, 0xfe, 0x6e, 0x6e, 0xb9, 0xbc, 0xfd, 0xf4, 0xee, 0xfb, 0xef, 0xff,</a>
+<a name="343"><span class="lineNum">     343 </span>            :         0x77, 0xff, 0x64, 0x46, 0x7a, 0xb6, 0xdb, 0xb6, 0xdf, 0xf5, 0xbf, 0xc6,</a>
+<a name="344"><span class="lineNum">     344 </span>            :         0xbb, 0x6a, 0x6d, 0xdf, 0xd8, 0x59, 0xff, 0xff, 0x7f, 0x7a, 0xfb, 0xab,</a>
+<a name="345"><span class="lineNum">     345 </span>            :         0x79, 0xf7, 0xfd, 0xfe, 0xbf, 0xf5, 0x6f, 0xa7, 0x73, 0xfb, 0x39, 0x6e,</a>
+<a name="346"><span class="lineNum">     346 </span>            :         0x5f, 0x57, 0xcf, 0x95, 0x3b, 0xfc, 0x4e, 0x47, 0xbf, 0xe5, 0xdf, 0xb9,</a>
+<a name="347"><span class="lineNum">     347 </span>            :         0xfe, 0xdf, 0x1b, 0x6f, 0xee, 0x9b, 0x2f, 0xfb, 0xcf, 0xfb, 0xfc, 0xed,</a>
+<a name="348"><span class="lineNum">     348 </span>            :         0xd6, 0xff, 0xfd, 0x7b, 0x54, 0xfe, 0xf3, 0xfe, 0xce, 0xff, 0xf2, 0xdd,</a>
+<a name="349"><span class="lineNum">     349 </span>            :         0xfd, 0xbf, 0xea, 0x6e, 0xff, 0x3f, 0x9a, 0xfb, 0x4f, 0xee, 0xf7, 0xff,</a>
+<a name="350"><span class="lineNum">     350 </span>            :         0x65, 0xf3, 0xf3, 0xbb, 0x77, 0xd7, 0x9c, 0xf7, 0xfb, 0x7c, 0xed, 0xf7,</a>
+<a name="351"><span class="lineNum">     351 </span>            :         0x5f, 0xdf, 0xf7, 0x77, 0x3e, 0xff, 0xfa, 0xf7, 0xfe, 0xee, 0xcd, 0xeb,</a>
+<a name="352"><span class="lineNum">     352 </span>            :         0xb5, 0xaf, 0xeb, 0xce, 0x0f, 0xdd, 0xdb, 0xb9, 0x7d, 0x9f, 0xa4, 0xfe,</a>
+<a name="353"><span class="lineNum">     353 </span>            :         0x8e, 0xef, 0xef, 0xfa, 0xef, 0xfa, 0xf7, 0xfe, 0x5e, 0xdd, 0x6f, 0xbf,</a>
+<a name="354"><span class="lineNum">     354 </span>            :         0xbf, 0x75, 0xcf, 0x7f, 0xce, 0xfe, 0x7f, 0xe0, 0xed, 0xf0, 0xbe, 0xee,</a>
+<a name="355"><span class="lineNum">     355 </span>            :         0x34, 0xaf, 0xc1, 0xcf, 0xff, 0x5d, 0x9b, 0xff, 0xfc, 0xbf, 0xda, 0xff,</a>
+<a name="356"><span class="lineNum">     356 </span>            :         0xf6, 0x3d, 0x78, 0xff, 0xe7, 0xb7, 0xf6, 0xf3, 0x39, 0x7f, 0xbf, 0x7f,</a>
+<a name="357"><span class="lineNum">     357 </span>            :         0xee, 0x91, 0xff, 0x5d, 0xf3, 0xf4, 0xcf, 0xf9, 0x6f, 0xf5, 0xde, 0xff,</a>
+<a name="358"><span class="lineNum">     358 </span>            :         0x5c, 0x9d, 0xbb, 0x91, 0xe5, 0xdf, 0x5f, 0xf7, 0xcb, 0xfb, 0xed, 0x1e,</a>
+<a name="359"><span class="lineNum">     359 </span>            :         0x6f, 0xf5, 0xfb, 0xf5, 0xfe, 0xad, 0xef, 0x6f, 0xb5, 0x4f, 0xe5, 0x4f,</a>
+<a name="360"><span class="lineNum">     360 </span>            :         0xfe, 0xff, 0x1d, 0x73, 0x35, 0xfb, 0xff, 0xff, 0xfd, 0xf7, 0xd1, 0xff,</a>
+<a name="361"><span class="lineNum">     361 </span>            :         0xfe, 0xf6, 0xb7, 0xab, 0xe7, 0xdd, 0xfd, 0xef, 0xbc, 0xdb, 0xb2, 0x3d,</a>
+<a name="362"><span class="lineNum">     362 </span>            :         0xbf, 0xbe, 0xff, 0xf5, 0xee, 0xfd, 0xec, 0x9f, 0xd5, 0xfa, 0xa3, 0xff,</a>
+<a name="363"><span class="lineNum">     363 </span>            :         0xff, 0xef, 0xf0, 0xed, 0xf6, 0x7f, 0xff, 0xef, 0x15, 0xdb, 0xfb, 0xcf,</a>
+<a name="364"><span class="lineNum">     364 </span>            :         0xdf, 0xef, 0xdd, 0xbf, 0x6f, 0x56, 0xff, 0x9f, 0xf0, 0xc7, 0xf6, 0xdf,</a>
+<a name="365"><span class="lineNum">     365 </span>            :         0x7c, 0x99, 0xee, 0xf7, 0xec, 0xff, 0xfd, 0xff, 0x3f, 0xab, 0x0b, 0x77,</a>
+<a name="366"><span class="lineNum">     366 </span>            :         0x79, 0x77, 0xfc, 0x1f, 0x7c, 0xfa, 0xaf, 0xff, 0x28, 0x71, 0xfd, 0x6f,</a>
+<a name="367"><span class="lineNum">     367 </span>            :         0x7e, 0x7b, 0xff, 0xdb, 0xfe, 0x7f, 0xe8, 0x2f, 0xee, 0xe7, 0xf8, 0x7e,</a>
+<a name="368"><span class="lineNum">     368 </span>            :         0xb7, 0x1f, 0x4d, 0x6c, 0xbf, 0xdb, 0xff, 0xee, 0x77, 0xe7, 0xfd, 0xfc,</a>
+<a name="369"><span class="lineNum">     369 </span>            :         0xbf, 0xdc, 0xfd, 0xe3, 0x77, 0x5e, 0xe9, 0x6f, 0x8a, 0xb7, 0x7e, 0x7f,</a>
+<a name="370"><span class="lineNum">     370 </span>            :         0xfd, 0xeb, 0xef, 0xec, 0x75, 0xef, 0xef, 0x73, 0x67, 0x3f, 0xdf, 0x23,</a>
+<a name="371"><span class="lineNum">     371 </span>            :         0xe7, 0x3b, 0xdf, 0x9d, 0xff, 0xff, 0xfd, 0xf3, 0x1f, 0xbf, 0x2e, 0x2f,</a>
+<a name="372"><span class="lineNum">     372 </span>            :         0xbf, 0xcf, 0xef, 0xf3, 0xaa, 0xbb, 0xc9, 0x3f, 0xec, 0xfe, 0x91, 0x96,</a>
+<a name="373"><span class="lineNum">     373 </span>            :         0x6f, 0xe2, 0xff, 0xdf, 0xdb, 0xff, 0xa3, 0x89, 0xdd, 0xdf, 0xff, 0xff,</a>
+<a name="374"><span class="lineNum">     374 </span>            :         0x9d, 0xfb, 0x9d, 0x7e, 0xff, 0xbf, 0x6d, 0xad, 0xfd, 0xff, 0xbf, 0xfa,</a>
+<a name="375"><span class="lineNum">     375 </span>            :         0xdf, 0xf7, 0xff, 0xaa, 0x3d, 0x9b, 0xfc, 0x6e, 0xf3, 0xcd, 0xcb, 0xd5,</a>
+<a name="376"><span class="lineNum">     376 </span>            :         0xaf, 0xdc, 0xff, 0xfc, 0x77, 0x9b, 0x87, 0xff, 0xf6, 0x7f, 0x93, 0xfb,</a>
+<a name="377"><span class="lineNum">     377 </span>            :         0xf5, 0xfe, 0xaf, 0xbe, 0x6e, 0x75, 0xff, 0xff, 0xf4, 0xfd, 0xe7, 0x5a,</a>
+<a name="378"><span class="lineNum">     378 </span>            :         0xe9, 0xff, 0xfb, 0x17, 0xf1, 0x6d, 0xf3, 0xd7, 0xd3, 0xbc, 0xf7, 0xe7,</a>
+<a name="379"><span class="lineNum">     379 </span>            :         0x4e, 0x9e, 0x9a, 0xf7};</a>
+<a name="380"><span class="lineNum">     380 </span>            : </a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">          1 :     TestBitwiseOpcodes(a, b, aandb, aorb);</span></a>
+<a name="382"><span class="lineNum">     382 </span>            : </a>
+<a name="383"><span class="lineNum">     383 </span>            :     // Check errors conditions.</a>
+<a name="384"><span class="lineNum">     384 </span>            :     // 1. Less than 2 elements on stack.</a>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{}}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{0x00}}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{0xab, 0xcd, 0xef}},</span></a>
+<a name="389"><span class="lineNum">     389 </span>            :                             ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</a>
+<a name="390"><span class="lineNum">     390 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({a}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({b}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="392"><span class="lineNum">     392 </span>            : </a>
+<a name="393"><span class="lineNum">     393 </span>            :     // 2. Operand of mismatching length</a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{}, {0x00}}, ScriptError::SCRIPT_ERR_INVALID_OPERAND_SIZE);</span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{0x00}, {}}, ScriptError::SCRIPT_ERR_INVALID_OPERAND_SIZE);</span></a>
+<a name="396"><span class="lineNum">     396 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{0x00}, {0xab, 0xcd, 0xef}},</span></a>
+<a name="397"><span class="lineNum">     397 </span>            :                             ScriptError::SCRIPT_ERR_INVALID_OPERAND_SIZE);</a>
+<a name="398"><span class="lineNum">     398 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{0xab, 0xcd, 0xef}, {0x00}},</span></a>
+<a name="399"><span class="lineNum">     399 </span>            :                             ScriptError::SCRIPT_ERR_INVALID_OPERAND_SIZE);</a>
+<a name="400"><span class="lineNum">     400 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({{}, a}, ScriptError::SCRIPT_ERR_INVALID_OPERAND_SIZE);</span></a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">          1 :     CheckAllBitwiseOpErrors({b, {}}, ScriptError::SCRIPT_ERR_INVALID_OPERAND_SIZE);</span></a>
+<a name="402"><span class="lineNum">     402 </span><span class="lineCov">          1 : }</span></a>
+<a name="403"><span class="lineNum">     403 </span>            : </a>
+<a name="404"><span class="lineNum">     404 </span>            : /**</a>
+<a name="405"><span class="lineNum">     405 </span>            :  * String opcodes.</a>
+<a name="406"><span class="lineNum">     406 </span>            :  */</a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">        525 : static void CheckStringOp(const valtype&amp; a, const valtype&amp; b, const valtype&amp; n)</span></a>
+<a name="408"><span class="lineNum">     408 </span>            : {</a>
+<a name="409"><span class="lineNum">     409 </span><span class="lineCov">        525 :     CheckBinaryOp(a, b, OP_CAT, n);</span></a>
+<a name="410"><span class="lineNum">     410 </span>            : </a>
+<a name="411"><span class="lineNum">     411 </span>            :     // Check concatenation with empty elements.</a>
+<a name="412"><span class="lineNum">     412 </span><span class="lineCov">        525 :     CheckBinaryOp(a, {}, OP_CAT, a);</span></a>
+<a name="413"><span class="lineNum">     413 </span><span class="lineCov">        525 :     CheckBinaryOp(b, {}, OP_CAT, b);</span></a>
+<a name="414"><span class="lineNum">     414 </span><span class="lineCov">        525 :     CheckBinaryOp({}, a, OP_CAT, a);</span></a>
+<a name="415"><span class="lineNum">     415 </span><span class="lineCov">        525 :     CheckBinaryOp({}, b, OP_CAT, b);</span></a>
+<a name="416"><span class="lineNum">     416 </span>            : </a>
+<a name="417"><span class="lineNum">     417 </span>            :     // Split n into a and b.</a>
+<a name="418"><span class="lineNum">     418 </span><span class="lineCov">        525 :     CheckTestResultForAllFlags({n}, CScript() &lt;&lt; a.size() &lt;&lt; OP_SPLIT, {a, b});</span></a>
+<a name="419"><span class="lineNum">     419 </span>            : </a>
+<a name="420"><span class="lineNum">     420 </span>            :     // Combine split and cat.</a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">       1050 :     CheckTestResultForAllFlags({n}, CScript() &lt;&lt; a.size() &lt;&lt; OP_SPLIT &lt;&lt; OP_CAT,</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineCov">        525 :                                {n});</span></a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">        525 :     CheckTestResultForAllFlags(</span></a>
+<a name="424"><span class="lineNum">     424 </span><span class="lineCov">        525 :         {a, b}, CScript() &lt;&lt; OP_CAT &lt;&lt; a.size() &lt;&lt; OP_SPLIT, {a, b});</span></a>
+<a name="425"><span class="lineNum">     425 </span>            : </a>
+<a name="426"><span class="lineNum">     426 </span>            :     // Split away empty elements.</a>
+<a name="427"><span class="lineNum">     427 </span><span class="lineCov">        525 :     CheckTestResultForAllFlags({a}, CScript() &lt;&lt; 0 &lt;&lt; OP_SPLIT, {{}, a});</span></a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">        525 :     CheckTestResultForAllFlags({b}, CScript() &lt;&lt; 0 &lt;&lt; OP_SPLIT, {{}, b});</span></a>
+<a name="429"><span class="lineNum">     429 </span><span class="lineCov">        525 :     CheckTestResultForAllFlags({a}, CScript() &lt;&lt; a.size() &lt;&lt; OP_SPLIT, {a, {}});</span></a>
+<a name="430"><span class="lineNum">     430 </span><span class="lineCov">        525 :     CheckTestResultForAllFlags({b}, CScript() &lt;&lt; b.size() &lt;&lt; OP_SPLIT, {b, {}});</span></a>
+<a name="431"><span class="lineNum">     431 </span>            : </a>
+<a name="432"><span class="lineNum">     432 </span>            :     // Out of bound split.</a>
+<a name="433"><span class="lineNum">     433 </span><span class="lineCov">        525 :     CheckErrorForAllFlags({a}, CScript() &lt;&lt; (a.size() + 1) &lt;&lt; OP_SPLIT,</span></a>
+<a name="434"><span class="lineNum">     434 </span>            :                           ScriptError::SCRIPT_ERR_INVALID_SPLIT_RANGE);</a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">        525 :     CheckErrorForAllFlags({b}, CScript() &lt;&lt; (b.size() + 1) &lt;&lt; OP_SPLIT,</span></a>
+<a name="436"><span class="lineNum">     436 </span>            :                           ScriptError::SCRIPT_ERR_INVALID_SPLIT_RANGE);</a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineCov">        525 :     CheckErrorForAllFlags({n}, CScript() &lt;&lt; (n.size() + 1) &lt;&lt; OP_SPLIT,</span></a>
+<a name="438"><span class="lineNum">     438 </span>            :                           ScriptError::SCRIPT_ERR_INVALID_SPLIT_RANGE);</a>
+<a name="439"><span class="lineNum">     439 </span><span class="lineCov">        525 :     CheckErrorForAllFlags({a}, CScript() &lt;&lt; (-1) &lt;&lt; OP_SPLIT,</span></a>
+<a name="440"><span class="lineNum">     440 </span>            :                           ScriptError::SCRIPT_ERR_INVALID_SPLIT_RANGE);</a>
+<a name="441"><span class="lineNum">     441 </span><span class="lineCov">        525 : }</span></a>
+<a name="442"><span class="lineNum">     442 </span>            : </a>
+<a name="443"><span class="lineNum">     443 </span><span class="lineCov">        148 : BOOST_AUTO_TEST_CASE(string_opcodes_test)</span></a>
+<a name="444"><span class="lineNum">     444 </span>            : {</a>
+<a name="445"><span class="lineNum">     445 </span>            :     // Check for empty string.</a>
+<a name="446"><span class="lineNum">     446 </span><span class="lineCov">          1 :     CheckStringOp({}, {}, {});</span></a>
+<a name="447"><span class="lineNum">     447 </span>            : </a>
+<a name="448"><span class="lineNum">     448 </span>            :     // Check for simple concats.</a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">          1 :     CheckStringOp({0x00}, {0x00}, {0x00, 0x00});</span></a>
+<a name="450"><span class="lineNum">     450 </span><span class="lineCov">          1 :     CheckStringOp({0xab}, {0xcd}, {0xab, 0xcd});</span></a>
+<a name="451"><span class="lineNum">     451 </span><span class="lineCov">          2 :     CheckStringOp({0xab, 0xcd, 0xef}, {0x12, 0x34, 0x56, 0x78},</span></a>
+<a name="452"><span class="lineNum">     452 </span><span class="lineCov">          1 :                   {0xab, 0xcd, 0xef, 0x12, 0x34, 0x56, 0x78});</span></a>
+<a name="453"><span class="lineNum">     453 </span>            : </a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">          1 :     const valtype n{</span></a>
+<a name="455"><span class="lineNum">     455 </span>            :         0x7b, 0x59, 0xf8, 0x07, 0xc6, 0xc0, 0x70, 0xbc, 0x52, 0x7b, 0xf5, 0xaf,</a>
+<a name="456"><span class="lineNum">     456 </span>            :         0xf5, 0xdd, 0xeb, 0xdc, 0x41, 0xaa, 0x07, 0xf6, 0x80, 0x8d, 0x5d, 0x4d,</a>
+<a name="457"><span class="lineNum">     457 </span>            :         0xbc, 0x91, 0xcd, 0x0a, 0x14, 0x85, 0xd9, 0x98, 0xb6, 0xab, 0x2e, 0x37,</a>
+<a name="458"><span class="lineNum">     458 </span>            :         0x76, 0x78, 0x34, 0x8b, 0x2b, 0xfb, 0x59, 0x3b, 0xea, 0x45, 0x46, 0x72,</a>
+<a name="459"><span class="lineNum">     459 </span>            :         0x64, 0x64, 0x83, 0x73, 0xc3, 0x1d, 0xca, 0x86, 0x03, 0x91, 0xfc, 0xc0,</a>
+<a name="460"><span class="lineNum">     460 </span>            :         0xc4, 0xdf, 0x17, 0x83, 0x22, 0x5d, 0x50, 0xc5, 0x31, 0x45, 0xaf, 0xbc,</a>
+<a name="461"><span class="lineNum">     461 </span>            :         0xfd, 0xc8, 0xb9, 0x6a, 0x72, 0x8b, 0x3c, 0x9b, 0x77, 0x02, 0xd6, 0x18,</a>
+<a name="462"><span class="lineNum">     462 </span>            :         0x62, 0x02, 0xc9, 0x1c, 0x66, 0x29, 0x5c, 0x66, 0xf3, 0x9a, 0x00, 0xc1,</a>
+<a name="463"><span class="lineNum">     463 </span>            :         0x69, 0x47, 0x35, 0x2f, 0xe8, 0x32, 0x2a, 0xb5, 0xc4, 0x9f, 0x3c, 0xbf,</a>
+<a name="464"><span class="lineNum">     464 </span>            :         0xc7, 0x1a, 0x2b, 0xb3, 0xa6, 0x9b, 0xde, 0xcf, 0xc5, 0x15, 0x8c, 0xac,</a>
+<a name="465"><span class="lineNum">     465 </span>            :         0xd0, 0x7c, 0x38, 0xe4, 0x41, 0xe1, 0x81, 0x4e, 0x65, 0xa5, 0x24, 0x08,</a>
+<a name="466"><span class="lineNum">     466 </span>            :         0x5b, 0xa3, 0x19, 0xf3, 0xc2, 0x80, 0x21, 0x01, 0x33, 0xaf, 0x84, 0x53,</a>
+<a name="467"><span class="lineNum">     467 </span>            :         0x1a, 0x00, 0x79, 0x7e, 0x1f, 0xd1, 0x62, 0x53, 0x0d, 0x6a, 0x58, 0xde,</a>
+<a name="468"><span class="lineNum">     468 </span>            :         0x16, 0x23, 0x70, 0x32, 0x81, 0x25, 0xbd, 0xa3, 0x92, 0xae, 0xfd, 0x7f,</a>
+<a name="469"><span class="lineNum">     469 </span>            :         0x47, 0xa2, 0xf2, 0x34, 0x3d, 0xef, 0xc3, 0x71, 0xb1, 0x33, 0x9a, 0xfd,</a>
+<a name="470"><span class="lineNum">     470 </span>            :         0x80, 0x4b, 0x96, 0xcb, 0xaa, 0xda, 0x77, 0x50, 0x58, 0xf7, 0x0c, 0xf3,</a>
+<a name="471"><span class="lineNum">     471 </span>            :         0x75, 0xdf, 0x51, 0x96, 0x75, 0x9a, 0x78, 0xc3, 0xd3, 0xaf, 0xac, 0xee,</a>
+<a name="472"><span class="lineNum">     472 </span>            :         0xf3, 0xcc, 0x79, 0xfb, 0x3f, 0xda, 0x51, 0x94, 0x8f, 0x59, 0x3d, 0xbc,</a>
+<a name="473"><span class="lineNum">     473 </span>            :         0xef, 0x17, 0x47, 0xd4, 0x40, 0x80, 0x8a, 0x78, 0x86, 0x6c, 0x9e, 0x38,</a>
+<a name="474"><span class="lineNum">     474 </span>            :         0xd2, 0x11, 0xaa, 0x94, 0x79, 0x9b, 0x61, 0xf3, 0xaa, 0xcf, 0x66, 0x7e,</a>
+<a name="475"><span class="lineNum">     475 </span>            :         0xa7, 0x11, 0xe9, 0xad, 0x8a, 0xd4, 0x67, 0x23, 0xf9, 0x62, 0x9f, 0x55,</a>
+<a name="476"><span class="lineNum">     476 </span>            :         0xc0, 0x5a, 0x0f, 0x0a, 0xfe, 0x28, 0xd8, 0x80, 0xaf, 0x71, 0x97, 0x65,</a>
+<a name="477"><span class="lineNum">     477 </span>            :         0x49, 0xb1, 0xd3, 0x9c, 0xee, 0x7e, 0x4b, 0xeb, 0x06, 0x3b, 0xe1, 0x66,</a>
+<a name="478"><span class="lineNum">     478 </span>            :         0xf9, 0xa7, 0x77, 0x4f, 0x6a, 0xd1, 0xa0, 0x16, 0xe0, 0xcf, 0xe3, 0x25,</a>
+<a name="479"><span class="lineNum">     479 </span>            :         0x65, 0x08, 0x0f, 0x5e, 0x2c, 0x1e, 0x80, 0x35, 0x75, 0x40, 0x9a, 0xd1,</a>
+<a name="480"><span class="lineNum">     480 </span>            :         0x14, 0xba, 0xaa, 0xa7, 0xfc, 0x3c, 0xf1, 0xeb, 0x16, 0x8d, 0x59, 0xb4,</a>
+<a name="481"><span class="lineNum">     481 </span>            :         0xcf, 0x16, 0x9a, 0xe3, 0xf1, 0x9d, 0x31, 0x97, 0xe5, 0xa4, 0xcc, 0xae,</a>
+<a name="482"><span class="lineNum">     482 </span>            :         0x1c, 0xa2, 0xe7, 0x88, 0x44, 0x05, 0x67, 0x28, 0x21, 0x9f, 0x3e, 0xe2,</a>
+<a name="483"><span class="lineNum">     483 </span>            :         0xfc, 0x25, 0x8c, 0x63, 0x09, 0xde, 0x39, 0xfa, 0xae, 0x26, 0x9b, 0x43,</a>
+<a name="484"><span class="lineNum">     484 </span>            :         0xdf, 0x06, 0x2f, 0xb7, 0xaf, 0xa2, 0x74, 0x1c, 0x17, 0x96, 0x84, 0x26,</a>
+<a name="485"><span class="lineNum">     485 </span>            :         0x1a, 0xe2, 0xcd, 0x90, 0xa8, 0xc3, 0xb6, 0xeb, 0x53, 0xee, 0xdd, 0xf9,</a>
+<a name="486"><span class="lineNum">     486 </span>            :         0x88, 0xc6, 0x05, 0xb5, 0xd4, 0xa3, 0xf0, 0x36, 0xc7, 0xf1, 0xb3, 0x04,</a>
+<a name="487"><span class="lineNum">     487 </span>            :         0x0c, 0xa5, 0xea, 0x22, 0x5b, 0x56, 0x3d, 0x54, 0x0b, 0x69, 0xc2, 0xe1,</a>
+<a name="488"><span class="lineNum">     488 </span>            :         0x4f, 0xa8, 0x28, 0x4e, 0xe2, 0x3d, 0x99, 0x9c, 0x3b, 0xdb, 0xf4, 0x92,</a>
+<a name="489"><span class="lineNum">     489 </span>            :         0x5a, 0xb9, 0xce, 0xeb, 0x33, 0xb5, 0xae, 0x16, 0x58, 0x79, 0x31, 0x8f,</a>
+<a name="490"><span class="lineNum">     490 </span>            :         0x1e, 0x7a, 0x1a, 0xee, 0xbe, 0x9f, 0xea, 0x89, 0xd6, 0x6c, 0x43, 0x76,</a>
+<a name="491"><span class="lineNum">     491 </span>            :         0x94, 0x0d, 0x94, 0x50, 0x6d, 0xdd, 0xc2, 0x68, 0x80, 0x3e, 0x38, 0x51,</a>
+<a name="492"><span class="lineNum">     492 </span>            :         0x51, 0xd1, 0xd5, 0x4e, 0xf7, 0x65, 0xe5, 0x42, 0x3c, 0xa8, 0x28, 0x19,</a>
+<a name="493"><span class="lineNum">     493 </span>            :         0x02, 0xa7, 0xc9, 0x1c, 0x24, 0xa7, 0x91, 0xfe, 0xa1, 0xbc, 0xb9, 0x15,</a>
+<a name="494"><span class="lineNum">     494 </span>            :         0xba, 0x49, 0xac, 0xeb, 0x81, 0xf7, 0xc1, 0xfc, 0xf9, 0x51, 0x0d, 0xa1,</a>
+<a name="495"><span class="lineNum">     495 </span>            :         0xe8, 0x71, 0x2c, 0x4e, 0x59, 0xc1, 0x3a, 0x2a, 0xcc, 0x61, 0xee, 0xe5,</a>
+<a name="496"><span class="lineNum">     496 </span>            :         0x2a, 0x88, 0xf8, 0xec, 0xbd, 0x90, 0xc0, 0x96, 0xe0, 0x93, 0x1f, 0x78,</a>
+<a name="497"><span class="lineNum">     497 </span>            :         0xbe, 0x6b, 0xb1, 0x4c, 0x46, 0x2a, 0x86, 0xd9, 0x2d, 0x20, 0x29, 0xb4,</a>
+<a name="498"><span class="lineNum">     498 </span>            :         0x44, 0x15, 0xb2, 0x7e};</a>
+<a name="499"><span class="lineNum">     499 </span>            : </a>
+<a name="500"><span class="lineNum">     500 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL(n.size(), MAX_SCRIPT_ELEMENT_SIZE);</span></a>
+<a name="501"><span class="lineNum">     501 </span>            : </a>
+<a name="502"><span class="lineNum">     502 </span><span class="lineCov">        522 :     for (size_t i = 0; i &lt;= MAX_SCRIPT_ELEMENT_SIZE; i++) {</span></a>
+<a name="503"><span class="lineNum">     503 </span><span class="lineCov">        521 :         valtype a(n.begin(), n.begin() + i);</span></a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">        521 :         valtype b(n.begin() + i, n.end());</span></a>
+<a name="505"><span class="lineNum">     505 </span>            : </a>
+<a name="506"><span class="lineNum">     506 </span><span class="lineCov">        521 :         CheckStringOp(a, b, n);</span></a>
+<a name="507"><span class="lineNum">     507 </span>            : </a>
+<a name="508"><span class="lineNum">     508 </span>            :         // One more char and we are oversize.</a>
+<a name="509"><span class="lineNum">     509 </span><span class="lineCov">        521 :         valtype extraA = a;</span></a>
+<a name="510"><span class="lineNum">     510 </span><span class="lineCov">        521 :         extraA.push_back(0xaf);</span></a>
+<a name="511"><span class="lineNum">     511 </span>            : </a>
+<a name="512"><span class="lineNum">     512 </span><span class="lineCov">        521 :         valtype extraB = b;</span></a>
+<a name="513"><span class="lineNum">     513 </span><span class="lineCov">        521 :         extraB.push_back(0xad);</span></a>
+<a name="514"><span class="lineNum">     514 </span>            : </a>
+<a name="515"><span class="lineNum">     515 </span><span class="lineCov">        521 :         CheckOpError({extraA, b}, OP_CAT, ScriptError::SCRIPT_ERR_PUSH_SIZE);</span></a>
+<a name="516"><span class="lineNum">     516 </span><span class="lineCov">        521 :         CheckOpError({a, extraB}, OP_CAT, ScriptError::SCRIPT_ERR_PUSH_SIZE);</span></a>
+<a name="517"><span class="lineNum">     517 </span><span class="lineCov">        521 :         CheckOpError({extraA, extraB}, OP_CAT, ScriptError::SCRIPT_ERR_PUSH_SIZE);</span></a>
+<a name="518"><span class="lineNum">     518 </span><span class="lineCov">        521 :     }</span></a>
+<a name="519"><span class="lineNum">     519 </span>            : </a>
+<a name="520"><span class="lineNum">     520 </span>            :     // Check error conditions.</a>
+<a name="521"><span class="lineNum">     521 </span><span class="lineCov">          1 :     CheckOpError({}, OP_CAT, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="522"><span class="lineNum">     522 </span><span class="lineCov">          1 :     CheckOpError({}, OP_SPLIT, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="523"><span class="lineNum">     523 </span><span class="lineCov">          1 :     CheckOpError({{}}, OP_CAT, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="524"><span class="lineNum">     524 </span><span class="lineCov">          1 :     CheckOpError({{}}, OP_SPLIT, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="525"><span class="lineNum">     525 </span><span class="lineCov">          1 :     CheckOpError({{0x00}}, OP_CAT, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="526"><span class="lineNum">     526 </span><span class="lineCov">          1 :     CheckOpError({{0x00}}, OP_SPLIT, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="527"><span class="lineNum">     527 </span><span class="lineCov">          1 :     CheckOpError({{0xab, 0xcd, 0xef}}, OP_CAT,</span></a>
+<a name="528"><span class="lineNum">     528 </span>            :                  ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</a>
+<a name="529"><span class="lineNum">     529 </span><span class="lineCov">          1 :     CheckOpError({{0xab, 0xcd, 0xef}}, OP_SPLIT,</span></a>
+<a name="530"><span class="lineNum">     530 </span>            :                  ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</a>
+<a name="531"><span class="lineNum">     531 </span><span class="lineCov">          1 : }</span></a>
+<a name="532"><span class="lineNum">     532 </span>            : </a>
+<a name="533"><span class="lineNum">     533 </span>            : /**</a>
+<a name="534"><span class="lineNum">     534 </span>            :  * Type conversion opcodes.</a>
+<a name="535"><span class="lineNum">     535 </span>            :  */</a>
+<a name="536"><span class="lineNum">     536 </span><span class="lineCov">       2086 : static void CheckTypeConversionOp(const valtype&amp; bin, const valtype&amp; num)</span></a>
+<a name="537"><span class="lineNum">     537 </span>            : {</a>
+<a name="538"><span class="lineNum">     538 </span>            :     // Check BIN2NUM.</a>
+<a name="539"><span class="lineNum">     539 </span><span class="lineCov">       2086 :     CheckTestResultForAllFlags({bin}, CScript() &lt;&lt; OP_BIN2NUM, {num});</span></a>
+<a name="540"><span class="lineNum">     540 </span>            : </a>
+<a name="541"><span class="lineNum">     541 </span>            :     // Check NUM2BIN. Negative 0 is rebuilt as regular zero, so we need a tweak.</a>
+<a name="542"><span class="lineNum">     542 </span><span class="lineCov">       2086 :     valtype rebuilt_bin{bin};</span></a>
+<a name="543"><span class="lineNum">     543 </span><span class="lineCov">       2086 :     if (num.size() == 0 &amp;&amp; bin.size() &gt; 0) {</span></a>
+<a name="544"><span class="lineNum">     544 </span><span class="lineCov">       1040 :         rebuilt_bin[rebuilt_bin.size() - 1] &amp;= 0x7f;</span></a>
+<a name="545"><span class="lineNum">     545 </span><span class="lineCov">       1040 :     }</span></a>
+<a name="546"><span class="lineNum">     546 </span>            : </a>
+<a name="547"><span class="lineNum">     547 </span><span class="lineCov">       4172 :     CheckTestResultForAllFlags({num}, CScript() &lt;&lt; bin.size() &lt;&lt; OP_NUM2BIN,</span></a>
+<a name="548"><span class="lineNum">     548 </span><span class="lineCov">       2086 :                                {rebuilt_bin});</span></a>
+<a name="549"><span class="lineNum">     549 </span>            : </a>
+<a name="550"><span class="lineNum">     550 </span>            :     // Check roundtrip with NUM2BIN.</a>
+<a name="551"><span class="lineNum">     551 </span><span class="lineCov">       2086 :     CheckTestResultForAllFlags(</span></a>
+<a name="552"><span class="lineNum">     552 </span><span class="lineCov">       2086 :         {bin}, CScript() &lt;&lt; OP_BIN2NUM &lt;&lt; bin.size() &lt;&lt; OP_NUM2BIN,</span></a>
+<a name="553"><span class="lineNum">     553 </span><span class="lineCov">       2086 :         {rebuilt_bin});</span></a>
+<a name="554"><span class="lineNum">     554 </span>            : </a>
+<a name="555"><span class="lineNum">     555 </span>            :     // Grow and shrink back down using NUM2BIN.</a>
+<a name="556"><span class="lineNum">     556 </span><span class="lineCov">       4172 :     CheckTestResultForAllFlags({bin},</span></a>
+<a name="557"><span class="lineNum">     557 </span><span class="lineCov">       2086 :                                CScript()</span></a>
+<a name="558"><span class="lineNum">     558 </span><span class="lineCov">       2086 :                                    &lt;&lt; MAX_SCRIPT_ELEMENT_SIZE &lt;&lt; OP_NUM2BIN</span></a>
+<a name="559"><span class="lineNum">     559 </span><span class="lineCov">       2086 :                                    &lt;&lt; bin.size() &lt;&lt; OP_NUM2BIN,</span></a>
+<a name="560"><span class="lineNum">     560 </span><span class="lineCov">       2086 :                                {rebuilt_bin});</span></a>
+<a name="561"><span class="lineNum">     561 </span><span class="lineCov">       4172 :     CheckTestResultForAllFlags({num},</span></a>
+<a name="562"><span class="lineNum">     562 </span><span class="lineCov">       2086 :                                CScript()</span></a>
+<a name="563"><span class="lineNum">     563 </span><span class="lineCov">       2086 :                                    &lt;&lt; MAX_SCRIPT_ELEMENT_SIZE &lt;&lt; OP_NUM2BIN</span></a>
+<a name="564"><span class="lineNum">     564 </span><span class="lineCov">       2086 :                                    &lt;&lt; bin.size() &lt;&lt; OP_NUM2BIN,</span></a>
+<a name="565"><span class="lineNum">     565 </span><span class="lineCov">       2086 :                                {rebuilt_bin});</span></a>
+<a name="566"><span class="lineNum">     566 </span>            : </a>
+<a name="567"><span class="lineNum">     567 </span>            :     // BIN2NUM is idempotent.</a>
+<a name="568"><span class="lineNum">     568 </span><span class="lineCov">       4172 :     CheckTestResultForAllFlags({bin}, CScript() &lt;&lt; OP_BIN2NUM &lt;&lt; OP_BIN2NUM,</span></a>
+<a name="569"><span class="lineNum">     569 </span><span class="lineCov">       2086 :                                {num});</span></a>
+<a name="570"><span class="lineNum">     570 </span><span class="lineCov">       2086 : }</span></a>
+<a name="571"><span class="lineNum">     571 </span>            : </a>
+<a name="572"><span class="lineNum">     572 </span><span class="lineCov">          3 : static void CheckBin2NumError(const stacktype&amp; original_stack, ScriptError expected_error)</span></a>
+<a name="573"><span class="lineNum">     573 </span>            : {</a>
+<a name="574"><span class="lineNum">     574 </span><span class="lineCov">          3 :     CheckErrorForAllFlags(original_stack, CScript() &lt;&lt; OP_BIN2NUM, expected_error);</span></a>
+<a name="575"><span class="lineNum">     575 </span><span class="lineCov">          3 : }</span></a>
+<a name="576"><span class="lineNum">     576 </span>            : </a>
+<a name="577"><span class="lineNum">     577 </span><span class="lineCov">          4 : static void CheckNum2BinError(const stacktype&amp; original_stack, ScriptError expected_error)</span></a>
+<a name="578"><span class="lineNum">     578 </span>            : {</a>
+<a name="579"><span class="lineNum">     579 </span><span class="lineCov">          4 :     CheckErrorForAllFlags(original_stack, CScript() &lt;&lt; OP_NUM2BIN, expected_error);</span></a>
+<a name="580"><span class="lineNum">     580 </span><span class="lineCov">          4 : }</span></a>
+<a name="581"><span class="lineNum">     581 </span>            : </a>
+<a name="582"><span class="lineNum">     582 </span><span class="lineCov">        148 : BOOST_AUTO_TEST_CASE(type_conversion_test)</span></a>
+<a name="583"><span class="lineNum">     583 </span>            : {</a>
+<a name="584"><span class="lineNum">     584 </span><span class="lineCov">          1 :     valtype empty;</span></a>
+<a name="585"><span class="lineNum">     585 </span><span class="lineCov">          1 :     CheckTypeConversionOp(empty, empty);</span></a>
+<a name="586"><span class="lineNum">     586 </span>            : </a>
+<a name="587"><span class="lineNum">     587 </span><span class="lineCov">          1 :     valtype paddedzero, paddednegzero;</span></a>
+<a name="588"><span class="lineNum">     588 </span><span class="lineCov">        521 :     for (size_t i = 0; i &lt; MAX_SCRIPT_ELEMENT_SIZE; i++) {</span></a>
+<a name="589"><span class="lineNum">     589 </span><span class="lineCov">        520 :         CheckTypeConversionOp(paddedzero, empty);</span></a>
+<a name="590"><span class="lineNum">     590 </span><span class="lineCov">        520 :         paddedzero.push_back(0x00);</span></a>
+<a name="591"><span class="lineNum">     591 </span>            : </a>
+<a name="592"><span class="lineNum">     592 </span><span class="lineCov">        520 :         paddednegzero.push_back(0x80);</span></a>
+<a name="593"><span class="lineNum">     593 </span><span class="lineCov">        520 :         CheckTypeConversionOp(paddednegzero, empty);</span></a>
+<a name="594"><span class="lineNum">     594 </span><span class="lineCov">        520 :         paddednegzero[paddednegzero.size() - 1] = 0x00;</span></a>
+<a name="595"><span class="lineNum">     595 </span><span class="lineCov">        520 :     }</span></a>
+<a name="596"><span class="lineNum">     596 </span>            : </a>
+<a name="597"><span class="lineNum">     597 </span>            :     // Merge leading byte when sign bit isn't used.</a>
+<a name="598"><span class="lineNum">     598 </span><span class="lineCov">          1 :     std::vector&lt;uint8_t&gt; k{0x7f}, negk{0xff};</span></a>
+<a name="599"><span class="lineNum">     599 </span><span class="lineCov">          1 :     std::vector&lt;uint8_t&gt; kpadded = k, negkpadded = negk;</span></a>
+<a name="600"><span class="lineNum">     600 </span><span class="lineCov">        521 :     for (size_t i = 0; i &lt; MAX_SCRIPT_ELEMENT_SIZE; i++) {</span></a>
+<a name="601"><span class="lineNum">     601 </span><span class="lineCov">        520 :         CheckTypeConversionOp(kpadded, k);</span></a>
+<a name="602"><span class="lineNum">     602 </span><span class="lineCov">        520 :         kpadded.push_back(0x00);</span></a>
+<a name="603"><span class="lineNum">     603 </span>            : </a>
+<a name="604"><span class="lineNum">     604 </span><span class="lineCov">        520 :         CheckTypeConversionOp(negkpadded, negk);</span></a>
+<a name="605"><span class="lineNum">     605 </span><span class="lineCov">        520 :         negkpadded[negkpadded.size() - 1] &amp;= 0x7f;</span></a>
+<a name="606"><span class="lineNum">     606 </span><span class="lineCov">        520 :         negkpadded.push_back(0x80);</span></a>
+<a name="607"><span class="lineNum">     607 </span><span class="lineCov">        520 :     }</span></a>
+<a name="608"><span class="lineNum">     608 </span>            : </a>
+<a name="609"><span class="lineNum">     609 </span>            :     // Some known values.</a>
+<a name="610"><span class="lineNum">     610 </span><span class="lineCov">          1 :     CheckTypeConversionOp({0xab, 0xcd, 0xef, 0x00}, {0xab, 0xcd, 0xef, 0x00});</span></a>
+<a name="611"><span class="lineNum">     611 </span><span class="lineCov">          1 :     CheckTypeConversionOp({0xab, 0xcd, 0x7f, 0x00}, {0xab, 0xcd, 0x7f});</span></a>
+<a name="612"><span class="lineNum">     612 </span>            : </a>
+<a name="613"><span class="lineNum">     613 </span>            :     // Reductions</a>
+<a name="614"><span class="lineNum">     614 </span><span class="lineCov">          2 :     CheckTypeConversionOp({0xab, 0xcd, 0xef, 0x42, 0x80},</span></a>
+<a name="615"><span class="lineNum">     615 </span><span class="lineCov">          1 :                           {0xab, 0xcd, 0xef, 0xc2});</span></a>
+<a name="616"><span class="lineNum">     616 </span><span class="lineCov">          2 :     CheckTypeConversionOp({0xab, 0xcd, 0x7f, 0x42, 0x00},</span></a>
+<a name="617"><span class="lineNum">     617 </span><span class="lineCov">          1 :                           {0xab, 0xcd, 0x7f, 0x42});</span></a>
+<a name="618"><span class="lineNum">     618 </span>            : </a>
+<a name="619"><span class="lineNum">     619 </span>            :     // Empty stack is an error.</a>
+<a name="620"><span class="lineNum">     620 </span><span class="lineCov">          1 :     CheckBin2NumError({}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="621"><span class="lineNum">     621 </span><span class="lineCov">          1 :     CheckNum2BinError({}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="622"><span class="lineNum">     622 </span>            : </a>
+<a name="623"><span class="lineNum">     623 </span>            :     // NUM2BIN require 2 elements on the stack.</a>
+<a name="624"><span class="lineNum">     624 </span><span class="lineCov">          1 :     CheckNum2BinError({{0x00}}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="625"><span class="lineNum">     625 </span>            : </a>
+<a name="626"><span class="lineNum">     626 </span>            :     // Values that do not fit in 4 bytes are considered out of range for</a>
+<a name="627"><span class="lineNum">     627 </span>            :     // BIN2NUM.</a>
+<a name="628"><span class="lineNum">     628 </span><span class="lineCov">          1 :     CheckBin2NumError({{0xab, 0xcd, 0xef, 0xc2, 0x80}},</span></a>
+<a name="629"><span class="lineNum">     629 </span>            :                       ScriptError::SCRIPT_ERR_INVALID_NUMBER_RANGE);</a>
+<a name="630"><span class="lineNum">     630 </span><span class="lineCov">          1 :     CheckBin2NumError({{0x00, 0x00, 0x00, 0x80, 0x80}},</span></a>
+<a name="631"><span class="lineNum">     631 </span>            :                       ScriptError::SCRIPT_ERR_INVALID_NUMBER_RANGE);</a>
+<a name="632"><span class="lineNum">     632 </span>            : </a>
+<a name="633"><span class="lineNum">     633 </span>            :     // NUM2BIN must not generate oversized push.</a>
+<a name="634"><span class="lineNum">     634 </span><span class="lineCov">          1 :     valtype largezero(MAX_SCRIPT_ELEMENT_SIZE, 0);</span></a>
+<a name="635"><span class="lineNum">     635 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL(largezero.size(), MAX_SCRIPT_ELEMENT_SIZE);</span></a>
+<a name="636"><span class="lineNum">     636 </span><span class="lineCov">          1 :     CheckTypeConversionOp(largezero, {});</span></a>
+<a name="637"><span class="lineNum">     637 </span>            : </a>
+<a name="638"><span class="lineNum">     638 </span><span class="lineCov">          1 :     CheckNum2BinError({{}, {0x09, 0x02}}, ScriptError::SCRIPT_ERR_PUSH_SIZE);</span></a>
+<a name="639"><span class="lineNum">     639 </span>            : </a>
+<a name="640"><span class="lineNum">     640 </span>            :     // Check that the requested encoding is possible.</a>
+<a name="641"><span class="lineNum">     641 </span><span class="lineCov">          1 :     CheckNum2BinError({{0xab, 0xcd, 0xef, 0x80}, {0x03}},</span></a>
+<a name="642"><span class="lineNum">     642 </span>            :                       ScriptError::SCRIPT_ERR_IMPOSSIBLE_ENCODING);</a>
+<a name="643"><span class="lineNum">     643 </span><span class="lineCov">          1 : }</span></a>
+<a name="644"><span class="lineNum">     644 </span>            : </a>
+<a name="645"><span class="lineNum">     645 </span>            : /**</a>
+<a name="646"><span class="lineNum">     646 </span>            :  * Arithmetic Opcodes</a>
+<a name="647"><span class="lineNum">     647 </span>            :  */</a>
+<a name="648"><span class="lineNum">     648 </span><span class="lineCov">         10 : static void CheckDivMod(const valtype&amp; a, const valtype&amp; b,</span></a>
+<a name="649"><span class="lineNum">     649 </span>            :                         const valtype&amp; divExpected,</a>
+<a name="650"><span class="lineNum">     650 </span>            :                         const valtype&amp; modExpected)</a>
+<a name="651"><span class="lineNum">     651 </span>            : {</a>
+<a name="652"><span class="lineNum">     652 </span>            :     // Negative values for division</a>
+<a name="653"><span class="lineNum">     653 </span><span class="lineCov">         10 :     CheckBinaryOp(a, b, OP_DIV, divExpected);</span></a>
+<a name="654"><span class="lineNum">     654 </span><span class="lineCov">         10 :     CheckBinaryOp(a, NegativeValtype(b), OP_DIV, NegativeValtype(divExpected));</span></a>
+<a name="655"><span class="lineNum">     655 </span><span class="lineCov">         10 :     CheckBinaryOp(NegativeValtype(a), b, OP_DIV, NegativeValtype(divExpected));</span></a>
+<a name="656"><span class="lineNum">     656 </span><span class="lineCov">         10 :     CheckBinaryOp(NegativeValtype(a), NegativeValtype(b), OP_DIV, divExpected);</span></a>
+<a name="657"><span class="lineNum">     657 </span>            : </a>
+<a name="658"><span class="lineNum">     658 </span>            :     // Negative values for modulo</a>
+<a name="659"><span class="lineNum">     659 </span><span class="lineCov">         10 :     CheckBinaryOp(a, b, OP_MOD, modExpected);</span></a>
+<a name="660"><span class="lineNum">     660 </span><span class="lineCov">         10 :     CheckBinaryOp(a, NegativeValtype(b), OP_MOD, modExpected);</span></a>
+<a name="661"><span class="lineNum">     661 </span><span class="lineCov">         10 :     CheckBinaryOp(NegativeValtype(a), b, OP_MOD, NegativeValtype(modExpected));</span></a>
+<a name="662"><span class="lineNum">     662 </span><span class="lineCov">         20 :     CheckBinaryOp(NegativeValtype(a), NegativeValtype(b), OP_MOD,</span></a>
+<a name="663"><span class="lineNum">     663 </span><span class="lineCov">         10 :                   NegativeValtype(modExpected));</span></a>
+<a name="664"><span class="lineNum">     664 </span>            : </a>
+<a name="665"><span class="lineNum">     665 </span>            :     // Div/Mod by zero</a>
+<a name="666"><span class="lineNum">     666 </span><span class="lineCov">         30 :     for (uint32_t flags : flagset) {</span></a>
+<a name="667"><span class="lineNum">     667 </span><span class="lineCov">         20 :         CheckError(flags, {a, {}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="668"><span class="lineNum">     668 </span>            :                    ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="669"><span class="lineNum">     669 </span><span class="lineCov">         20 :         CheckError(flags, {b, {}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="670"><span class="lineNum">     670 </span>            :                    ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="671"><span class="lineNum">     671 </span>            : </a>
+<a name="672"><span class="lineNum">     672 </span><span class="lineCov">         20 :         if (flags &amp; SCRIPT_VERIFY_MINIMALDATA) {</span></a>
+<a name="673"><span class="lineNum">     673 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="674"><span class="lineNum">     674 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="675"><span class="lineNum">     675 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="676"><span class="lineNum">     676 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="677"><span class="lineNum">     677 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x00, 0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="678"><span class="lineNum">     678 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="679"><span class="lineNum">     679 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x00, 0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="680"><span class="lineNum">     680 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="681"><span class="lineNum">     681 </span>            : </a>
+<a name="682"><span class="lineNum">     682 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="683"><span class="lineNum">     683 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="684"><span class="lineNum">     684 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="685"><span class="lineNum">     685 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="686"><span class="lineNum">     686 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x00, 0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="687"><span class="lineNum">     687 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="688"><span class="lineNum">     688 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x00, 0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="689"><span class="lineNum">     689 </span>            :                        ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="690"><span class="lineNum">     690 </span><span class="lineCov">         10 :         } else {</span></a>
+<a name="691"><span class="lineNum">     691 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="692"><span class="lineNum">     692 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="693"><span class="lineNum">     693 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="694"><span class="lineNum">     694 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="695"><span class="lineNum">     695 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x00, 0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="696"><span class="lineNum">     696 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="697"><span class="lineNum">     697 </span><span class="lineCov">         10 :             CheckError(flags, {a, {0x00, 0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="698"><span class="lineNum">     698 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="699"><span class="lineNum">     699 </span>            : </a>
+<a name="700"><span class="lineNum">     700 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="701"><span class="lineNum">     701 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="702"><span class="lineNum">     702 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="703"><span class="lineNum">     703 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="704"><span class="lineNum">     704 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x00, 0x00}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="705"><span class="lineNum">     705 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="706"><span class="lineNum">     706 </span><span class="lineCov">         10 :             CheckError(flags, {b, {0x00, 0x80}}, CScript() &lt;&lt; OP_DIV,</span></a>
+<a name="707"><span class="lineNum">     707 </span>            :                        ScriptError::SCRIPT_ERR_DIV_BY_ZERO);</a>
+<a name="708"><span class="lineNum">     708 </span>            :         }</a>
+<a name="709"><span class="lineNum">     709 </span>            :     }</a>
+<a name="710"><span class="lineNum">     710 </span>            : </a>
+<a name="711"><span class="lineNum">     711 </span>            :     // Division identities</a>
+<a name="712"><span class="lineNum">     712 </span><span class="lineCov">         10 :     CheckBinaryOp(a, {0x01}, OP_DIV, a);</span></a>
+<a name="713"><span class="lineNum">     713 </span><span class="lineCov">         10 :     CheckBinaryOp(a, {0x81}, OP_DIV, NegativeValtype(a));</span></a>
+<a name="714"><span class="lineNum">     714 </span><span class="lineCov">         10 :     CheckBinaryOp(a, a, OP_DIV, {0x01});</span></a>
+<a name="715"><span class="lineNum">     715 </span><span class="lineCov">         10 :     CheckBinaryOp(a, NegativeValtype(a), OP_DIV, {0x81});</span></a>
+<a name="716"><span class="lineNum">     716 </span><span class="lineCov">         10 :     CheckBinaryOp(NegativeValtype(a), a, OP_DIV, {0x81});</span></a>
+<a name="717"><span class="lineNum">     717 </span>            : </a>
+<a name="718"><span class="lineNum">     718 </span><span class="lineCov">         10 :     CheckBinaryOp(b, {0x01}, OP_DIV, b);</span></a>
+<a name="719"><span class="lineNum">     719 </span><span class="lineCov">         10 :     CheckBinaryOp(b, {0x81}, OP_DIV, NegativeValtype(b));</span></a>
+<a name="720"><span class="lineNum">     720 </span><span class="lineCov">         10 :     CheckBinaryOp(b, b, OP_DIV, {0x01});</span></a>
+<a name="721"><span class="lineNum">     721 </span><span class="lineCov">         10 :     CheckBinaryOp(b, NegativeValtype(b), OP_DIV, {0x81});</span></a>
+<a name="722"><span class="lineNum">     722 </span><span class="lineCov">         10 :     CheckBinaryOp(NegativeValtype(b), b, OP_DIV, {0x81});</span></a>
+<a name="723"><span class="lineNum">     723 </span>            : </a>
+<a name="724"><span class="lineNum">     724 </span>            :     // Modulo identities</a>
+<a name="725"><span class="lineNum">     725 </span>            :     // a % b % b = a % b</a>
+<a name="726"><span class="lineNum">     726 </span><span class="lineCov">         10 :     CheckTestResultForAllFlags(</span></a>
+<a name="727"><span class="lineNum">     727 </span><span class="lineCov">         10 :         {a, b}, CScript() &lt;&lt; OP_MOD &lt;&lt; CScriptNum(b, true).getint() &lt;&lt; OP_MOD,</span></a>
+<a name="728"><span class="lineNum">     728 </span><span class="lineCov">         10 :         {modExpected});</span></a>
+<a name="729"><span class="lineNum">     729 </span><span class="lineCov">         10 : }</span></a>
+<a name="730"><span class="lineNum">     730 </span>            : </a>
+<a name="731"><span class="lineNum">     731 </span><span class="lineCov">          5 : static void CheckDivModError(const stacktype&amp; original_stack,</span></a>
+<a name="732"><span class="lineNum">     732 </span>            :                              ScriptError expected_error)</a>
+<a name="733"><span class="lineNum">     733 </span>            : {</a>
+<a name="734"><span class="lineNum">     734 </span><span class="lineCov">          5 :     CheckOpError(original_stack, OP_DIV, expected_error);</span></a>
+<a name="735"><span class="lineNum">     735 </span><span class="lineCov">          5 :     CheckOpError(original_stack, OP_MOD, expected_error);</span></a>
+<a name="736"><span class="lineNum">     736 </span><span class="lineCov">          5 : }</span></a>
+<a name="737"><span class="lineNum">     737 </span>            : </a>
+<a name="738"><span class="lineNum">     738 </span><span class="lineCov">        148 : BOOST_AUTO_TEST_CASE(div_and_mod_opcode_tests)</span></a>
+<a name="739"><span class="lineNum">     739 </span>            : {</a>
+<a name="740"><span class="lineNum">     740 </span><span class="lineCov">          1 :     CheckDivModError({}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="741"><span class="lineNum">     741 </span><span class="lineCov">          1 :     CheckDivModError({{}}, ScriptError::SCRIPT_ERR_INVALID_STACK_OPERATION);</span></a>
+<a name="742"><span class="lineNum">     742 </span>            : </a>
+<a name="743"><span class="lineNum">     743 </span>            :     // CheckOps not valid numbers</a>
+<a name="744"><span class="lineNum">     744 </span><span class="lineCov">          1 :     CheckDivModError(</span></a>
+<a name="745"><span class="lineNum">     745 </span><span class="lineCov">          1 :         {{0x01, 0x02, 0x03, 0x04, 0x05}, {0x01, 0x02, 0x03, 0x04, 0x05}},</span></a>
+<a name="746"><span class="lineNum">     746 </span>            :         ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="747"><span class="lineNum">     747 </span><span class="lineCov">          1 :     CheckDivModError({{0x01, 0x02, 0x03, 0x04, 0x05}, {0x01}},</span></a>
+<a name="748"><span class="lineNum">     748 </span>            :                      ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="749"><span class="lineNum">     749 </span><span class="lineCov">          1 :     CheckDivModError({{0x01, 0x05}, {0x01, 0x02, 0x03, 0x04, 0x05}},</span></a>
+<a name="750"><span class="lineNum">     750 </span>            :                      ScriptError::SCRIPT_ERR_UNKNOWN_ERROR);</a>
+<a name="751"><span class="lineNum">     751 </span>            : </a>
+<a name="752"><span class="lineNum">     752 </span>            :     // 0x185377af / 0x85f41b01 = -4</a>
+<a name="753"><span class="lineNum">     753 </span>            :     // 0x185377af % 0x85f41b01 = 0x00830bab</a>
+<a name="754"><span class="lineNum">     754 </span>            :     // 408123311 / -99883777 = -4</a>
+<a name="755"><span class="lineNum">     755 </span>            :     // 408123311 % -99883777 = 8588203</a>
+<a name="756"><span class="lineNum">     756 </span><span class="lineCov">          2 :     CheckDivMod({0xaf, 0x77, 0x53, 0x18}, {0x01, 0x1b, 0xf4, 0x85}, {0x84},</span></a>
+<a name="757"><span class="lineNum">     757 </span><span class="lineCov">          1 :                 {0xab, 0x0b, 0x83, 0x00});</span></a>
+<a name="758"><span class="lineNum">     758 </span>            :     // 0x185377af / 0x00001b01 = 0xe69d</a>
+<a name="759"><span class="lineNum">     759 </span>            :     // 0x185377af % 0x00001b01 = 0x0212</a>
+<a name="760"><span class="lineNum">     760 </span>            :     // 408123311 / 6913 = 59037</a>
+<a name="761"><span class="lineNum">     761 </span>            :     // 408123311 % 6913 = 530</a>
+<a name="762"><span class="lineNum">     762 </span><span class="lineCov">          2 :     CheckDivMod({0xaf, 0x77, 0x53, 0x18}, {0x01, 0x1b}, {0x9d, 0xe6, 0x00},</span></a>
+<a name="763"><span class="lineNum">     763 </span><span class="lineCov">          1 :                 {0x12, 0x02});</span></a>
+<a name="764"><span class="lineNum">     764 </span>            : </a>
+<a name="765"><span class="lineNum">     765 </span>            :     // 15/4 = 3 (and negative operands)</a>
+<a name="766"><span class="lineNum">     766 </span><span class="lineCov">          1 :     CheckDivMod({0x0f}, {0x04}, {0x03}, {0x03});</span></a>
+<a name="767"><span class="lineNum">     767 </span>            :     // 15000/4 = 3750 (and negative operands)</a>
+<a name="768"><span class="lineNum">     768 </span><span class="lineCov">          1 :     CheckDivMod({0x98, 0x3a}, {0x04}, {0xa6, 0x0e}, {});</span></a>
+<a name="769"><span class="lineNum">     769 </span>            :     // 15000/4000 = 3 (and negative operands)</a>
+<a name="770"><span class="lineNum">     770 </span><span class="lineCov">          1 :     CheckDivMod({0x98, 0x3a}, {0xa0, 0x0f}, {0x03}, {0xb8, 0x0b});</span></a>
+<a name="771"><span class="lineNum">     771 </span>            :     // 15000000/4000 = 3750 (and negative operands)</a>
+<a name="772"><span class="lineNum">     772 </span><span class="lineCov">          1 :     CheckDivMod({0xc0, 0xe1, 0xe4, 0x00}, {0xa0, 0x0f}, {0xa6, 0x0e}, {});</span></a>
+<a name="773"><span class="lineNum">     773 </span>            :     // 15000000/4 = 3750000 (and negative operands)</a>
+<a name="774"><span class="lineNum">     774 </span><span class="lineCov">          1 :     CheckDivMod({0xc0, 0xe1, 0xe4, 0x00}, {0x04}, {0x70, 0x38, 0x39}, {});</span></a>
+<a name="775"><span class="lineNum">     775 </span>            : </a>
+<a name="776"><span class="lineNum">     776 </span>            :     // 56488123 % 321 = 148 (and negative operands)</a>
+<a name="777"><span class="lineNum">     777 </span><span class="lineCov">          2 :     CheckDivMod({0xbb, 0xf0, 0x5d, 0x03}, {0x41, 0x01}, {0x67, 0xaf, 0x02},</span></a>
+<a name="778"><span class="lineNum">     778 </span><span class="lineCov">          1 :                 {0x94, 0x00});</span></a>
+<a name="779"><span class="lineNum">     779 </span>            :     // 56488123 % 3 = 1 (and negative operands)</a>
+<a name="780"><span class="lineNum">     780 </span><span class="lineCov">          2 :     CheckDivMod({0xbb, 0xf0, 0x5d, 0x03}, {0x03}, {0x3e, 0x50, 0x1f, 0x01},</span></a>
+<a name="781"><span class="lineNum">     781 </span><span class="lineCov">          1 :                 {0x01});</span></a>
+<a name="782"><span class="lineNum">     782 </span>            :     // 56488123 % 564881230 = 56488123 (and negative operands)</a>
+<a name="783"><span class="lineNum">     783 </span><span class="lineCov">          1 :     CheckDivMod({0xbb, 0xf0, 0x5d, 0x03}, {0x4e, 0x67, 0xab, 0x21}, {},</span></a>
+<a name="784"><span class="lineNum">     784 </span><span class="lineCov">          1 :                 {0xbb, 0xf0, 0x5d, 0x03});</span></a>
+<a name="785"><span class="lineNum">     785 </span><span class="lineCov">          1 : }</span></a>
+<a name="786"><span class="lineNum">     786 </span>            : </a>
+<a name="787"><span class="lineNum">     787 </span><span class="lineCov">        146 : BOOST_AUTO_TEST_SUITE_END()</span></a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

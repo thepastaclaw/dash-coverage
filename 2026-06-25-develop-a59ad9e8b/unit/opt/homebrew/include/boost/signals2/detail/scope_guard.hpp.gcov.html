@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - test_dash_coverage.info - /opt/homebrew/include/boost/signals2/detail/scope_guard.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">opt/homebrew/include/boost/signals2/detail</a> - scope_guard.hpp<span style="font-size: 80%;"> (source / <a href="scope_guard.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">test_dash_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:51</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* Copyright 2003-2013 Joaquin M Lopez Munoz.</a>
+<a name="2"><span class="lineNum">       2 </span>            :  *           2019 Mike Dev &lt;mike.dev@gmx.de&gt;</a>
+<a name="3"><span class="lineNum">       3 </span>            :  * Distributed under the Boost Software License, Version 1.0.</a>
+<a name="4"><span class="lineNum">       4 </span>            :  * (See accompanying file LICENSE_1_0.txt or copy at</a>
+<a name="5"><span class="lineNum">       5 </span>            :  * https://www.boost.org/LICENSE_1_0.txt)</a>
+<a name="6"><span class="lineNum">       6 </span>            :  *</a>
+<a name="7"><span class="lineNum">       7 </span>            :  * NOTE: internalized from Boost.MultiIndex</a>
+<a name="8"><span class="lineNum">       8 </span>            :  *</a>
+<a name="9"><span class="lineNum">       9 </span>            :  */</a>
+<a name="10"><span class="lineNum">      10 </span>            : </a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : #ifndef BOOST_SIGNALS2_DETAIL_SCOPE_GUARD_HPP</a>
+<a name="13"><span class="lineNum">      13 </span>            : #define BOOST_SIGNALS2_DETAIL_SCOPE_GUARD_HPP</a>
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<a name="15"><span class="lineNum">      15 </span>            : #if defined(_MSC_VER)</a>
+<a name="16"><span class="lineNum">      16 </span>            : #pragma once</a>
+<a name="17"><span class="lineNum">      17 </span>            : #endif</a>
+<a name="18"><span class="lineNum">      18 </span>            : </a>
+<a name="19"><span class="lineNum">      19 </span>            : #include &lt;boost/core/no_exceptions_support.hpp&gt;</a>
+<a name="20"><span class="lineNum">      20 </span>            : </a>
+<a name="21"><span class="lineNum">      21 </span>            : namespace boost{</a>
+<a name="22"><span class="lineNum">      22 </span>            : </a>
+<a name="23"><span class="lineNum">      23 </span>            : namespace signals2{</a>
+<a name="24"><span class="lineNum">      24 </span>            : </a>
+<a name="25"><span class="lineNum">      25 </span>            : namespace detail{</a>
+<a name="26"><span class="lineNum">      26 </span>            : </a>
+<a name="27"><span class="lineNum">      27 </span>            : /* This is a merely reformated version of</a>
+<a name="28"><span class="lineNum">      28 </span>            :  * ScopeGuard.h as defined in:</a>
+<a name="29"><span class="lineNum">      29 </span>            :  *   Alexandrescu, A., Marginean, P.:&quot;Generic&lt;Programming&gt;: Change the Way You</a>
+<a name="30"><span class="lineNum">      30 </span>            :  *     Write Exception-Safe Code - Forever&quot;, C/C++ Users Jornal, Dec 2000,</a>
+<a name="31"><span class="lineNum">      31 </span>            :  *     http://www.drdobbs.com/184403758</a>
+<a name="32"><span class="lineNum">      32 </span>            :  * with the following modifications:</a>
+<a name="33"><span class="lineNum">      33 </span>            :  *   - General pretty formatting (pretty to my taste at least.)</a>
+<a name="34"><span class="lineNum">      34 </span>            :  *   - Naming style changed to standard C++ library requirements.</a>
+<a name="35"><span class="lineNum">      35 </span>            :  *   - Removed RefHolder and ByRef, whose functionality is provided</a>
+<a name="36"><span class="lineNum">      36 </span>            :  *     already by Boost.Ref.</a>
+<a name="37"><span class="lineNum">      37 </span>            :  *   - Removed static make_guard's and make_obj_guard's, so that the code</a>
+<a name="38"><span class="lineNum">      38 </span>            :  *     will work even if BOOST_NO_MEMBER_TEMPLATES is defined. This forces</a>
+<a name="39"><span class="lineNum">      39 </span>            :  *     us to move some private ctors to public, though.</a>
+<a name="40"><span class="lineNum">      40 </span>            :  *</a>
+<a name="41"><span class="lineNum">      41 </span>            :  * NB: CodeWarrior Pro 8 seems to have problems looking up safe_execute</a>
+<a name="42"><span class="lineNum">      42 </span>            :  * without an explicit qualification.</a>
+<a name="43"><span class="lineNum">      43 </span>            :  *</a>
+<a name="44"><span class="lineNum">      44 </span>            :  *  TODO: Consider replacing with Boost.ScopeExit</a>
+<a name="45"><span class="lineNum">      45 </span>            :  *</a>
+<a name="46"><span class="lineNum">      46 </span>            :  */</a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<a name="48"><span class="lineNum">      48 </span>            : class scope_guard_impl_base</a>
+<a name="49"><span class="lineNum">      49 </span>            : {</a>
+<a name="50"><span class="lineNum">      50 </span>            : public:</a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :   scope_guard_impl_base():dismissed_(false){}</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 :   void dismiss()const{dismissed_=true;}</span></a>
+<a name="53"><span class="lineNum">      53 </span>            : </a>
+<a name="54"><span class="lineNum">      54 </span>            : protected:</a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineNoCov">          0 :   ~scope_guard_impl_base(){}</span></a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span>            :   scope_guard_impl_base(const scope_guard_impl_base&amp; other):</a>
+<a name="58"><span class="lineNum">      58 </span>            :     dismissed_(other.dismissed_)</a>
+<a name="59"><span class="lineNum">      59 </span>            :   {</a>
+<a name="60"><span class="lineNum">      60 </span>            :     other.dismiss();</a>
+<a name="61"><span class="lineNum">      61 </span>            :   }</a>
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<a name="63"><span class="lineNum">      63 </span>            :   template&lt;typename J&gt;</a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :   static void safe_execute(J&amp; j){</span></a>
+<a name="65"><span class="lineNum">      65 </span>            :     BOOST_TRY{</a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineNoCov">          0 :       if(!j.dismissed_)j.execute();</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineNoCov">          0 :     BOOST_CATCH(...){}</span></a>
+<a name="69"><span class="lineNum">      69 </span>            :     BOOST_CATCH_END</a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineNoCov">          0 :   }</span></a>
+<a name="71"><span class="lineNum">      71 </span>            : </a>
+<a name="72"><span class="lineNum">      72 </span>            :   mutable bool dismissed_;</a>
+<a name="73"><span class="lineNum">      73 </span>            : </a>
+<a name="74"><span class="lineNum">      74 </span>            : private:</a>
+<a name="75"><span class="lineNum">      75 </span>            :   scope_guard_impl_base&amp; operator=(const scope_guard_impl_base&amp;);</a>
+<a name="76"><span class="lineNum">      76 </span>            : };</a>
+<a name="77"><span class="lineNum">      77 </span>            : </a>
+<a name="78"><span class="lineNum">      78 </span>            : typedef const scope_guard_impl_base&amp; scope_guard;</a>
+<a name="79"><span class="lineNum">      79 </span>            : </a>
+<a name="80"><span class="lineNum">      80 </span>            : template&lt;class Obj,typename MemFun,typename P1,typename P2&gt;</a>
+<a name="81"><span class="lineNum">      81 </span>            : class obj_scope_guard_impl2:public scope_guard_impl_base</a>
+<a name="82"><span class="lineNum">      82 </span>            : {</a>
+<a name="83"><span class="lineNum">      83 </span>            : public:</a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 :   obj_scope_guard_impl2(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2):</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :     obj_(obj),mem_fun_(mem_fun),p1_(p1),p2_(p2)</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineNoCov">          0 :   {}</span></a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineNoCov">          0 :   ~obj_scope_guard_impl2(){scope_guard_impl_base::safe_execute(*this);}</span></a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineNoCov">          0 :   void execute(){(obj_.*mem_fun_)(p1_,p2_);}</span></a>
+<a name="89"><span class="lineNum">      89 </span>            : </a>
+<a name="90"><span class="lineNum">      90 </span>            : protected:</a>
+<a name="91"><span class="lineNum">      91 </span>            :   Obj&amp;     obj_;</a>
+<a name="92"><span class="lineNum">      92 </span>            :   MemFun   mem_fun_;</a>
+<a name="93"><span class="lineNum">      93 </span>            :   const P1 p1_;</a>
+<a name="94"><span class="lineNum">      94 </span>            :   const P2 p2_;</a>
+<a name="95"><span class="lineNum">      95 </span>            : };</a>
+<a name="96"><span class="lineNum">      96 </span>            : </a>
+<a name="97"><span class="lineNum">      97 </span>            : template&lt;class Obj,typename MemFun,typename P1,typename P2&gt;</a>
+<a name="98"><span class="lineNum">      98 </span>            : inline obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt;</a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineNoCov">          0 : make_obj_guard(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2)</span></a>
+<a name="100"><span class="lineNum">     100 </span>            : {</a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineNoCov">          0 :   return obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt;(obj,mem_fun,p1,p2);</span></a>
+<a name="102"><span class="lineNum">     102 </span>            : }</a>
+<a name="103"><span class="lineNum">     103 </span>            : </a>
+<a name="104"><span class="lineNum">     104 </span>            : } /* namespace signals2::detail */</a>
+<a name="105"><span class="lineNum">     105 </span>            : </a>
+<a name="106"><span class="lineNum">     106 </span>            : } /* namespace signals2 */</a>
+<a name="107"><span class="lineNum">     107 </span>            : </a>
+<a name="108"><span class="lineNum">     108 </span>            : } /* namespace boost */</a>
+<a name="109"><span class="lineNum">     109 </span>            : </a>
+<a name="110"><span class="lineNum">     110 </span>            : #endif</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

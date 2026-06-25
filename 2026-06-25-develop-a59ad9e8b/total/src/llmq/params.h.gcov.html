@@ -1,0 +1,591 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/llmq/params.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/llmq</a> - params.h<span style="font-size: 80%;"> (source / <a href="params.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2026-06-25 07:23:43</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright (c) 2021-2025 The Dash Core developers</a>
+<a name="2"><span class="lineNum">       2 </span>            : // Distributed under the MIT software license, see the accompanying</a>
+<a name="3"><span class="lineNum">       3 </span>            : // file COPYING or http://www.opensource.org/licenses/mit-license.php.</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #ifndef BITCOIN_LLMQ_PARAMS_H</a>
+<a name="6"><span class="lineNum">       6 </span>            : #define BITCOIN_LLMQ_PARAMS_H</a>
+<a name="7"><span class="lineNum">       7 </span>            : </a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;array&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;cstdint&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;string_view&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : namespace Consensus {</a>
+<a name="13"><span class="lineNum">      13 </span>            : </a>
+<a name="14"><span class="lineNum">      14 </span>            : enum class LLMQType : uint8_t {</a>
+<a name="15"><span class="lineNum">      15 </span>            :     LLMQ_NONE = 0xff,</a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span>            :     LLMQ_50_60 = 1,  // 50 members, 30 (60%) threshold, one per hour</a>
+<a name="18"><span class="lineNum">      18 </span>            :     LLMQ_400_60 = 2, // 400 members, 240 (60%) threshold, one every 12 hours</a>
+<a name="19"><span class="lineNum">      19 </span>            :     LLMQ_400_85 = 3, // 400 members, 340 (85%) threshold, one every 24 hours</a>
+<a name="20"><span class="lineNum">      20 </span>            :     LLMQ_100_67 = 4, // 100 members, 67 (67%) threshold, one per hour</a>
+<a name="21"><span class="lineNum">      21 </span>            :     LLMQ_60_75 = 5,  // 60 members, 45 (75%) threshold, one every 12 hours</a>
+<a name="22"><span class="lineNum">      22 </span>            :     LLMQ_25_67 = 6, // 25 members, 17 (67%) threshold, one per hour</a>
+<a name="23"><span class="lineNum">      23 </span>            : </a>
+<a name="24"><span class="lineNum">      24 </span>            :     // for testing only</a>
+<a name="25"><span class="lineNum">      25 </span>            :     LLMQ_TEST = 100, // 3 members, 2 (66%) threshold, one per hour. Params might differ when -llmqtestparams is used</a>
+<a name="26"><span class="lineNum">      26 </span>            : </a>
+<a name="27"><span class="lineNum">      27 </span>            :     // for devnets only</a>
+<a name="28"><span class="lineNum">      28 </span>            :     LLMQ_DEVNET = 101, // 12 members, 6 (50%) threshold, one per hour. Params might differ when -llmqdevnetparams is used</a>
+<a name="29"><span class="lineNum">      29 </span>            :     LLMQ_DEVNET_PLATFORM = 107, // 12 members, 8 (67%) threshold, one per hour.</a>
+<a name="30"><span class="lineNum">      30 </span>            : </a>
+<a name="31"><span class="lineNum">      31 </span>            :     // for testing activation of new quorums only</a>
+<a name="32"><span class="lineNum">      32 </span>            :     LLMQ_TEST_V17 = 102, // 3 members, 2 (66%) threshold, one per hour. Params might differ when -llmqtestparams is used</a>
+<a name="33"><span class="lineNum">      33 </span>            : </a>
+<a name="34"><span class="lineNum">      34 </span>            :     // for testing only</a>
+<a name="35"><span class="lineNum">      35 </span>            :     LLMQ_TEST_DIP0024 = 103,     // 4 members, 3 (75%) threshold, one per hour.</a>
+<a name="36"><span class="lineNum">      36 </span>            :     LLMQ_TEST_INSTANTSEND = 104, // 3 members, 2 (66%) threshold, one per hour. Params might differ when -llmqtestinstantsendparams is used</a>
+<a name="37"><span class="lineNum">      37 </span>            :     LLMQ_TEST_PLATFORM = 106,    // 3 members, 2 (66%) threshold, one per hour.</a>
+<a name="38"><span class="lineNum">      38 </span>            : </a>
+<a name="39"><span class="lineNum">      39 </span>            :     // for devnets only. rotated version (v2) for devnets</a>
+<a name="40"><span class="lineNum">      40 </span>            :     LLMQ_DEVNET_DIP0024 = 105, // 8 members, 4 (50%) threshold, one per hour. Params might differ when -llmqdevnetparams is used</a>
+<a name="41"><span class="lineNum">      41 </span>            : };</a>
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<a name="43"><span class="lineNum">      43 </span>            : // Configures a LLMQ and its DKG</a>
+<a name="44"><span class="lineNum">      44 </span>            : // See https://github.com/dashpay/dips/blob/master/dip-0006.md for more details</a>
+<a name="45"><span class="lineNum">      45 </span>            : struct LLMQParams {</a>
+<a name="46"><span class="lineNum">      46 </span>            :     LLMQType type;</a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<a name="48"><span class="lineNum">      48 </span>            :     // not consensus critical, only used in logging, RPC and UI</a>
+<a name="49"><span class="lineNum">      49 </span>            :     std::string_view name;</a>
+<a name="50"><span class="lineNum">      50 </span>            : </a>
+<a name="51"><span class="lineNum">      51 </span>            :     // Whether this is a DIP0024 quorum or not</a>
+<a name="52"><span class="lineNum">      52 </span>            :     bool useRotation;</a>
+<a name="53"><span class="lineNum">      53 </span>            : </a>
+<a name="54"><span class="lineNum">      54 </span>            :     // the size of the quorum, e.g. 50 or 400</a>
+<a name="55"><span class="lineNum">      55 </span>            :     int size;</a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span>            :     // The minimum number of valid members after the DKG. If less members are determined valid, no commitment can be</a>
+<a name="58"><span class="lineNum">      58 </span>            :     // created. Should be higher then the threshold to allow some room for failing nodes, otherwise quorum might end up</a>
+<a name="59"><span class="lineNum">      59 </span>            :     // not being able to ever created a recovered signature if more nodes fail after the DKG</a>
+<a name="60"><span class="lineNum">      60 </span>            :     int minSize;</a>
+<a name="61"><span class="lineNum">      61 </span>            : </a>
+<a name="62"><span class="lineNum">      62 </span>            :     // The threshold required to recover a final signature. Should be at least 50%+1 of the quorum size. This value</a>
+<a name="63"><span class="lineNum">      63 </span>            :     // also controls the size of the public key verification vector and has a large influence on the performance of</a>
+<a name="64"><span class="lineNum">      64 </span>            :     // recovery. It also influences the amount of minimum messages that need to be exchanged for a single signing session.</a>
+<a name="65"><span class="lineNum">      65 </span>            :     // This value has the most influence on the security of the quorum. The number of total malicious masternodes</a>
+<a name="66"><span class="lineNum">      66 </span>            :     // required to negatively influence signing sessions highly correlates to the threshold percentage.</a>
+<a name="67"><span class="lineNum">      67 </span>            :     int threshold;</a>
+<a name="68"><span class="lineNum">      68 </span>            : </a>
+<a name="69"><span class="lineNum">      69 </span>            :     // The interval in number blocks for DKGs and the creation of LLMQs. If set to 24 for example, a DKG will start</a>
+<a name="70"><span class="lineNum">      70 </span>            :     // every 24 blocks, which is approximately once every hour.</a>
+<a name="71"><span class="lineNum">      71 </span>            :     int dkgInterval;</a>
+<a name="72"><span class="lineNum">      72 </span>            : </a>
+<a name="73"><span class="lineNum">      73 </span>            :     // The number of blocks per phase in a DKG session. There are 6 phases plus the mining phase that need to be processed</a>
+<a name="74"><span class="lineNum">      74 </span>            :     // per DKG. Set this value to a number of blocks so that each phase has enough time to propagate all required</a>
+<a name="75"><span class="lineNum">      75 </span>            :     // messages to all members before the next phase starts. If blocks are produced too fast, whole DKG sessions will</a>
+<a name="76"><span class="lineNum">      76 </span>            :     // fail.</a>
+<a name="77"><span class="lineNum">      77 </span>            :     int dkgPhaseBlocks;</a>
+<a name="78"><span class="lineNum">      78 </span>            : </a>
+<a name="79"><span class="lineNum">      79 </span>            :     // The starting block inside the DKG interval for when mining of commitments starts. The value is inclusive.</a>
+<a name="80"><span class="lineNum">      80 </span>            :     // Starting from this block, the inclusion of (possibly null) commitments is enforced until the first non-null</a>
+<a name="81"><span class="lineNum">      81 </span>            :     // commitment is mined. The chosen value should be at least 5 * dkgPhaseBlocks so that it starts right after the</a>
+<a name="82"><span class="lineNum">      82 </span>            :     // finalization phase.</a>
+<a name="83"><span class="lineNum">      83 </span>            :     int dkgMiningWindowStart;</a>
+<a name="84"><span class="lineNum">      84 </span>            : </a>
+<a name="85"><span class="lineNum">      85 </span>            :     // The ending block inside the DKG interval for when mining of commitments ends. The value is inclusive.</a>
+<a name="86"><span class="lineNum">      86 </span>            :     // Choose a value so that miners have enough time to receive the commitment and mine it. Also take into consideration</a>
+<a name="87"><span class="lineNum">      87 </span>            :     // that miners might omit real commitments and revert to always including null commitments. The mining window should</a>
+<a name="88"><span class="lineNum">      88 </span>            :     // be large enough so that other miners have a chance to produce a block containing a non-null commitment. The window</a>
+<a name="89"><span class="lineNum">      89 </span>            :     // should at the same time not be too large so that not too much space is wasted with null commitments in case a DKG</a>
+<a name="90"><span class="lineNum">      90 </span>            :     // session failed.</a>
+<a name="91"><span class="lineNum">      91 </span>            :     int dkgMiningWindowEnd;</a>
+<a name="92"><span class="lineNum">      92 </span>            : </a>
+<a name="93"><span class="lineNum">      93 </span>            :     // In the complaint phase, members will vote on other members being bad (missing valid contribution). If at least</a>
+<a name="94"><span class="lineNum">      94 </span>            :     // dkgBadVotesThreshold have voted for another member to be bad, it will considered to be bad by all other members</a>
+<a name="95"><span class="lineNum">      95 </span>            :     // as well. This serves as a protection against late-comers who send their contribution on the bring of</a>
+<a name="96"><span class="lineNum">      96 </span>            :     // phase-transition, which would otherwise result in inconsistent views of the valid members set</a>
+<a name="97"><span class="lineNum">      97 </span>            :     int dkgBadVotesThreshold;</a>
+<a name="98"><span class="lineNum">      98 </span>            : </a>
+<a name="99"><span class="lineNum">      99 </span>            :     // Number of quorums to consider &quot;active&quot; for signing sessions</a>
+<a name="100"><span class="lineNum">     100 </span>            :     int signingActiveQuorumCount;</a>
+<a name="101"><span class="lineNum">     101 </span>            : </a>
+<a name="102"><span class="lineNum">     102 </span>            :     // Used for intra-quorum communication. This is the number of quorums for which we should keep old connections.</a>
+<a name="103"><span class="lineNum">     103 </span>            :     // For non-rotated quorums it should be at least one more than the active quorums set.</a>
+<a name="104"><span class="lineNum">     104 </span>            :     // For rotated quorums it should be equal to 2 x active quorums set.</a>
+<a name="105"><span class="lineNum">     105 </span>            :     int keepOldConnections;</a>
+<a name="106"><span class="lineNum">     106 </span>            : </a>
+<a name="107"><span class="lineNum">     107 </span>            :     // The number of quorums for which we should keep keys. Usually it's equal to signingActiveQuorumCount * 2.</a>
+<a name="108"><span class="lineNum">     108 </span>            :     // Unlike for other quorum types we want to keep data (secret key shares and vvec)</a>
+<a name="109"><span class="lineNum">     109 </span>            :     // for Platform quorums for much longer because Platform can be restarted and</a>
+<a name="110"><span class="lineNum">     110 </span>            :     // it must be able to re-sign stuff.</a>
+<a name="111"><span class="lineNum">     111 </span>            : </a>
+<a name="112"><span class="lineNum">     112 </span>            :     int keepOldKeys;</a>
+<a name="113"><span class="lineNum">     113 </span>            : </a>
+<a name="114"><span class="lineNum">     114 </span>            :     // How many members should we try to send all sigShares to before we give up.</a>
+<a name="115"><span class="lineNum">     115 </span>            :     int recoveryMembers;</a>
+<a name="116"><span class="lineNum">     116 </span>            : public:</a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">      30474 :     [[nodiscard]] constexpr int max_cycles(int quorums_count) const</span></a>
+<a name="118"><span class="lineNum">     118 </span>            :     {</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">      30474 :         return useRotation ? quorums_count / signingActiveQuorumCount : quorums_count;</span></a>
+<a name="120"><span class="lineNum">     120 </span>            :     }</a>
+<a name="121"><span class="lineNum">     121 </span>            : </a>
+<a name="122"><span class="lineNum">     122 </span>            :     // For how many blocks recent DKG info should be kept</a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">      26636 :     [[nodiscard]] constexpr int max_store_depth() const { return max_cycles(keepOldKeys) * dkgInterval; }</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">      67167 :     [[nodiscard]] constexpr bool is_single_member() const { return size == 1; }</span></a>
+<a name="125"><span class="lineNum">     125 </span>            : };</a>
+<a name="126"><span class="lineNum">     126 </span>            : </a>
+<a name="127"><span class="lineNum">     127 </span>            : //static_assert(std::is_trivial_v&lt;Consensus::LLMQParams&gt;, &quot;LLMQParams is not a trivial type&quot;);</a>
+<a name="128"><span class="lineNum">     128 </span>            : static_assert(std::is_trivially_copyable_v&lt;Consensus::LLMQParams&gt;, &quot;LLMQParams is not trivially copyable&quot;);</a>
+<a name="129"><span class="lineNum">     129 </span>            : //static_assert(std::is_trivially_default_constructible_v&lt;Consensus::LLMQParams&gt;, &quot;LLMQParams is not trivially default constructible&quot;);</a>
+<a name="130"><span class="lineNum">     130 </span>            : static_assert(std::is_trivially_assignable_v&lt;Consensus::LLMQParams, Consensus::LLMQParams&gt;, &quot;LLMQParams is not trivially assignable&quot;);</a>
+<a name="131"><span class="lineNum">     131 </span>            : </a>
+<a name="132"><span class="lineNum">     132 </span>            : </a>
+<a name="133"><span class="lineNum">     133 </span>            : static constexpr std::array&lt;LLMQParams, 14&gt; available_llmqs = {</a>
+<a name="134"><span class="lineNum">     134 </span>            : </a>
+<a name="135"><span class="lineNum">     135 </span>            :     /**</a>
+<a name="136"><span class="lineNum">     136 </span>            :      * llmq_test</a>
+<a name="137"><span class="lineNum">     137 </span>            :      * This quorum is only used for testing</a>
+<a name="138"><span class="lineNum">     138 </span>            :      *</a>
+<a name="139"><span class="lineNum">     139 </span>            :      */</a>
+<a name="140"><span class="lineNum">     140 </span>            :     LLMQParams{</a>
+<a name="141"><span class="lineNum">     141 </span>            :         .type = LLMQType::LLMQ_TEST,</a>
+<a name="142"><span class="lineNum">     142 </span>            :         .name = &quot;llmq_test&quot;,</a>
+<a name="143"><span class="lineNum">     143 </span>            :         .useRotation = false,</a>
+<a name="144"><span class="lineNum">     144 </span>            :         .size = 3,</a>
+<a name="145"><span class="lineNum">     145 </span>            :         .minSize = 2,</a>
+<a name="146"><span class="lineNum">     146 </span>            :         .threshold = 2,</a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="149"><span class="lineNum">     149 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="150"><span class="lineNum">     150 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="151"><span class="lineNum">     151 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="152"><span class="lineNum">     152 </span>            :         .dkgBadVotesThreshold = 2,</a>
+<a name="153"><span class="lineNum">     153 </span>            : </a>
+<a name="154"><span class="lineNum">     154 </span>            :         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing</a>
+<a name="155"><span class="lineNum">     155 </span>            : </a>
+<a name="156"><span class="lineNum">     156 </span>            :         .keepOldConnections = 3,</a>
+<a name="157"><span class="lineNum">     157 </span>            :         .keepOldKeys = 4,</a>
+<a name="158"><span class="lineNum">     158 </span>            :         .recoveryMembers = 3,</a>
+<a name="159"><span class="lineNum">     159 </span>            :     },</a>
+<a name="160"><span class="lineNum">     160 </span>            : </a>
+<a name="161"><span class="lineNum">     161 </span>            :     /**</a>
+<a name="162"><span class="lineNum">     162 </span>            :      * llmq_test_instantsend (same as llmq_test but used for InstantSend exclusively)</a>
+<a name="163"><span class="lineNum">     163 </span>            :      * This quorum is only used for testing</a>
+<a name="164"><span class="lineNum">     164 </span>            :      *</a>
+<a name="165"><span class="lineNum">     165 </span>            :      */</a>
+<a name="166"><span class="lineNum">     166 </span>            :     LLMQParams{</a>
+<a name="167"><span class="lineNum">     167 </span>            :         .type = LLMQType::LLMQ_TEST_INSTANTSEND,</a>
+<a name="168"><span class="lineNum">     168 </span>            :         .name = &quot;llmq_test_instantsend&quot;,</a>
+<a name="169"><span class="lineNum">     169 </span>            :         .useRotation = false,</a>
+<a name="170"><span class="lineNum">     170 </span>            :         .size = 3,</a>
+<a name="171"><span class="lineNum">     171 </span>            :         .minSize = 2,</a>
+<a name="172"><span class="lineNum">     172 </span>            :         .threshold = 2,</a>
+<a name="173"><span class="lineNum">     173 </span>            : </a>
+<a name="174"><span class="lineNum">     174 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="175"><span class="lineNum">     175 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="176"><span class="lineNum">     176 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="177"><span class="lineNum">     177 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="178"><span class="lineNum">     178 </span>            :         .dkgBadVotesThreshold = 2,</a>
+<a name="179"><span class="lineNum">     179 </span>            : </a>
+<a name="180"><span class="lineNum">     180 </span>            :         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing</a>
+<a name="181"><span class="lineNum">     181 </span>            : </a>
+<a name="182"><span class="lineNum">     182 </span>            :         .keepOldConnections = 3,</a>
+<a name="183"><span class="lineNum">     183 </span>            :         .keepOldKeys = 4,</a>
+<a name="184"><span class="lineNum">     184 </span>            :         .recoveryMembers = 3,</a>
+<a name="185"><span class="lineNum">     185 </span>            :     },</a>
+<a name="186"><span class="lineNum">     186 </span>            : </a>
+<a name="187"><span class="lineNum">     187 </span>            :     /**</a>
+<a name="188"><span class="lineNum">     188 </span>            :      * llmq_test (Dash Core 0.17) aka llmq_test_v17</a>
+<a name="189"><span class="lineNum">     189 </span>            :      * This quorum is only used for testing</a>
+<a name="190"><span class="lineNum">     190 </span>            :      *</a>
+<a name="191"><span class="lineNum">     191 </span>            :      */</a>
+<a name="192"><span class="lineNum">     192 </span>            :     LLMQParams{</a>
+<a name="193"><span class="lineNum">     193 </span>            :         .type = LLMQType::LLMQ_TEST_V17,</a>
+<a name="194"><span class="lineNum">     194 </span>            :         .name = &quot;llmq_test_v17&quot;,</a>
+<a name="195"><span class="lineNum">     195 </span>            :         .useRotation = false,</a>
+<a name="196"><span class="lineNum">     196 </span>            :         .size = 3,</a>
+<a name="197"><span class="lineNum">     197 </span>            :         .minSize = 2,</a>
+<a name="198"><span class="lineNum">     198 </span>            :         .threshold = 2,</a>
+<a name="199"><span class="lineNum">     199 </span>            : </a>
+<a name="200"><span class="lineNum">     200 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="201"><span class="lineNum">     201 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="202"><span class="lineNum">     202 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="203"><span class="lineNum">     203 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="204"><span class="lineNum">     204 </span>            :         .dkgBadVotesThreshold = 2,</a>
+<a name="205"><span class="lineNum">     205 </span>            : </a>
+<a name="206"><span class="lineNum">     206 </span>            :         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing</a>
+<a name="207"><span class="lineNum">     207 </span>            : </a>
+<a name="208"><span class="lineNum">     208 </span>            :         .keepOldConnections = 3,</a>
+<a name="209"><span class="lineNum">     209 </span>            :         .keepOldKeys = 4,</a>
+<a name="210"><span class="lineNum">     210 </span>            :         .recoveryMembers = 3,</a>
+<a name="211"><span class="lineNum">     211 </span>            :     },</a>
+<a name="212"><span class="lineNum">     212 </span>            : </a>
+<a name="213"><span class="lineNum">     213 </span>            :     /**</a>
+<a name="214"><span class="lineNum">     214 </span>            :      * llmq_test_dip0024</a>
+<a name="215"><span class="lineNum">     215 </span>            :      * This quorum is only used for testing</a>
+<a name="216"><span class="lineNum">     216 </span>            :      *</a>
+<a name="217"><span class="lineNum">     217 </span>            :      */</a>
+<a name="218"><span class="lineNum">     218 </span>            :     LLMQParams{</a>
+<a name="219"><span class="lineNum">     219 </span>            :         .type = LLMQType::LLMQ_TEST_DIP0024,</a>
+<a name="220"><span class="lineNum">     220 </span>            :         .name = &quot;llmq_test_dip0024&quot;,</a>
+<a name="221"><span class="lineNum">     221 </span>            :         .useRotation = true,</a>
+<a name="222"><span class="lineNum">     222 </span>            :         .size = 4,</a>
+<a name="223"><span class="lineNum">     223 </span>            :         .minSize = 4,</a>
+<a name="224"><span class="lineNum">     224 </span>            :         .threshold = 3,</a>
+<a name="225"><span class="lineNum">     225 </span>            : </a>
+<a name="226"><span class="lineNum">     226 </span>            :         .dkgInterval = 24, // DKG cycle</a>
+<a name="227"><span class="lineNum">     227 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="228"><span class="lineNum">     228 </span>            :         .dkgMiningWindowStart = 12, // signingActiveQuorumCount + dkgPhaseBlocks * 5 = after finalization</a>
+<a name="229"><span class="lineNum">     229 </span>            :         .dkgMiningWindowEnd = 20,</a>
+<a name="230"><span class="lineNum">     230 </span>            :         .dkgBadVotesThreshold = 2,</a>
+<a name="231"><span class="lineNum">     231 </span>            : </a>
+<a name="232"><span class="lineNum">     232 </span>            :         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing</a>
+<a name="233"><span class="lineNum">     233 </span>            : </a>
+<a name="234"><span class="lineNum">     234 </span>            :         .keepOldConnections = 4,</a>
+<a name="235"><span class="lineNum">     235 </span>            :         .keepOldKeys = 4,</a>
+<a name="236"><span class="lineNum">     236 </span>            :         .recoveryMembers = 3,</a>
+<a name="237"><span class="lineNum">     237 </span>            :     },</a>
+<a name="238"><span class="lineNum">     238 </span>            : </a>
+<a name="239"><span class="lineNum">     239 </span>            :     /**</a>
+<a name="240"><span class="lineNum">     240 </span>            :      * llmq_test_platform</a>
+<a name="241"><span class="lineNum">     241 </span>            :      * This quorum is only used for testing</a>
+<a name="242"><span class="lineNum">     242 </span>            :      *</a>
+<a name="243"><span class="lineNum">     243 </span>            :      */</a>
+<a name="244"><span class="lineNum">     244 </span>            :     LLMQParams{</a>
+<a name="245"><span class="lineNum">     245 </span>            :         .type = LLMQType::LLMQ_TEST_PLATFORM,</a>
+<a name="246"><span class="lineNum">     246 </span>            :         .name = &quot;llmq_test_platform&quot;,</a>
+<a name="247"><span class="lineNum">     247 </span>            :         .useRotation = false,</a>
+<a name="248"><span class="lineNum">     248 </span>            :         .size = 3,</a>
+<a name="249"><span class="lineNum">     249 </span>            :         .minSize = 2,</a>
+<a name="250"><span class="lineNum">     250 </span>            :         .threshold = 2,</a>
+<a name="251"><span class="lineNum">     251 </span>            : </a>
+<a name="252"><span class="lineNum">     252 </span>            :         .dkgInterval = 24, // DKG cycle</a>
+<a name="253"><span class="lineNum">     253 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="254"><span class="lineNum">     254 </span>            :         .dkgMiningWindowStart = 10, // signingActiveQuorumCount + dkgPhaseBlocks * 5 = after finalization</a>
+<a name="255"><span class="lineNum">     255 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="256"><span class="lineNum">     256 </span>            :         .dkgBadVotesThreshold = 2,</a>
+<a name="257"><span class="lineNum">     257 </span>            : </a>
+<a name="258"><span class="lineNum">     258 </span>            :         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing</a>
+<a name="259"><span class="lineNum">     259 </span>            : </a>
+<a name="260"><span class="lineNum">     260 </span>            :         .keepOldConnections = 4,</a>
+<a name="261"><span class="lineNum">     261 </span>            :         .keepOldKeys = 24 * 30 * 2, // 2 months of quorums</a>
+<a name="262"><span class="lineNum">     262 </span>            :         .recoveryMembers = 3,</a>
+<a name="263"><span class="lineNum">     263 </span>            :     },</a>
+<a name="264"><span class="lineNum">     264 </span>            : </a>
+<a name="265"><span class="lineNum">     265 </span>            :     /**</a>
+<a name="266"><span class="lineNum">     266 </span>            :      * llmq_devnet</a>
+<a name="267"><span class="lineNum">     267 </span>            :      * This quorum is only used for testing on devnets</a>
+<a name="268"><span class="lineNum">     268 </span>            :      *</a>
+<a name="269"><span class="lineNum">     269 </span>            :      */</a>
+<a name="270"><span class="lineNum">     270 </span>            :     LLMQParams{</a>
+<a name="271"><span class="lineNum">     271 </span>            :         .type = LLMQType::LLMQ_DEVNET,</a>
+<a name="272"><span class="lineNum">     272 </span>            :         .name = &quot;llmq_devnet&quot;,</a>
+<a name="273"><span class="lineNum">     273 </span>            :         .useRotation = false,</a>
+<a name="274"><span class="lineNum">     274 </span>            :         .size = 12,</a>
+<a name="275"><span class="lineNum">     275 </span>            :         .minSize = 7,</a>
+<a name="276"><span class="lineNum">     276 </span>            :         .threshold = 6,</a>
+<a name="277"><span class="lineNum">     277 </span>            : </a>
+<a name="278"><span class="lineNum">     278 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="279"><span class="lineNum">     279 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="280"><span class="lineNum">     280 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="281"><span class="lineNum">     281 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="282"><span class="lineNum">     282 </span>            :         .dkgBadVotesThreshold = 7,</a>
+<a name="283"><span class="lineNum">     283 </span>            : </a>
+<a name="284"><span class="lineNum">     284 </span>            :         .signingActiveQuorumCount = 4, // just a few ones to allow easier testing</a>
+<a name="285"><span class="lineNum">     285 </span>            : </a>
+<a name="286"><span class="lineNum">     286 </span>            :         .keepOldConnections = 5,</a>
+<a name="287"><span class="lineNum">     287 </span>            :         .keepOldKeys = 8,</a>
+<a name="288"><span class="lineNum">     288 </span>            :         .recoveryMembers = 6,</a>
+<a name="289"><span class="lineNum">     289 </span>            :     },</a>
+<a name="290"><span class="lineNum">     290 </span>            : </a>
+<a name="291"><span class="lineNum">     291 </span>            :     /**</a>
+<a name="292"><span class="lineNum">     292 </span>            :      * llmq_devnet_dip0024</a>
+<a name="293"><span class="lineNum">     293 </span>            :      * This quorum is only used for testing on devnets</a>
+<a name="294"><span class="lineNum">     294 </span>            :      *</a>
+<a name="295"><span class="lineNum">     295 </span>            :      */</a>
+<a name="296"><span class="lineNum">     296 </span>            :     LLMQParams{</a>
+<a name="297"><span class="lineNum">     297 </span>            :         .type = LLMQType::LLMQ_DEVNET_DIP0024,</a>
+<a name="298"><span class="lineNum">     298 </span>            :         .name = &quot;llmq_devnet_dip0024&quot;,</a>
+<a name="299"><span class="lineNum">     299 </span>            :         .useRotation = true,</a>
+<a name="300"><span class="lineNum">     300 </span>            :         .size = 8,</a>
+<a name="301"><span class="lineNum">     301 </span>            :         .minSize = 6,</a>
+<a name="302"><span class="lineNum">     302 </span>            :         .threshold = 4,</a>
+<a name="303"><span class="lineNum">     303 </span>            : </a>
+<a name="304"><span class="lineNum">     304 </span>            :         .dkgInterval = 48, // DKG cycle</a>
+<a name="305"><span class="lineNum">     305 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="306"><span class="lineNum">     306 </span>            :         .dkgMiningWindowStart = 12, // signingActiveQuorumCount + dkgPhaseBlocks * 5 = after finalization</a>
+<a name="307"><span class="lineNum">     307 </span>            :         .dkgMiningWindowEnd = 20,</a>
+<a name="308"><span class="lineNum">     308 </span>            :         .dkgBadVotesThreshold = 7,</a>
+<a name="309"><span class="lineNum">     309 </span>            : </a>
+<a name="310"><span class="lineNum">     310 </span>            :         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing</a>
+<a name="311"><span class="lineNum">     311 </span>            : </a>
+<a name="312"><span class="lineNum">     312 </span>            :         .keepOldConnections = 4,</a>
+<a name="313"><span class="lineNum">     313 </span>            :         .keepOldKeys = 4,</a>
+<a name="314"><span class="lineNum">     314 </span>            :         .recoveryMembers = 4,</a>
+<a name="315"><span class="lineNum">     315 </span>            :     },</a>
+<a name="316"><span class="lineNum">     316 </span>            : </a>
+<a name="317"><span class="lineNum">     317 </span>            :     /**</a>
+<a name="318"><span class="lineNum">     318 </span>            :      * llmq_devnet_platform</a>
+<a name="319"><span class="lineNum">     319 </span>            :      * This quorum is only used for testing on devnets</a>
+<a name="320"><span class="lineNum">     320 </span>            :      *</a>
+<a name="321"><span class="lineNum">     321 </span>            :      */</a>
+<a name="322"><span class="lineNum">     322 </span>            :     LLMQParams{</a>
+<a name="323"><span class="lineNum">     323 </span>            :         .type = LLMQType::LLMQ_DEVNET_PLATFORM,</a>
+<a name="324"><span class="lineNum">     324 </span>            :         .name = &quot;llmq_devnet_platform&quot;,</a>
+<a name="325"><span class="lineNum">     325 </span>            :         .useRotation = false,</a>
+<a name="326"><span class="lineNum">     326 </span>            :         .size = 12,</a>
+<a name="327"><span class="lineNum">     327 </span>            :         .minSize = 9,</a>
+<a name="328"><span class="lineNum">     328 </span>            :         .threshold = 8,</a>
+<a name="329"><span class="lineNum">     329 </span>            : </a>
+<a name="330"><span class="lineNum">     330 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="331"><span class="lineNum">     331 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="332"><span class="lineNum">     332 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="333"><span class="lineNum">     333 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="334"><span class="lineNum">     334 </span>            :         .dkgBadVotesThreshold = 7,</a>
+<a name="335"><span class="lineNum">     335 </span>            : </a>
+<a name="336"><span class="lineNum">     336 </span>            :         .signingActiveQuorumCount = 4, // just a few ones to allow easier testing</a>
+<a name="337"><span class="lineNum">     337 </span>            : </a>
+<a name="338"><span class="lineNum">     338 </span>            :         .keepOldConnections = 5,</a>
+<a name="339"><span class="lineNum">     339 </span>            :         .keepOldKeys = 24 * 30 * 2, // 2 months of quorums</a>
+<a name="340"><span class="lineNum">     340 </span>            :         .recoveryMembers = 6,</a>
+<a name="341"><span class="lineNum">     341 </span>            :     },</a>
+<a name="342"><span class="lineNum">     342 </span>            : </a>
+<a name="343"><span class="lineNum">     343 </span>            :     /**</a>
+<a name="344"><span class="lineNum">     344 </span>            :      * llmq_50_60</a>
+<a name="345"><span class="lineNum">     345 </span>            :      * This quorum is deployed on mainnet and requires</a>
+<a name="346"><span class="lineNum">     346 </span>            :      * 40 - 50 participants</a>
+<a name="347"><span class="lineNum">     347 </span>            :      *</a>
+<a name="348"><span class="lineNum">     348 </span>            :      */</a>
+<a name="349"><span class="lineNum">     349 </span>            :     LLMQParams{</a>
+<a name="350"><span class="lineNum">     350 </span>            :         .type = LLMQType::LLMQ_50_60,</a>
+<a name="351"><span class="lineNum">     351 </span>            :         .name = &quot;llmq_50_60&quot;,</a>
+<a name="352"><span class="lineNum">     352 </span>            :         .useRotation = false,</a>
+<a name="353"><span class="lineNum">     353 </span>            :         .size = 50,</a>
+<a name="354"><span class="lineNum">     354 </span>            :         .minSize = 40,</a>
+<a name="355"><span class="lineNum">     355 </span>            :         .threshold = 30,</a>
+<a name="356"><span class="lineNum">     356 </span>            : </a>
+<a name="357"><span class="lineNum">     357 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="358"><span class="lineNum">     358 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="359"><span class="lineNum">     359 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="360"><span class="lineNum">     360 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="361"><span class="lineNum">     361 </span>            :         .dkgBadVotesThreshold = 40,</a>
+<a name="362"><span class="lineNum">     362 </span>            : </a>
+<a name="363"><span class="lineNum">     363 </span>            :         .signingActiveQuorumCount = 24, // a full day worth of LLMQs</a>
+<a name="364"><span class="lineNum">     364 </span>            :         .keepOldConnections = 25,</a>
+<a name="365"><span class="lineNum">     365 </span>            :         .keepOldKeys = 48,</a>
+<a name="366"><span class="lineNum">     366 </span>            :         .recoveryMembers = 25,</a>
+<a name="367"><span class="lineNum">     367 </span>            :     },</a>
+<a name="368"><span class="lineNum">     368 </span>            : </a>
+<a name="369"><span class="lineNum">     369 </span>            :     /**</a>
+<a name="370"><span class="lineNum">     370 </span>            :      * llmq_60_75</a>
+<a name="371"><span class="lineNum">     371 </span>            :      * This quorum is deployed on mainnet and requires</a>
+<a name="372"><span class="lineNum">     372 </span>            :      * 50 - 60 participants</a>
+<a name="373"><span class="lineNum">     373 </span>            :      *</a>
+<a name="374"><span class="lineNum">     374 </span>            :      */</a>
+<a name="375"><span class="lineNum">     375 </span>            :     LLMQParams{</a>
+<a name="376"><span class="lineNum">     376 </span>            :         .type = LLMQType::LLMQ_60_75,</a>
+<a name="377"><span class="lineNum">     377 </span>            :         .name = &quot;llmq_60_75&quot;,</a>
+<a name="378"><span class="lineNum">     378 </span>            :         .useRotation = true,</a>
+<a name="379"><span class="lineNum">     379 </span>            :         .size = 60,</a>
+<a name="380"><span class="lineNum">     380 </span>            :         .minSize = 50,</a>
+<a name="381"><span class="lineNum">     381 </span>            :         .threshold = 45,</a>
+<a name="382"><span class="lineNum">     382 </span>            : </a>
+<a name="383"><span class="lineNum">     383 </span>            :         .dkgInterval = 24 * 12, // DKG cycle every 12 hours</a>
+<a name="384"><span class="lineNum">     384 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="385"><span class="lineNum">     385 </span>            :         .dkgMiningWindowStart = 42, // signingActiveQuorumCount + dkgPhaseBlocks * 5 = after finalization</a>
+<a name="386"><span class="lineNum">     386 </span>            :         .dkgMiningWindowEnd = 50,</a>
+<a name="387"><span class="lineNum">     387 </span>            :         .dkgBadVotesThreshold = 48,</a>
+<a name="388"><span class="lineNum">     388 </span>            : </a>
+<a name="389"><span class="lineNum">     389 </span>            :         .signingActiveQuorumCount = 32,</a>
+<a name="390"><span class="lineNum">     390 </span>            :         .keepOldConnections = 64,</a>
+<a name="391"><span class="lineNum">     391 </span>            :         .keepOldKeys = 64,</a>
+<a name="392"><span class="lineNum">     392 </span>            :         .recoveryMembers = 25,</a>
+<a name="393"><span class="lineNum">     393 </span>            :     },</a>
+<a name="394"><span class="lineNum">     394 </span>            : </a>
+<a name="395"><span class="lineNum">     395 </span>            :     /**</a>
+<a name="396"><span class="lineNum">     396 </span>            :      * llmq_400_60</a>
+<a name="397"><span class="lineNum">     397 </span>            :      * This quorum is deployed on mainnet and requires</a>
+<a name="398"><span class="lineNum">     398 </span>            :      * 300 - 400 participants</a>
+<a name="399"><span class="lineNum">     399 </span>            :      *</a>
+<a name="400"><span class="lineNum">     400 </span>            :      */</a>
+<a name="401"><span class="lineNum">     401 </span>            :     LLMQParams{</a>
+<a name="402"><span class="lineNum">     402 </span>            :         .type = LLMQType::LLMQ_400_60,</a>
+<a name="403"><span class="lineNum">     403 </span>            :         .name = &quot;llmq_400_60&quot;,</a>
+<a name="404"><span class="lineNum">     404 </span>            :         .useRotation = false,</a>
+<a name="405"><span class="lineNum">     405 </span>            :         .size = 400,</a>
+<a name="406"><span class="lineNum">     406 </span>            :         .minSize = 300,</a>
+<a name="407"><span class="lineNum">     407 </span>            :         .threshold = 240,</a>
+<a name="408"><span class="lineNum">     408 </span>            : </a>
+<a name="409"><span class="lineNum">     409 </span>            :         .dkgInterval = 24 * 12, // one DKG every 12 hours</a>
+<a name="410"><span class="lineNum">     410 </span>            :         .dkgPhaseBlocks = 4,</a>
+<a name="411"><span class="lineNum">     411 </span>            :         .dkgMiningWindowStart = 20, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="412"><span class="lineNum">     412 </span>            :         .dkgMiningWindowEnd = 28,</a>
+<a name="413"><span class="lineNum">     413 </span>            :         .dkgBadVotesThreshold = 300,</a>
+<a name="414"><span class="lineNum">     414 </span>            : </a>
+<a name="415"><span class="lineNum">     415 </span>            :         .signingActiveQuorumCount = 4, // two days worth of LLMQs</a>
+<a name="416"><span class="lineNum">     416 </span>            : </a>
+<a name="417"><span class="lineNum">     417 </span>            :         .keepOldConnections = 5,</a>
+<a name="418"><span class="lineNum">     418 </span>            :         .keepOldKeys = 8,</a>
+<a name="419"><span class="lineNum">     419 </span>            :         .recoveryMembers = 100,</a>
+<a name="420"><span class="lineNum">     420 </span>            :     },</a>
+<a name="421"><span class="lineNum">     421 </span>            : </a>
+<a name="422"><span class="lineNum">     422 </span>            :     /**</a>
+<a name="423"><span class="lineNum">     423 </span>            :      * llmq_400_85</a>
+<a name="424"><span class="lineNum">     424 </span>            :      * This quorum is deployed on mainnet and requires</a>
+<a name="425"><span class="lineNum">     425 </span>            :      * 300 - 400 participants _with_ a supermajority</a>
+<a name="426"><span class="lineNum">     426 </span>            :      *</a>
+<a name="427"><span class="lineNum">     427 </span>            :      * Used for deployment and min-proto-version signalling</a>
+<a name="428"><span class="lineNum">     428 </span>            :      */</a>
+<a name="429"><span class="lineNum">     429 </span>            :     LLMQParams{</a>
+<a name="430"><span class="lineNum">     430 </span>            :         .type = LLMQType::LLMQ_400_85,</a>
+<a name="431"><span class="lineNum">     431 </span>            :         .name = &quot;llmq_400_85&quot;,</a>
+<a name="432"><span class="lineNum">     432 </span>            :         .useRotation = false,</a>
+<a name="433"><span class="lineNum">     433 </span>            :         .size = 400,</a>
+<a name="434"><span class="lineNum">     434 </span>            :         .minSize = 350,</a>
+<a name="435"><span class="lineNum">     435 </span>            :         .threshold = 340,</a>
+<a name="436"><span class="lineNum">     436 </span>            : </a>
+<a name="437"><span class="lineNum">     437 </span>            :         .dkgInterval = 24 * 24, // one DKG every 24 hours</a>
+<a name="438"><span class="lineNum">     438 </span>            :         .dkgPhaseBlocks = 4,</a>
+<a name="439"><span class="lineNum">     439 </span>            :         .dkgMiningWindowStart = 20, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="440"><span class="lineNum">     440 </span>            :         .dkgMiningWindowEnd = 48,   // give it a larger mining window to make sure it is mined</a>
+<a name="441"><span class="lineNum">     441 </span>            :         .dkgBadVotesThreshold = 300,</a>
+<a name="442"><span class="lineNum">     442 </span>            : </a>
+<a name="443"><span class="lineNum">     443 </span>            :         .signingActiveQuorumCount = 4, // four days worth of LLMQs</a>
+<a name="444"><span class="lineNum">     444 </span>            : </a>
+<a name="445"><span class="lineNum">     445 </span>            :         .keepOldConnections = 5,</a>
+<a name="446"><span class="lineNum">     446 </span>            :         .keepOldKeys = 8,</a>
+<a name="447"><span class="lineNum">     447 </span>            :         .recoveryMembers = 100,</a>
+<a name="448"><span class="lineNum">     448 </span>            :     },</a>
+<a name="449"><span class="lineNum">     449 </span>            : </a>
+<a name="450"><span class="lineNum">     450 </span>            :     /**</a>
+<a name="451"><span class="lineNum">     451 </span>            :      * llmq_100_67</a>
+<a name="452"><span class="lineNum">     452 </span>            :      * This quorum is deployed on mainnet and requires</a>
+<a name="453"><span class="lineNum">     453 </span>            :      * 80 - 100 participants</a>
+<a name="454"><span class="lineNum">     454 </span>            :      *</a>
+<a name="455"><span class="lineNum">     455 </span>            :      * Used by Dash Platform</a>
+<a name="456"><span class="lineNum">     456 </span>            :      */</a>
+<a name="457"><span class="lineNum">     457 </span>            :     LLMQParams{</a>
+<a name="458"><span class="lineNum">     458 </span>            :         .type = LLMQType::LLMQ_100_67,</a>
+<a name="459"><span class="lineNum">     459 </span>            :         .name = &quot;llmq_100_67&quot;,</a>
+<a name="460"><span class="lineNum">     460 </span>            :         .useRotation = false,</a>
+<a name="461"><span class="lineNum">     461 </span>            :         .size = 100,</a>
+<a name="462"><span class="lineNum">     462 </span>            :         .minSize = 80,</a>
+<a name="463"><span class="lineNum">     463 </span>            :         .threshold = 67,</a>
+<a name="464"><span class="lineNum">     464 </span>            : </a>
+<a name="465"><span class="lineNum">     465 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="466"><span class="lineNum">     466 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="467"><span class="lineNum">     467 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="468"><span class="lineNum">     468 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="469"><span class="lineNum">     469 </span>            :         .dkgBadVotesThreshold = 80,</a>
+<a name="470"><span class="lineNum">     470 </span>            : </a>
+<a name="471"><span class="lineNum">     471 </span>            :         .signingActiveQuorumCount = 24, // a full day worth of LLMQs</a>
+<a name="472"><span class="lineNum">     472 </span>            : </a>
+<a name="473"><span class="lineNum">     473 </span>            :         .keepOldConnections = 25,</a>
+<a name="474"><span class="lineNum">     474 </span>            :         .keepOldKeys = 24 * 30 * 2, // 2 months of quorums</a>
+<a name="475"><span class="lineNum">     475 </span>            :         .recoveryMembers = 50,</a>
+<a name="476"><span class="lineNum">     476 </span>            :     },</a>
+<a name="477"><span class="lineNum">     477 </span>            : </a>
+<a name="478"><span class="lineNum">     478 </span>            :     /**</a>
+<a name="479"><span class="lineNum">     479 </span>            :      * llmq_25_67</a>
+<a name="480"><span class="lineNum">     480 </span>            :      * This quorum is deployed on Testnet and requires</a>
+<a name="481"><span class="lineNum">     481 </span>            :      * 25 participants</a>
+<a name="482"><span class="lineNum">     482 </span>            :      *</a>
+<a name="483"><span class="lineNum">     483 </span>            :      * Used by Dash Platform</a>
+<a name="484"><span class="lineNum">     484 </span>            :      */</a>
+<a name="485"><span class="lineNum">     485 </span>            :     LLMQParams{</a>
+<a name="486"><span class="lineNum">     486 </span>            :         .type = LLMQType::LLMQ_25_67,</a>
+<a name="487"><span class="lineNum">     487 </span>            :         .name = &quot;llmq_25_67&quot;,</a>
+<a name="488"><span class="lineNum">     488 </span>            :         .useRotation = false,</a>
+<a name="489"><span class="lineNum">     489 </span>            :         .size = 25,</a>
+<a name="490"><span class="lineNum">     490 </span>            :         .minSize = 22,</a>
+<a name="491"><span class="lineNum">     491 </span>            :         .threshold = 17,</a>
+<a name="492"><span class="lineNum">     492 </span>            : </a>
+<a name="493"><span class="lineNum">     493 </span>            :         .dkgInterval = 24, // one DKG per hour</a>
+<a name="494"><span class="lineNum">     494 </span>            :         .dkgPhaseBlocks = 2,</a>
+<a name="495"><span class="lineNum">     495 </span>            :         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization</a>
+<a name="496"><span class="lineNum">     496 </span>            :         .dkgMiningWindowEnd = 18,</a>
+<a name="497"><span class="lineNum">     497 </span>            :         .dkgBadVotesThreshold = 22,</a>
+<a name="498"><span class="lineNum">     498 </span>            : </a>
+<a name="499"><span class="lineNum">     499 </span>            :         .signingActiveQuorumCount = 24, // a full day worth of LLMQs</a>
+<a name="500"><span class="lineNum">     500 </span>            : </a>
+<a name="501"><span class="lineNum">     501 </span>            :         .keepOldConnections = 25,</a>
+<a name="502"><span class="lineNum">     502 </span>            :         .keepOldKeys = 24 * 30 * 2, // 2 months of quorums</a>
+<a name="503"><span class="lineNum">     503 </span>            :         .recoveryMembers = 12,</a>
+<a name="504"><span class="lineNum">     504 </span>            :     },</a>
+<a name="505"><span class="lineNum">     505 </span>            : </a>
+<a name="506"><span class="lineNum">     506 </span>            : }; // available_llmqs</a>
+<a name="507"><span class="lineNum">     507 </span>            : </a>
+<a name="508"><span class="lineNum">     508 </span>            : } // namespace Consensus</a>
+<a name="509"><span class="lineNum">     509 </span>            : </a>
+<a name="510"><span class="lineNum">     510 </span>            : // This must be outside of all namespaces. We must also duplicate the forward declaration of is_serializable_enum to</a>
+<a name="511"><span class="lineNum">     511 </span>            : // avoid inclusion of serialize.h here.</a>
+<a name="512"><span class="lineNum">     512 </span>            : template&lt;typename T&gt; struct is_serializable_enum;</a>
+<a name="513"><span class="lineNum">     513 </span>            : template&lt;&gt; struct is_serializable_enum&lt;Consensus::LLMQType&gt; : std::true_type {};</a>
+<a name="514"><span class="lineNum">     514 </span>            : </a>
+<a name="515"><span class="lineNum">     515 </span>            : #endif // BITCOIN_LLMQ_PARAMS_H</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
